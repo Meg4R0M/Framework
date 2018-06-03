@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<ruleset name="Framework">
+    <description>Mes règles de formattage</description>
+
+    <args name="colors"/>
+    <args value="p"/>
+
+    <file>src</file>
+    <file>public/index.php</file>
+
+    <rule ref="PSR2"/>
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+</ruleset>
