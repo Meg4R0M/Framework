@@ -4,7 +4,7 @@ Création d'un Framework modulaire en PHP
 
 # Contenu
 
-1. [Structure du projet](https://youtu.be/WHjx-MfgaFo):
+1. **Structure du projet**:
 
     * Présentation de l'architecture du projet
     * Mise en place des outils nécessaire au projet  
