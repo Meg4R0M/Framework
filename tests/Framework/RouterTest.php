@@ -8,7 +8,6 @@
 
 namespace Tests\Framework;
 
-
 use Framework\Router;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Exception;
@@ -37,7 +36,7 @@ class RouterTest extends TestCase
      * Teste si la fonction get sur l'url /blog fonctionne
      * @throws Exception
      */
-    public function testGetMethod()
+    public function testGetMethod(): void
     {
         $request = new ServerRequest('GET', '/blog');
         $this->router->get('/blog', function () { return 'hello'; }, 'blog');
@@ -50,7 +49,7 @@ class RouterTest extends TestCase
      * Teste si la fonction get sur une url inconnue fonctionne
      * @throws Exception
      */
-    public function testGetMethodIfURLDoesNotExists()
+    public function testGetMethodIfURLDoesNotExists(): void
     {
         $request = new ServerRequest('GET', '/blogaze');
         $this->router->get('/blog', function () { return 'hello'; }, 'blog');
@@ -62,16 +61,29 @@ class RouterTest extends TestCase
      * Teste si la fonction get sur une url disposant d'un slug fonctionne
      * @throws Exception
      */
-    public function testGetMethodWithParameters()
+    public function testGetMethodWithParameters(): void
     {
         $request = new ServerRequest('GET', '/blog/mon-slug-8');
-        $this->router->get('/blog', function () { return 'azezea'; }, 'blog');
-        $this->router->get('/blog{slug:[a-z0-9\-]+}-{id:\d+}', function () { return 'hello'; }, 'blog.show');
+        $this->router->get('/blog', function () { return 'azezea'; }, 'posts');
+        $this->router->get('/blog/{slug:[a-z0-9\-]+}-{id:\d+}', function () { return 'hello'; }, 'post.show');
         $route = $this->router->match($request);
-        $route2 = $this->router->match(new ServerRequest('GET', '/blog/mon_slug-8'));
-        $this->assertEquals('blog.show', $route->getName());
+        $this->assertEquals('post.show', $route->getName());
         $this->assertEquals('hello', call_user_func_array($route->getCallback(), [$request]));
         $this->assertEquals(['slug' => 'mon-slug', 'id' => '8'], $route->getParams());
-        $this->assertEquals(null, $route2);
+        // test url invalide
+        $route = $this->router->match(new ServerRequest('GET', '/blog/mon_slug-8'));
+        $this->assertEquals(null, $route);
+    }
+
+    /**
+     * Teste si la fonction get sur une url générée fonctionne
+     * @throws Exception
+     */
+    public function testGenerateUri(): void
+    {
+        $this->router->get('/blog', function () { return 'azezea'; }, 'posts');
+        $this->router->get('/blog{slug:[a-z0-9\-]+}-{id:\d+}', function () { return 'hello'; }, 'post.show');
+        $uri = $this->router->generateUri('post.show', ['slug' => '/mon-article', 'id' => 18]);
+        $this->assertEquals('/blog/mon-article-18', $uri);
     }
 }
