@@ -14,3 +14,11 @@ Création d'un Framework modulaire en PHP
         * [guzzlehttp/psr7](https://packagist.org/packages/guzzlehttp/psr7): Classes qui implémente le PSR-7 pour gérer les $requests et les $responses
         * [http-interop/response-sender](https://packagist.org/packages/http-interop/response-sender): Classes qui gère les $responses de type PSR-7 pour les envoyer au serveur
         * [squizlabs/php_codesniffer](https://packagist.org/packages/squizlabs/php_codesniffer): Outils de test pour vérifier si le code respecte le PSR-2
+
+2. **Le router**:
+
+    * Création d'un Router pour gérer la lecture des URL et la création des Routes
+    * Création des Routes pour gérer le lien entre l'URL et la Response
+    * Utilisation des regex pour trouver les routes (test :[regex](https://regex101.com/))
+    * Utilisation de nouveaux outils :
+        * [zendframework/zend-expressive-fastroute](https://packagist.org/packages/zendframework/zend-expressive-fastroute): Router qui implémente [nikic/fast-route](https://packagist.org/packages/nikic/fast-route)
