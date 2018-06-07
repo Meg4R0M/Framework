@@ -1,11 +1,9 @@
 {
-    "name": "meg4r0m/framework",
-    "description": "Framework PHP",
-    "license": "MIT",
+    "name": "grafikart/mon-framework",
     "authors": [
         {
-            "name": "Meg4R0M",
-            "email": "psykoterro@gmail.com"
+            "name": "Grafikart",
+            "email": "contact@grafikart.fr"
         }
     ],
     "autoload": {
@@ -18,10 +16,11 @@
     "require": {
         "guzzlehttp/psr7": "^1.4",
         "http-interop/response-sender": "^1.0",
-        "zendframework/zend-expressive-fastroute": "^2.0"
+        "zendframework/zend-expressive-fastroute": "^2.0",
+        "twig/twig": "^2.4"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.2",
-        "phpunit/phpunit": "^7.2"
+        "squizlabs/php_codesniffer": "^3.0",
+        "phpunit/phpunit": "^6.2"
     }
 }

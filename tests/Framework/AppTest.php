@@ -10,6 +10,7 @@ namespace Tests\Framework;
 
 use App\Blog\BlogModule;
 use Framework\App;
+use Framework\Renderer\PHPRenderer;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -39,8 +40,11 @@ class AppTest extends TestCase
      */
     public function testBlog(): void
     {
+        $renderer = new PHPRenderer(dirname(__DIR__) . '/views');
         $app = new App([
             BlogModule::class
+        ], [
+            'renderer' => $renderer
         ]);
         $request = new ServerRequest('GET', '/blog');
         $response = $app->run($request);
@@ -56,8 +60,11 @@ class AppTest extends TestCase
      * @throws \Exception
      */
     public function testThrowExceptionIfNoResponseSent () {
+        $renderer = new PHPRenderer(dirname(__DIR__) . '/views');
         $app = new App([
             ErroredModule::class
+        ], [
+            'renderer' => $renderer
         ]);
         $request = new ServerRequest('GET', '/demo');
         $this->expectException(\Exception::class);
@@ -68,8 +75,11 @@ class AppTest extends TestCase
      * @throws \Exception
      */
     public function testConvertStringToResponse () {
+        $renderer = new PHPRenderer(dirname(__DIR__) . '/views');
         $app = new App([
             StringModule::class
+        ], [
+            'renderer' => $renderer
         ]);
         $request = new ServerRequest('GET', '/demo');
         $response = $app->run($request);
