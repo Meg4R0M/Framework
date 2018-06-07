@@ -35,3 +35,13 @@ Création d'un Framework modulaire en PHP
     * Modification des vues et du template pour qu'ils s'affichent à partir du moteur de template Twig
     * Utilisation de nouveaux outils :
         * [twig/twig](https://packagist.org/packages/twig/twig)
+        
+5. **Conteneur de dépendance**:
+
+    * Ajout d'un container de dépendances
+    * Refactoring des classes pour permettre de mieux gérer les dépendances
+    * Création des deux fichiers de config pour gérer le container de dépendance
+    * Séparation entre BlogAction et BlogModule pour que le Module ne gère plus les appels
+    * Création d'un TwigRendererFactory pour gérer la création du TwigRenderer
+    * Utilisation de nouveaux outils :
+        * [php-di/php-di](https://packagist.org/packages/php-di/php-di)
