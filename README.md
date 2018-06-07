@@ -29,3 +29,9 @@ Création d'un Framework modulaire en PHP
     * Intégration des vues grâce au Renderer et au Router.
     * Création d'un système qui récupère le "slug" de l'URI pour le passer à la vue
     * Création d'un pseudo système de templates
+    
+4. **Twig**:
+
+    * Modification des vues et du template pour qu'ils s'affichent à partir du moteur de template Twig
+    * Utilisation de nouveaux outils :
+        * [twig/twig](https://packagist.org/packages/twig/twig)
