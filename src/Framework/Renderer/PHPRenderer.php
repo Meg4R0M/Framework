@@ -1,11 +1,11 @@
 <?php
-namespace Framework;
+namespace Framework\Renderer;
 
 /**
  * Class Renderer
  * @package Framework
  */
-class Renderer
+class PHPRenderer implements RendererInterface
 {
 
     /**
@@ -23,6 +23,13 @@ class Renderer
      * @var array
      */
     private $globals = [];
+
+    public function __construct(?string $defaultPath = null)
+    {
+        if (!is_null($defaultPath)) {
+            $this->addPath($defaultPath);
+        }
+    }
 
     /**
      * Permet de rajouter un chamin pour charger les vues
