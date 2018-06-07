@@ -10,6 +10,7 @@ namespace Framework\Router;
 
 /**
  * Class Route
+ * Represent a matched route
  * @package Framework\Router
  */
 class Route
@@ -25,17 +26,17 @@ class Route
     private $callback;
 
     /**
-     * @var string[]
+     * @var array
      */
     private $parameters;
 
     /**
      * Route constructor.
      * @param string $name
-     * @param callable|string $callback
+     * @param callable $callback
      * @param array $parameters
      */
-    public function __construct(string $name, $callback, array $parameters)
+    public function __construct(string $name, callable $callback, array $parameters)
     {
         $this->name = $name;
         $this->callback = $callback;
@@ -59,7 +60,8 @@ class Route
     }
 
     /**
-     * @return array
+     * Retrieve the URL parameters
+     * @return string[]
      */
     public function getParams(): array
     {

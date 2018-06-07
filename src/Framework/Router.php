@@ -34,10 +34,10 @@ class Router
 
     /**
      * @param string $path
-     * @param callable|string $callable
+     * @param callable $callable
      * @param string $name
      */
-    public function get(string $path, $callable, string $name): void
+    public function get(string $path, callable $callable, string $name): void
     {
         $this->router->addRoute(new ZendRoute($path, $callable, ['GET'], $name));
     }
@@ -52,7 +52,7 @@ class Router
         if ($result->isSuccess()) {
             return new Route(
                 $result->getMatchedRouteName(),
-                $result->getMatchedMiddleWare(),
+                $result->getMatchedMiddleware(),
                 $result->getMatchedParams()
             );
         }

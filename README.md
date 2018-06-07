@@ -22,3 +22,10 @@ Création d'un Framework modulaire en PHP
     * Utilisation des regex pour trouver les routes (test :[regex](https://regex101.com/))
     * Utilisation de nouveaux outils :
         * [zendframework/zend-expressive-fastroute](https://packagist.org/packages/zendframework/zend-expressive-fastroute): Router qui implémente [nikic/fast-route](https://packagist.org/packages/nikic/fast-route)
+      
+        
+3. **Le renderer**:
+
+    * Intégration des vues grâce au Renderer et au Router.
+    * Création d'un système qui récupère le "slug" de l'URI pour le passer à la vue
+    * Création d'un pseudo système de templates

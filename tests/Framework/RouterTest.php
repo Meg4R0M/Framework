@@ -9,6 +9,7 @@
 namespace Tests\Framework;
 
 use Framework\Router;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Exception;
 use PHPUnit\Framework\TestCase;
@@ -51,8 +52,8 @@ class RouterTest extends TestCase
      */
     public function testGetMethodIfURLDoesNotExists(): void
     {
-        $request = new ServerRequest('GET', '/blogaze');
-        $this->router->get('/blog', function () { return 'hello'; }, 'blog');
+        $request = new ServerRequest('GET', '/blog');
+        $this->router->get('/blogaze', function () { return 'hello'; }, 'blog');
         $route = $this->router->match($request);
         $this->assertEquals(null, $route);
     }
@@ -82,8 +83,8 @@ class RouterTest extends TestCase
     public function testGenerateUri(): void
     {
         $this->router->get('/blog', function () { return 'azezea'; }, 'posts');
-        $this->router->get('/blog{slug:[a-z0-9\-]+}-{id:\d+}', function () { return 'hello'; }, 'post.show');
-        $uri = $this->router->generateUri('post.show', ['slug' => '/mon-article', 'id' => 18]);
+        $this->router->get('/blog/{slug:[a-z0-9\-]+}-{id:\d+}', function () { return 'hello'; }, 'post.show');
+        $uri = $this->router->generateUri('post.show', ['slug' => 'mon-article', 'id' => 18]);
         $this->assertEquals('/blog/mon-article-18', $uri);
     }
 }
