@@ -92,3 +92,11 @@ Création d'un Framework modulaire en PHP
         * Mise en place de la vue formulaire séparé pour etre inclue ou besoin est
     * Mise en place de tests sur les fonctions du CRUD
     * Changements sur le fonctionnement du router pour les CRUD
+    
+11. **Messages flash**:
+    
+    * Creation des classes pour les messages flash
+    * Creation des tests pour verifier la suppressions de ceux-ci aprés leurs affichage :
+        * Creation d'une fausse $_SESSION dans ArraySession
+        * Simulation d'un success et de son affichage
+    * Modification du layout Admin pour y ajouter le message flash
