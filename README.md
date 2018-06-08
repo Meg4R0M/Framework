@@ -62,3 +62,15 @@ Création d'un Framework modulaire en PHP
     * Création d'objets "Table" qui seront les modèles de l'application
     * Séparation du code avec les objets "Actions" qui sont les controlleurs de l'application
     * Modification des vues pour qu'elles arrivent à lire les données reçues maintenant
+
+8. **Pagination**:
+
+    * Création d'un module pour gérer la pagination des posts
+    * Installation de pagerfanta qui va automatiquement :
+        * récupérer le nombre d'article nécessaire
+        * créer la barre de navigation pour passer d'une page à l'autre
+    * Création d'une Entity pour stocker les posts
+    * Gestion des DateTime grâve à timeago.js pour afficher différement les dates 
+    * Utilisation de nouveaux outils :
+         * [pagerfanta/pagerfanta](https://packagist.org/packages/pagerfanta/pagerfanta) créé une pagination automatique avec gestion des pages
+         * [timeago.js](https://cdnjs.com/libraries/timeago.js) pour modifier l'affichage des dates en "il y a X temps"

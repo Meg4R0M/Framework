@@ -9,13 +9,13 @@
 namespace Test\App\Blog\Actions;
 
 use App\Blog\Actions\BlogAction;
+use App\Blog\Entity\Post;
 use App\Blog\Table\PostTable;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
 use GuzzleHttp\Psr7\ServerRequest;
 use PDO;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 
 /**
  * Class BlogActionTest
@@ -68,12 +68,12 @@ class BlogActionTest extends TestCase
     /**
      * @param int $id
      * @param string $slug
-     * @return stdClass
+     * @return Post
      */
-    public function makePost(int $id, string $slug): stdClass
+    public function makePost(int $id, string $slug): Post
     {
         // Article
-        $post = new stdClass();
+        $post = new Post();
         $post->id = $id;
         $post->slug = $slug;
         return $post;
