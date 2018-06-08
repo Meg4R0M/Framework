@@ -36,11 +36,12 @@ class BlogModule extends Module
      */
     public function __construct(ContainerInterface $container)
     {
+        $blogPrefix = $container->get('blog.prefix');
         $container->get(RendererInterface::class)->addPath('blog', __DIR__ . '/views');
         $router = $container->get(Router::class);
-        $router->get($container->get('blog.prefix'), BlogAction::class, 'blog.index');
+        $router->get($blogPrefix, BlogAction::class, 'blog.index');
         $router->get(
-            $container->get('blog.prefix') . '/{slug:[a-z\-0-9]+}-{id:[0-9]+}',
+            $blogPrefix . '/{slug:[a-z\-0-9]+}-{id:[0-9]+}',
             BlogAction::class,
             'blog.show'
         );
