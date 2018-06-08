@@ -55,3 +55,10 @@ Création d'un Framework modulaire en PHP
     * Utilisation de nouveaux outils :
         * [robmorgan/phinx](https://packagist.org/packages/robmorgan/phinx) qui permet la gestion des migrations
         * [fzaninotto/faker](https://packagist.org/packages/fzaninotto/faker) pour remplir une BDD de fausses données
+        
+7. **Récupération des articles**:
+
+    * Création d'une connexion à la base de données
+    * Création d'objets "Table" qui seront les modèles de l'application
+    * Séparation du code avec les objets "Actions" qui sont les controlleurs de l'application
+    * Modification des vues pour qu'elles arrivent à lire les données reçues maintenant
