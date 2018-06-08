@@ -45,3 +45,13 @@ Création d'un Framework modulaire en PHP
     * Création d'un TwigRendererFactory pour gérer la création du TwigRenderer
     * Utilisation de nouveaux outils :
         * [php-di/php-di](https://packagist.org/packages/php-di/php-di)
+        
+6. **Les migrations**:
+
+    * Création d'un module de migration avec PHINX, permet de :
+         * Gérer la création, modification et suppression des tables avec des classes PHP
+         * Utilise un fichier de configuration PHP pour gérer les tables et le contenu
+         * Lors du passage de la BDD en local, vers la BDD en ligne, les BDD seront identiques grâce aux classes PHP
+    * Utilisation de nouveaux outils :
+        * [robmorgan/phinx](https://packagist.org/packages/robmorgan/phinx) qui permet la gestion des migrations
+        * [fzaninotto/faker](https://packagist.org/packages/fzaninotto/faker) pour remplir une BDD de fausses données

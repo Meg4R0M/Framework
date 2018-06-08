@@ -5,7 +5,7 @@
  * Date: 03/06/18
  * Time: 21:11
  */
-require '../vendor/autoload.php';
+require dirname(__DIR__) . '/vendor/autoload.php';
 
 use App\Blog\BlogModule;
 use DI\ContainerBuilder;
@@ -30,5 +30,7 @@ $container = $builder->build();
 
 $app = new App($container, $modules);
 
-$response = $app->run(ServerRequest::fromGlobals());
-send($response);
+if (php_sapi_name() !== "cli") {
+    $response = $app->run(ServerRequest::fromGlobals());
+    send($response);
+}
