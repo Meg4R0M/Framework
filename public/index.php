@@ -7,6 +7,7 @@
  */
 require dirname(__DIR__) . '/vendor/autoload.php';
 
+use App\Admin\AdminModule;
 use App\Blog\BlogModule;
 use DI\ContainerBuilder;
 use Framework\App;
@@ -14,6 +15,7 @@ use GuzzleHttp\Psr7\ServerRequest;
 use function Http\Response\send;
 
 $modules = [
+    AdminModule::class,
     BlogModule::class
 ];
 

@@ -12,7 +12,6 @@ use App\Blog\Entity\Post;
 use App\Framework\Database\PaginatedQuery;
 use Pagerfanta\Pagerfanta;
 use PDO;
-use stdClass;
 
 /**
  * Class PostTable
@@ -67,5 +66,62 @@ class PostTable
         $query->execute([$id]);
         $query->setFetchMode(PDO::FETCH_CLASS, Post::class);
         return $query->fetch() ?: null;
+    }
+
+    /**
+     * Met à jour un enregistrement au niveau de la base de données
+     *
+     * @param int $id
+     * @param array $params
+     * @return bool
+     */
+    public function update(int $id, array $params): bool
+    {
+        $fieldQuery = $this->buildFieldQuery($params);
+        $params["id"] = $id;
+        $statement = $this->pdo->prepare("UPDATE posts SET " . $fieldQuery . " WHERE id = :id");
+        return $statement->execute($params);
+    }
+
+    /**
+     * Crée un nouvel enregistrement
+     *
+     * @param array $params
+     * @return bool
+     */
+    public function insert(array $params): bool
+    {
+        $fields = array_keys($params);
+        $values = array_map(function ($field) {
+            return ':' . $field;
+        }, $fields);
+        $statement = $this->pdo->prepare(
+            "INSERT INTO posts (" . implode(',', $fields) . ") 
+            VALUES (" . implode(',', $values) . ")"
+        );
+        return $statement->execute($params);
+    }
+
+    /**
+     * Supprime un enregistrement
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function delete(int $id): bool
+    {
+        $statement = $this->pdo->prepare('DELETE FROM posts WHERE id = ?');
+        return $statement->execute([$id]);
+    }
+
+    /**
+     * @param array $params
+     * @return string
+     */
+    private function buildFieldQuery(array $params): string
+    {
+        return implode(',', array_map(function ($field) {
+            return $field . " = :" . $field;
+        }, array_keys($params)));
     }
 }

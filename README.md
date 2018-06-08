@@ -84,3 +84,11 @@ Création d'un Framework modulaire en PHP
     * Centralisation de la configuration de la BDD (SQLite) dans un DatabaseTestCase
     * ######Correction du twig renderer (ne necessite pas le chargement du loader)
     
+10. **Administration du blog**:
+
+    * Creation des routes pour l'administration
+    * Creation des vues pour l'administration :
+        * Vues d'affichage de la liste d'articles, d'edition et de creation
+        * Mise en place de la vue formulaire séparé pour etre inclue ou besoin est
+    * Mise en place de tests sur les fonctions du CRUD
+    * Changements sur le fonctionnement du router pour les CRUD

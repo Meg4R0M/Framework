@@ -16,9 +16,6 @@
     <rule ref="Generic.Commenting.Todo.CommentFound">
         <type>error</type>
     </rule>
-    <rule ref="Squiz.Strings.DoubleQuoteUsage.ContainsVar">
-        <type>warning</type>
-    </rule>
     <rule ref="Generic.Files.LineLength.MaxExceeded">
         <message>Line contains %2$s chars, which is more than the limit of %1$s</message>
     </rule>
