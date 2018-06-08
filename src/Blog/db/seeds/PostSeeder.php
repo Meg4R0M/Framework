@@ -1,6 +1,4 @@
 <?php
-namespace App\Blog\db;
-
 use Faker\Factory;
 use Phinx\Seed\AbstractSeed;
 

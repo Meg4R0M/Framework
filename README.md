@@ -23,7 +23,6 @@ Création d'un Framework modulaire en PHP
     * Utilisation de nouveaux outils :
         * [zendframework/zend-expressive-fastroute](https://packagist.org/packages/zendframework/zend-expressive-fastroute): Router qui implémente [nikic/fast-route](https://packagist.org/packages/nikic/fast-route)
       
-        
 3. **Le renderer**:
 
     * Intégration des vues grâce au Renderer et au Router.
@@ -70,7 +69,18 @@ Création d'un Framework modulaire en PHP
         * récupérer le nombre d'article nécessaire
         * créer la barre de navigation pour passer d'une page à l'autre
     * Création d'une Entity pour stocker les posts
-    * Gestion des DateTime grâve à timeago.js pour afficher différement les dates 
+    * Gestion des DateTime grâce à timeago.js pour afficher différement les dates 
     * Utilisation de nouveaux outils :
          * [pagerfanta/pagerfanta](https://packagist.org/packages/pagerfanta/pagerfanta) créé une pagination automatique avec gestion des pages
          * [timeago.js](https://cdnjs.com/libraries/timeago.js) pour modifier l'affichage des dates en "il y a X temps"
+         
+9. **Tester la base de données**:
+
+    * Mise en place de test sur la base de données avec SQLite
+    * Création d'instances unique pour chaques tests :
+        * SQLite utilisant la memoire, rien est enregistré
+        * Chaque tests se fait avec une nouvelle instanciation
+    * Test PostTable effectué
+    * Centralisation de la configuration de la BDD (SQLite) dans un DatabaseTestCase
+    * ######Correction du twig renderer (ne necessite pas le chargement du loader)
+    
