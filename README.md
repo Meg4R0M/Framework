@@ -100,3 +100,11 @@ Création d'un Framework modulaire en PHP
         * Creation d'une fausse $_SESSION dans ArraySession
         * Simulation d'un success et de son affichage
     * Modification du layout Admin pour y ajouter le message flash
+    
+12. **Validation des données**:
+    
+    * Creation des classes pour la validation des formulaires 
+    * Creation des tests pour verifier les données soumises :
+        * Verification sur "Required", "Empty", "Format", "Taille", "Slug" et "Date"
+        * Vérification du type d'erreur et des messages renvoyés
+    * Mise en place d'un systeme permettant la traduction future des messages d'erreurs
