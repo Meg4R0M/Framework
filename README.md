@@ -120,7 +120,7 @@ Création d'un Framework modulaire en PHP
 14. **Les catégories**:
     
     * Refactorisation du code afin de la rendre plus générique
-        * Les classes des modules extendent à présent des classes généraique du Framework.
+        * Les classes des modules extendent à présent des classes générique du Framework.
     * Creation de la table Catégories ne contenant qu'un nom et un slug
     * Creation de la relation entre les posts et les categories
     * Creation des tests pour verifier la création des categories :
@@ -130,3 +130,17 @@ Création d'un Framework modulaire en PHP
         * Modification des tests CRUD posts
         * Vérification des attributs passés en paramètre
     * Changement sur les vues pour le choix de catégories
+    
+14. **Front catégories**:
+    
+    * Refactorisation du code afin de la rendre plus générique
+        * methode fetchOrFail pour les enregistrement dans la BDD
+    * Changements des seeds pour y inclure les catégories
+    * Ajout d'un bloc lateral pour afficher les catégories
+    * Création de la navigation par catégorie :
+        * Creation d'un slug pour naviguer par catégorie
+        * Mise en place d'une contrainte d'unicitée sur le slug
+    * Creation des tests pour verifier les methodes des catégories :
+        * Lors de l'edition pour verifier le slug
+        * Lors de la recuperation de la liste des catégories
+    * Modifications mineures sur les titres des pages pour inclure la catégorie et la page si elle existe

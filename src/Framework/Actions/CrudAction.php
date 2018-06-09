@@ -8,6 +8,7 @@
 
 namespace App\Framework\Actions;
 
+use App\Framework\Database\NoRecordException;
 use App\Framework\Database\Table;
 use App\Framework\Session\FlashService;
 use App\Framework\Validator;
@@ -36,7 +37,7 @@ class CrudAction
     /**
      * @var Table
      */
-    private $table;
+    protected $table;
 
     /**
      * @var FlashService
@@ -85,6 +86,7 @@ class CrudAction
     /**
      * @param Request $request
      * @return string
+     * @throws NoRecordException
      */
     public function __invoke(Request $request)
     {
@@ -121,6 +123,7 @@ class CrudAction
      *
      * @param Request $request
      * @return ResponseInterface|string
+     * @throws NoRecordException
      */
     public function edit(Request $request)
     {
