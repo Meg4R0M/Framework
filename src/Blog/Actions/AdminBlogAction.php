@@ -7,6 +7,7 @@
  */
 namespace App\Blog\Actions;
 
+use App\Blog\Entity\Post;
 use App\Blog\Table\PostTable;
 use App\Framework\Actions\RouterAwareAction;
 use App\Framework\Session\FlashService;
@@ -129,9 +130,10 @@ class AdminBlogAction
                 $this->flash->success('L\'article a bien été crée');
                 return $this->redirect('blog.admin.index');
             }
-            $errors = $validator->getErrors();
             $item = $params;
+            $errors = $validator->getErrors();
         }
+        $item->created_at = new \DateTime();
 
         return $this->renderer->render('@blog/admin/create', compact('item', 'errors'));
     }
@@ -156,10 +158,11 @@ class AdminBlogAction
     private function getValidator(Request $request)
     {
         return (new Validator($request->getParsedBody()))
-            ->required('content', 'name', 'slug')
+            ->required('content', 'name', 'slug', 'created_at')
             ->length('content', 10)
             ->length('name', 2, 250)
             ->length('slug', 2, 50)
+            ->dateTime('created_at')
             ->slug('slug');
     }
 }
