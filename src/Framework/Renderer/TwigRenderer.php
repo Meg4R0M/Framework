@@ -23,11 +23,6 @@ class TwigRenderer implements RendererInterface
     private $twig;
 
     /**
-     * @var Twig_Loader_Filesystem
-     */
-    private $loader;
-
-    /**
      * TwigRenderer constructor.
      * @param Twig_Environment $twig
      */
@@ -73,5 +68,13 @@ class TwigRenderer implements RendererInterface
     public function addGlobal(string $key, $value): void
     {
         $this->twig->addGlobal($key, $value);
+    }
+
+    /**
+     * @return Twig_Environment
+     */
+    public function getTwig(): Twig_Environment
+    {
+        return $this->twig;
     }
 }

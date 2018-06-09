@@ -131,7 +131,7 @@ Création d'un Framework modulaire en PHP
         * Vérification des attributs passés en paramètre
     * Changement sur les vues pour le choix de catégories
     
-14. **Front catégories**:
+15. **Front catégories**:
     
     * Refactorisation du code afin de la rendre plus générique
         * methode fetchOrFail pour les enregistrement dans la BDD
@@ -144,3 +144,14 @@ Création d'un Framework modulaire en PHP
         * Lors de l'edition pour verifier le slug
         * Lors de la recuperation de la liste des catégories
     * Modifications mineures sur les titres des pages pour inclure la catégorie et la page si elle existe
+    
+16. **Dashboard d'administration**:
+    
+    * Création de widgets pour l'index de l'administration
+        * Widget qui affiche le nombre d'articles en bas et un lien pour afficher la page de gestion de ceux-ci
+    * Création d'une extension twig pour afficher le menu d'administration dans la partie admin :
+        * Creation de la vue menu.twig
+    * Chargement de cette extension dans adminModule pour ne pas creer de boucle infinie sur les dependances
+        * Extension chargée uniquement sur la partie administration
+    * Creation des tests pour verifier la methode count sur la BDD
+    * Modifications mineures sur les menu afin d'ajouter une classe "active" sur celui en cours d'utilisation
