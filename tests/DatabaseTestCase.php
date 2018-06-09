@@ -15,39 +15,54 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 
+/**
+ * Class DatabaseTestCase
+ * @package Tests
+ */
 class DatabaseTestCase extends TestCase
 {
     /**
-     * @var PDO
+     * @return PDO
      */
-    protected $pdo;
+    public function getPDO () {
+        return new PDO('sqlite::memory:', null, null, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
+        ]);
+    }
 
     /**
-     * @var Manager
+     * @param PDO $pdo
+     * @return Manager
      */
-    protected $manager;
-
-    public function setUp() {
-        $pdo = new PDO('sqlite::memory:', null, null, [
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
+    public function getManager (PDO $pdo) {
         $configArray = require('phinx.php');
         $configArray['environments']['test'] = [
-            'adapter' => 'sqlite',
+            'adapter'    => 'sqlite',
             'connection' => $pdo
         ];
         $config = new Config($configArray);
-        $manager = new Manager($config, new StringInput(' '), new NullOutput());
-        $manager->migrate('test');
-        $this->manager = $manager;
-        $this->pdo = $pdo;
+        return new Manager($config, new StringInput(' '), new NullOutput());
     }
 
-    public function seedDatabase ()
+    /**
+     * @param PDO $pdo
+     */
+    public function migrateDatabase(PDO $pdo)
     {
-        $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_BOTH);
-        $this->manager->seed('test');
-        $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_BOTH);
+        $this->getManager($pdo)->migrate('test');
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+    }
+
+    /**
+     * @param PDO $pdo
+     */
+    public function seedDatabase(PDO $pdo)
+    {
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_BOTH);
+        $this->getManager($pdo)->migrate('test');
+        $this->getManager($pdo)->seed('test');
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
     }
 }

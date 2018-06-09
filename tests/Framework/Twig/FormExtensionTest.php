@@ -11,6 +11,10 @@ namespace Tests\Framework\Twig;
 use App\Framework\Twig\FormExtension;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class FormExtensionTest
+ * @package Tests\Framework\Twig
+ */
 class FormExtensionTest extends TestCase
 {
 
@@ -19,11 +23,17 @@ class FormExtensionTest extends TestCase
      */
     private $formExtension;
 
+    /**
+     *
+     */
     public function setUp()
     {
         $this->formExtension = new FormExtension();
     }
 
+    /**
+     *
+     */
     public function testField()
     {
         $html = $this->formExtension->field([], 'name', 'demo', 'Titre');
@@ -35,6 +45,9 @@ class FormExtensionTest extends TestCase
         ", $html);
     }
 
+    /**
+     *
+     */
     public function testFieldWithErrors()
     {
         $context = ['errors' => ['name' => 'erreur']];
@@ -48,6 +61,31 @@ class FormExtensionTest extends TestCase
         ", $html);
     }
 
+    /**
+     *
+     */
+    public function testSelect()
+    {
+        $html = $this->formExtension->field(
+            [],
+            'name',
+            2,
+            'Titre',
+            ['options' => [1 => 'Demo', '2' => 'Demo2']]
+        );
+        $this->assertSimilar('
+            <div class="form-group">
+                <label for="name">Titre</label>
+                <select class="form-control" name="name" id="name">
+                    <option value="1">Demo</option>
+                    <option value="2" selected>Demo2</option>
+                </select>
+            </div>', $html);
+    }
+
+    /**
+     *
+     */
     public function testFieldWithClass()
     {
         $html = $this->formExtension->field(
@@ -57,14 +95,17 @@ class FormExtensionTest extends TestCase
             'Titre',
             ['class' => 'demo']
         );
-        $this->assertSimilar("
-            <div class=\"form-group\">
-                <label for=\"name\">Titre</label>
-                <input type=\"text\" class=\"form-control demo\" name=\"name\" id=\"name\" value=\"demo\">
+        $this->assertSimilar('
+            <div class="form-group">
+                <label for="name">Titre</label>
+                <input type="text" class="form-control demo" name="name" id="name" value="demo">
             </div>
-        ", $html);
+        ', $html);
     }
 
+    /**
+     *
+     */
     public function testTextarea()
     {
         $html = $this->formExtension->field(
@@ -82,6 +123,10 @@ class FormExtensionTest extends TestCase
         ", $html);
     }
 
+    /**
+     * @param string $string
+     * @return string
+     */
     private function trim(string $string)
     {
         $lines = explode(PHP_EOL, $string);
@@ -89,6 +134,10 @@ class FormExtensionTest extends TestCase
         return implode('', $lines);
     }
 
+    /**
+     * @param string $expected
+     * @param string $actual
+     */
     private function assertSimilar(string $expected, string $actual)
     {
         $this->assertEquals($this->trim($expected), $this->trim($actual));

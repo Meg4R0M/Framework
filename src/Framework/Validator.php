@@ -9,6 +9,7 @@
 namespace App\Framework;
 
 use App\Framework\Validator\ValidationError;
+use PDO;
 
 /**
  * Class Validator
@@ -127,6 +128,25 @@ class Validator
         $errors = \DateTime::getLastErrors();
         if ($errors['error_count'] > 0 || $errors['warning_count'] > 0 || $date === false) {
             $this->addError($key, 'datetime', [$format]);
+        }
+        return $this;
+    }
+
+    /**
+     * Vérifie que la clef existe dans la table donnée
+     *
+     * @param string $key
+     * @param string $table
+     * @param PDO $pdo
+     * @return Validator
+     */
+    public function exists(string $key, string $table, PDO $pdo): self
+    {
+        $value = $this->getValue($key);
+        $statement = $pdo->prepare("SELECT id FROM $table WHERE id = ?");
+        $statement->execute([$value]);
+        if ($statement->fetchColumn() === false) {
+            $this->addError($key, 'exists', [$table]);
         }
         return $this;
     }

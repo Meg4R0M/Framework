@@ -10,21 +10,51 @@ namespace App\Blog\Entity;
 
 use DateTime;
 
+/**
+ * Class Post
+ * @package App\Blog\Entity
+ */
 class Post
 {
 
+    /**
+     * @var
+     */
     public $id;
 
+    /**
+     * @var
+     */
     public $name;
 
+    /**
+     * @var
+     */
     public $slug;
 
+    /**
+     * @var
+     */
     public $content;
 
+    /**
+     * @var DateTime
+     */
     public $created_at;
 
+    /**
+     * @var DateTime
+     */
     public $updated_at;
 
+    /**
+     * @var
+     */
+    public $category_name;
+
+    /**
+     * Post constructor.
+     */
     public function __construct()
     {
         if ($this->created_at) {

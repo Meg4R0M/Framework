@@ -112,7 +112,21 @@ Création d'un Framework modulaire en PHP
 13. **Simplifier les formulaires**:
     
     * Ajout d'une extension Twig pour gerer les formulaires 
-    * Creation des tests pour verifier la crétion des champs et leurs retours :
+    * Creation des tests pour verifier la création des champs et leurs retours :
         * Verification des attributs passés en parametres
         * Vérification des ajouts de classes pour les erreurs
     * ######Fix sur la gestion des slugs ou la teminaison ne peu pas être "-" (Test OK)
+    
+14. **Les catégories**:
+    
+    * Refactorisation du code afin de la rendre plus générique
+        * Les classes des modules extendent à présent des classes généraique du Framework.
+    * Creation de la table Catégories ne contenant qu'un nom et un slug
+    * Creation de la relation entre les posts et les categories
+    * Creation des tests pour verifier la création des categories :
+        * Verification du CRUD catégories
+        * Vérification des attributs du CRUD
+    * Creation des tests pour verifier la liaison posts->catégories :
+        * Modification des tests CRUD posts
+        * Vérification des attributs passés en paramètre
+    * Changement sur les vues pour le choix de catégories
