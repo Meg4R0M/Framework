@@ -108,3 +108,11 @@ Création d'un Framework modulaire en PHP
         * Verification sur "Required", "Empty", "Format", "Taille", "Slug" et "Date"
         * Vérification du type d'erreur et des messages renvoyés
     * Mise en place d'un systeme permettant la traduction future des messages d'erreurs
+    
+13. **Simplifier les formulaires**:
+    
+    * Ajout d'une extension Twig pour gerer les formulaires 
+    * Creation des tests pour verifier la crétion des champs et leurs retours :
+        * Verification des attributs passés en parametres
+        * Vérification des ajouts de classes pour les erreurs
+    * ######Fix sur la gestion des slugs ou la teminaison ne peu pas être "-" (Test OK)
