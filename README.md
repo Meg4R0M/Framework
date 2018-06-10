@@ -155,3 +155,19 @@ Création d'un Framework modulaire en PHP
         * Extension chargée uniquement sur la partie administration
     * Creation des tests pour verifier la methode count sur la BDD
     * Modifications mineures sur les menu afin d'ajouter une classe "active" sur celui en cours d'utilisation
+    
+17. **Tout middleware !**:
+    
+    * Refactorisation du code de l'index.php, dans app.php
+        * Chargement des modules et de la configuration depuis index.php
+        * Création de la methode addmodule et modification du getcontainer dans app.php
+    * Decoupage des fonctionnalités contenue dans App vers des Middlewares
+        * TrailingSlashMiddleware se charge de rediriger si l'url fini par un slash
+        * MethodMiddleware se charge de capturer la methode DELETE si elle existe
+        * RouterMiddleware se charge de faire le routage
+        * DispatcherMiddleware se charge de la correxpondance Route->Response
+        * NotFoundMiddleware se charge d'afficher une 404 si aucuns des middleware n'as intercepté la requête
+    * Utilisation de nouveaux outils :
+         * [middlewares/whoops](https://packagist.org/packages/middlewares/whoops) gestion des erreurs et affichage de celles-ci
+         * [symfony/var-dumper](https://packagist.org/packages/symfony/var-dumper) Affichage des var_dump plus comprehensible
+    
