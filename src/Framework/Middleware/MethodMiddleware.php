@@ -8,14 +8,15 @@
 
 namespace App\Framework\Middleware;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class MethodMiddleware implements MiddlewareInterface
 {
 
-    public function process(ServerRequestInterface $request, DelegateInterface $next)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface
     {
         $parsedBody = $request->getParsedBody();
         if (array_key_exists('_method', $parsedBody) &&
@@ -23,6 +24,6 @@ class MethodMiddleware implements MiddlewareInterface
         ) {
             $request = $request->withMethod($parsedBody['_method']);
         }
-        return $next->process($request);
+        return $next->handle($request);
     }
 }

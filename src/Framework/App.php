@@ -9,13 +9,13 @@
 namespace Framework;
 
 use DI\ContainerBuilder;
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class App implements DelegateInterface
+class App implements RequestHandlerInterface
 {
 
     /**
@@ -73,13 +73,20 @@ class App implements DelegateInterface
         return $this;
     }
 
-    public function process(ServerRequestInterface $request): ResponseInterface
+
+    /**
+     * Handle the request and return a response.
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws \Exception
+     */
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $middleware = $this->getMiddleware();
         if (is_null($middleware)) {
             throw new \Exception('Aucun middleware n\'a intercepté cette requête');
         } elseif (is_callable($middleware)) {
-            return call_user_func_array($middleware, [$request, [$this, 'process']]);
+            return call_user_func_array($middleware, [$request, [$this, 'handle']]);
         } elseif ($middleware instanceof MiddlewareInterface) {
             return $middleware->process($request, $this);
         }
@@ -90,7 +97,7 @@ class App implements DelegateInterface
         foreach ($this->modules as $module) {
             $this->getContainer()->get($module);
         }
-        return $this->process($request);
+        return $this->handle($request);
     }
 
     /**

@@ -8,7 +8,6 @@
 
 namespace App\Admin;
 
-use App\Framework\Middleware\CombinedMiddleware;
 use App\Framework\Module;
 use Framework\Renderer\RendererInterface;
 use Framework\Renderer\TwigRenderer;
@@ -27,8 +26,7 @@ class AdminModule extends Module
         RendererInterface $renderer,
         Router $router,
         string $prefix,
-        AdminTwigExtension $adminTwigExtension,
-        ContainerInterface $container
+        AdminTwigExtension $adminTwigExtension
     ) {
         $renderer->addPath('admin', __DIR__ . '/views');
         $router->get($prefix, DashboardAction::class, 'admin');

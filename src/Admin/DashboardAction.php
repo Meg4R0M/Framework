@@ -9,6 +9,7 @@
 namespace App\Admin;
 
 use Framework\Renderer\RendererInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class DashboardAction
 {
@@ -33,11 +34,16 @@ class DashboardAction
         $this->widgets = $widgets;
     }
 
-    public function __invoke()
+    public function __invoke(ServerRequestInterface $request)
     {
         $widgets = array_reduce($this->widgets, function (string $html, AdminWidgetInterface $widget) {
             return $html . $widget->render();
         }, '');
         return $this->renderer->render('@admin/dashboard', compact('widgets'));
+    }
+
+    public function process(ServerRequestInterface $request): string
+    {
+        return $this->__invoke($request);
     }
 }

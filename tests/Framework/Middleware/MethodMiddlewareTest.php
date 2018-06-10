@@ -3,8 +3,8 @@ namespace Tests\Framework\Middleware;
 
 use App\Framework\Middleware\MethodMiddleware;
 use GuzzleHttp\Psr7\ServerRequest;
-use Interop\Http\ServerMiddleware\DelegateInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class MethodMiddlewareTest extends TestCase {
 
@@ -18,20 +18,21 @@ class MethodMiddlewareTest extends TestCase {
         $this->middleware = new MethodMiddleware();
     }
 
-    public function testAddMethod () {
-        $delegate = $this->getMockBuilder(DelegateInterface::class)
-            ->setMethods(['process'])
+    public function testAddMethod (): void
+    {
+        $handler = $this->getMockBuilder(RequestHandlerInterface::class)
+            ->setMethods(['handle'])
             ->getMock();
 
-        $delegate->expects($this->once())
-            ->method('process')
+        $handler->expects($this->once())
+            ->method('handle')
             ->with($this->callback(function ($request) {
                 return $request->getMethod() === 'DELETE';
             }));
 
         $request = (new ServerRequest('POST', '/demo'))
             ->withParsedBody(['_method' => 'DELETE']);
-        $this->middleware->process($request, $delegate);
+        $this->middleware->process($request, $handler);
     }
 
 }
