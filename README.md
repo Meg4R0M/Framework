@@ -1,6 +1,6 @@
 # Description
 
-Création d'un Framework modulaire en PHP
+**Création d'un Framework modulaire** [![PHP >= 7+](https://img.shields.io/badge/php-%3E%3D%207-8892BF.svg?style=flat)](https://php.net/)
 
 # Contenu
 
@@ -171,3 +171,10 @@ Création d'un Framework modulaire en PHP
          * [middlewares/whoops](https://packagist.org/packages/middlewares/whoops) gestion des erreurs et affichage de celles-ci
          * [symfony/var-dumper](https://packagist.org/packages/symfony/var-dumper) Affichage des var_dump plus comprehensible
     
+18. **Faille CSRF**:
+    
+    * Creation des tests pour verifier la création des tokens et la validité de ceux-ci :
+         * Verification des toekns générés
+         * Vérification du nombre maximum de tokens detenus par session
+    * Ajout d'une extension Twig pour gerer les input avec un token CSRF dans les formulaires 
+    * ######Fix code propre avec PHPCS, remise en etat + doc php
