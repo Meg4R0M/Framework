@@ -9,6 +9,7 @@
 namespace Framework;
 
 use DI\ContainerBuilder;
+use Doctrine\Common\Cache\ApcuCache;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -109,7 +110,7 @@ class App implements RequestHandlerInterface
             $builder = new ContainerBuilder();
             $env = getenv('ENVIRONMENT') ?: 'production';
             if ($env === 'production') {
-                $builder->setDefinitionCache(new ApcCache());
+                $builder->setDefinitionCache(new ApcuCache());
                 $builder->writeProxiesToFile(true, 'tmp/proxies');
             }
             $builder->addDefinitions($this->definition);

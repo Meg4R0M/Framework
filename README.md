@@ -188,3 +188,11 @@
     * Utilisation d'un nouvel outil :
          * [doctrine/cache](https://packagist.org/packages/doctrine/cache) gestion du cache sur des requetes
     * ######Création d'un fichier INSTALL.md pour installer proprement le framework
+    
+20. **QueryBuilder**:
+    
+    * Création d'un query builder permettant d'effectuer des requetes simple :
+         * Requetes SELECT / FROM
+         * Requetes avec un WHERE
+         * Requetes avec un COUNT
+    * ######FiX PHPCS oublié dans le dernier commit + Couleur automatique dans PHPUnit

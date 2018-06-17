@@ -13,3 +13,6 @@ This is a very basic usage but you can start your dev with  it. Have fun =)
 * if you want inject fake data to see blog and administration function launch:
 * ./vendor/bin/phinx seed:run
 * Enjoy =)
+
+
+**NB: You need install php-apcu-bc for production site.**

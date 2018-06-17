@@ -22,5 +22,4 @@ class RouterFactory
         }
         return new Router($cache);
     }
-
 }
