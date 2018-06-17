@@ -14,5 +14,12 @@ This is a very basic usage but you can start your dev with  it. Have fun =)
 * ./vendor/bin/phinx seed:run
 * Enjoy =)
 
+##Links
+
+Administration => YourSite.local/admin
+
+Blog => YourSite.local/blog
+
+--
 
 **NB: You need install php-apcu-bc for production site.**
