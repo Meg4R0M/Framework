@@ -178,3 +178,13 @@
          * Vérification du nombre maximum de tokens detenus par session
     * Ajout d'une extension Twig pour gerer les input avec un token CSRF dans les formulaires 
     * ######Fix code propre avec PHPCS, remise en etat + doc php
+    
+19. **Performances**:
+    
+    * Mise en cache si l'environement est production :
+         * Cache des templates grace à Twig
+         * Cache des injections de dependances grace à PHP-DI
+         * Cache des routes grace à FastRouteRouter
+    * Utilisation d'un nouvel outil :
+         * [doctrine/cache](https://packagist.org/packages/doctrine/cache) gestion du cache sur des requetes
+    * ######Création d'un fichier INSTALL.md pour installer proprement le framework

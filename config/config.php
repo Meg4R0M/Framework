@@ -7,6 +7,7 @@
  */
 
 use App\Framework\Middleware\CsrfMiddleware;
+use App\Framework\Router\RouterFactory;
 use App\Framework\Router\RouterTwigExtension;
 use App\Framework\Session\PHPSession;
 use App\Framework\Session\SessionInterface;
@@ -19,10 +20,11 @@ use App\Framework\Twig\TimeExtension;
 use Framework\Renderer\RendererInterface;
 use Framework\Renderer\TwigRendererFactory;
 use Framework\Router;
-use function DI\{get, object, factory};
+use function DI\{get, object, factory, env};
 use Psr\Container\ContainerInterface;
 
 return [
+    'env' => env('ENVIRONMENT', 'production'),
     'database.host' => 'mysql',
     'database.username' => 'root',
     'database.password' => 'root_ez',
@@ -39,7 +41,7 @@ return [
     ],
     SessionInterface::class => object(PHPSession::class),
     CsrfMiddleware::class => object()->constructor(get(SessionInterface::class)),
-    Router::class => object(),
+    Router::class => factory(RouterFactory::class),
     RendererInterface::class => factory(TwigRendererFactory::class),
     PDO::class => function (ContainerInterface $container) {
         return new PDO(
