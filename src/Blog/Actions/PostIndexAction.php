@@ -12,9 +12,6 @@ use App\Blog\Table\CategoryTable;
 use App\Blog\Table\PostTable;
 use App\Framework\Actions\RouterAwareAction;
 use Framework\Renderer\RendererInterface;
-use Framework\Router;
-use PDO;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
@@ -44,6 +41,8 @@ class PostIndexAction
     /**
      * BlogAction constructor.
      * @param RendererInterface $renderer
+     * @param PostTable $postTable
+     * @param CategoryTable $categoryTable
      */
     public function __construct(
         RendererInterface $renderer,
@@ -62,7 +61,7 @@ class PostIndexAction
     public function __invoke(Request $request)
     {
         $params = $request->getQueryParams();
-        $posts = $this->postTable->findPaginatedPublic(12, $params['p'] ?? 1);
+        $posts = $this->postTable->findPublic()->paginate(12, $params['p'] ?? 1);
         $categories =$this->categoryTable->findAll();
 
         return $this->renderer->render('@blog/index', compact('posts', 'categories'));

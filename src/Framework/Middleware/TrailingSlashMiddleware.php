@@ -13,6 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class TrailingSlashMiddleware
 {
+
     public function __invoke(ServerRequestInterface $request, callable $next)
     {
         $uri = $request->getUri()->getPath();

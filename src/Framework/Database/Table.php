@@ -8,8 +8,8 @@
 
 namespace App\Framework\Database;
 
-use Pagerfanta\Pagerfanta;
 use PDO;
+use stdClass;
 
 /**
  * Class Table
@@ -32,64 +32,17 @@ class Table
     /**
      * Entité à utiliser
      *
-     * @var string|null
+     * @var string
      */
-    protected $entity;
+    protected $entity = stdClass::class;
 
-    /**
-     * PostTable constructor.
-     * @param PDO $pdo
-     */
-    public function __construct(PDO $pdo)
+    public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
     /**
-     * Récupére un élément à partir de son ID
-     *
-     * @param int $id
-     * @return mixed
-     * @throws NoRecordException
-     */
-    public function find(int $id)
-    {
-        return $this->fetchOrFail("SELECT * FROM {$this->table} WHERE id = ?", [$id]);
-    }
-
-    /**
-     * Récupère tous les enregistrements
-     *
-     * @return array
-     */
-    public function findAll(): array
-    {
-        $query = $this->pdo->query("SELECT * FROM {$this->table}");
-        if ($this->entity) {
-            $query->setFetchMode(PDO::FETCH_CLASS, $this->entity);
-        } else {
-            $query->setFetchMode(PDO::FETCH_OBJ);
-        }
-        return $query->fetchAll();
-    }
-
-    /**
-     * Récupère une ligne par rapport à un champs
-     *
-     * @param string $field
-     * @param string $value
-     * @return mixed
-     * @throws NoRecordException
-     */
-    public function findBy(string $field, string $value)
-    {
-        return $this->fetchOrFail("SELECT * FROM {$this->table} WHERE $field = ?", [$value]);
-    }
-
-    /**
      * Récupère une liste clef valeur de nos enregistrements
-     *
-     * @return array
      */
     public function findList(): array
     {
@@ -104,31 +57,58 @@ class Table
     }
 
     /**
-     * Pagine des elements
-     *
-     * @param int $perPage
-     * @param int $currentPage
-     * @return Pagerfanta
+     * @return Query
      */
-    public function findPaginated(int $perPage, int $currentPage): Pagerfanta
+    public function makeQuery(): Query
     {
-        $query = new PaginatedQuery(
-            $this->pdo,
-            $this->paginationQuery(),
-            "SELECT COUNT(id) FROM {$this->table}",
-            $this->entity
-        );
-        return (new Pagerfanta($query))
-            ->setMaxPerPage($perPage)
-            ->setCurrentPage($currentPage);
+        return (new Query($this->pdo))
+            ->from($this->table, $this->table[0])
+            ->into($this->entity);
     }
 
     /**
-     * @return string
+     * Récupère tous les enregistrements
+     *
+     * @return Query
      */
-    protected function paginationQuery()
+    public function findAll(): Query
     {
-        return 'SELECT * FROM ' . $this->table;
+        return $this->makeQuery();
+    }
+
+    /**
+     * Récupère une ligne par rapport à un champs
+     *
+     * @param string $field
+     * @param string $value
+     * @return array
+     * @throws NoRecordException
+     */
+    public function findBy(string $field, string $value)
+    {
+        return $this->makeQuery()->where("$field = :field")->params(['field' => $value])->fetchOrFail();
+    }
+
+    /**
+     * Récupère un élément à partir de son ID
+     *
+     * @param int $id
+     * @return mixed
+     * @throws NoRecordException
+     */
+    public function find(int $id)
+    {
+        return $this->makeQuery()->where("id = $id")->fetchOrFail();
+    }
+
+    /**
+     * Récupère le nbre d'enregistrement
+     *
+     * @return int
+     */
+    public function count(): int
+    {
+        return $this->makeQuery()->count();
     }
 
     /**
@@ -141,8 +121,8 @@ class Table
     public function update(int $id, array $params): bool
     {
         $fieldQuery = $this->buildFieldQuery($params);
-        $params["id"] = $id;
-        $query = $this->pdo->prepare("UPDATE {$this->table} SET " . $fieldQuery . " WHERE id = :id");
+        $params['id'] = $id;
+        $query = $this->pdo->prepare("UPDATE {$this->table} SET $fieldQuery WHERE id = :id");
         return $query->execute($params);
     }
 
@@ -155,7 +135,7 @@ class Table
     public function insert(array $params): bool
     {
         $fields = array_keys($params);
-        $values = implode(',', array_map(function ($field) {
+        $values = implode(', ', array_map(function ($field) {
             return ':' . $field;
         }, $fields));
         $fields = implode(', ', $fields);
@@ -164,8 +144,7 @@ class Table
     }
 
     /**
-     * Supprime un enregistrement
-     *
+     * Supprime un enregistrment
      * @param int $id
      * @return bool
      */
@@ -175,77 +154,21 @@ class Table
         return $query->execute([$id]);
     }
 
-    /**
-     * @param array $params
-     * @return string
-     */
-    private function buildFieldQuery(array $params): string
+    private function buildFieldQuery(array $params)
     {
-        return implode(',', array_map(function ($field) {
-            return $field . " = :" . $field;
+        return implode(', ', array_map(function ($field) {
+            return "$field = :$field";
         }, array_keys($params)));
-    }
-
-    /**
-     * Vérifie qu'un enregistrement existe
-     *
-     * @param $id
-     * @return bool
-     */
-    public function exists($id): bool
-    {
-        $query = $this->pdo->prepare("SELECT id FROM {$this->table} WHERE id = ?");
-        $query->execute([$id]);
-        return $query->fetchColumn() !== false;
-    }
-
-    /**
-     * Récupère le nombre d'enregistrements
-     *
-     * @return int
-     */
-    public function count(): int
-    {
-        return $this->fetchColumn("SELECT COUNT(id) FROM {$this->table}");
     }
 
     /**
      * Récupère la première colonne
      *
-     * @param string $query
-     * @param array $params
      * @return mixed
      */
-    private function fetchColumn(string $query, array$params = [])
+    public function getEntity(): string
     {
-        $query = $this->pdo->prepare($query);
-        $query->execute($params);
-        if ($this->entity) {
-            $query->setFetchMode(PDO::FETCH_CLASS, $this->entity);
-        }
-        return $query->fetchColumn();
-    }
-
-    /**
-     * Permet d'éxécuter un requête et de récupérer le premier résultat
-     *
-     * @param string $query
-     * @param array $params
-     * @return mixed
-     * @throws NoRecordException
-     */
-    protected function fetchOrFail(string $query, array $params = [])
-    {
-        $query = $this->pdo->prepare($query);
-        $query->execute($params);
-        if ($this->entity) {
-            $query->setFetchMode(PDO::FETCH_CLASS, $this->entity);
-        }
-        $record = $query->fetch();
-        if ($record === false) {
-            throw new NoRecordException();
-        }
-        return $record;
+        return $this->entity;
     }
 
     /**
@@ -257,17 +180,21 @@ class Table
     }
 
     /**
-     * @return string
+     * Vérifie qu'un enregistrement existe
+     * @param $id
+     * @return bool
      */
-    public function getEntity(): string
+    public function exists($id): bool
     {
-        return $this->entity;
+        $query = $this->pdo->prepare("SELECT id FROM {$this->table} WHERE id = ?");
+        $query->execute([$id]);
+        return $query->fetchColumn() !== false;
     }
 
     /**
-     * @return PDO
+     * @return \PDO
      */
-    public function getPdo(): PDO
+    public function getPdo(): \PDO
     {
         return $this->pdo;
     }

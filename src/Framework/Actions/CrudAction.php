@@ -8,6 +8,7 @@
 
 namespace App\Framework\Actions;
 
+use App\Framework\Database\Hydrator;
 use App\Framework\Database\NoRecordException;
 use App\Framework\Database\Table;
 use App\Framework\Session\FlashService;
@@ -113,9 +114,9 @@ class CrudAction
     public function index(Request $request): string
     {
         $params = $request->getQueryParams();
-        $items = $this->table->findPaginated(12, $params['p'] ?? 1);
+        $items = $this->table->findAll()->paginate(12, $params['p'] ?? 1);
 
-        return $this->renderer->render($this->viewPath . '/index', compact('items', 'session'));
+        return $this->renderer->render($this->viewPath . '/index', compact('items'));
     }
 
     /**
@@ -129,16 +130,14 @@ class CrudAction
     {
         $item = $this->table->find($request->getAttribute('id'));
         if ($request->getMethod() === 'POST') {
-            $params = $this->getParams($request);
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
-                $this->table->update($item->id, $params);
+                $this->table->update($item->id, $this->getParams($request, $item));
                 $this->flash->success($this->messages['edit']);
                 return $this->redirect($this->routePrefix . '.index');
             }
             $errors = $validator->getErrors();
-            $params['id'] = $item->id;
-            $item = $params;
+            Hydrator::hydrate($request->getParsedBody(), $item);
         }
 
         return $this->renderer->render(
@@ -157,14 +156,13 @@ class CrudAction
     {
         $item = $this->getNewEntity();
         if ($request->getMethod() === 'POST') {
-            $params = $this->getParams($request);
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
-                $this->table->insert($params);
+                $this->table->insert($this->getParams($request, $item));
                 $this->flash->success($this->messages['create']);
                 return $this->redirect($this->routePrefix . '.index');
             }
-            $item = $params;
+            Hydrator::hydrate($request->getParsedBody(), $item);
             $errors = $validator->getErrors();
         }
 
@@ -175,38 +173,43 @@ class CrudAction
     }
 
     /**
+     * Action de suppression
+     *
      * @param Request $request
      * @return ResponseInterface
      */
     public function delete(Request $request): ResponseInterface
     {
         $this->table->delete($request->getAttribute('id'));
-        $this->flash->success('L\'article a bien été supprimé');
         return $this->redirect($this->routePrefix . '.index');
     }
 
     /**
+     * Filtre les paramètres reçu par la requête
+     *
      * @param Request $request
      * @return array
      */
-    protected function getParams(Request $request): array
+    protected function getParams(Request $request, $item): array
     {
-        return array_filter($request->getParsedBody(), function ($key) {
-            return \in_array($key, []);
+        return array_filter(array_merge($request->getParsedBody(), $request->getUploadedFiles()), function ($key) {
+            return \in_array($key, [], true);
         }, ARRAY_FILTER_USE_KEY);
     }
 
     /**
+     * Génère le validateur pour valider les données
+     *
      * @param Request $request
      * @return Validator
      */
     protected function getValidator(Request $request): Validator
     {
-        return new Validator($request->getParsedBody());
+        return new Validator(array_merge($request->getParsedBody(), $request->getUploadedFiles()));
     }
 
     /**
-     * Génére une nouvelle entité pour l'action de création
+     * Génère une nouvelle entité pour l'action de création
      *
      * @return array
      */

@@ -14,6 +14,8 @@ use Zend\Expressive\Router\FastRouteRouter;
 use Zend\Expressive\Router\Route as ZendRoute;
 
 /**
+ * Register and match routes
+ *
  * Class Router
  * @package Framework
  */
@@ -66,6 +68,8 @@ class Router
     }
 
     /**
+     * Génère les route du CRUD
+     *
      * @param string $prefixPath
      * @param $callable
      * @param string $prefixName

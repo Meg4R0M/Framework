@@ -8,7 +8,6 @@ use App\Framework\Middleware\MethodMiddleware;
 use App\Framework\Middleware\RouterMiddleware;
 use App\Framework\Middleware\TrailingSlashMiddleware;
 use App\Framework\Middleware\NotFoundMiddleware;
-use Framework\App;
 use GuzzleHttp\Psr7\ServerRequest;
 use Middlewares\Whoops;
 
@@ -21,7 +20,7 @@ $modules = [
     BlogModule::class
 ];
 
-$app = (new App('config/config.php'))
+$app = (new \Framework\App('config/config.php'))
     ->addModule(AdminModule::class)
     ->addModule(BlogModule::class)
     ->pipe(Whoops::class)

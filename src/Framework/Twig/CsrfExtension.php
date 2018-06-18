@@ -37,8 +37,8 @@ class CsrfExtension extends \Twig_Extension
 
     public function csrfInput(): string
     {
-        return '<input type="hidden" 
-        name="' . $this->csrfMiddleware->getFormKey() . '" 
-        value="' . $this->csrfMiddleware->generateToken() . '"/>';
+        return '<input type="hidden" ' .
+            'name="' . $this->csrfMiddleware->getFormKey() . '" ' .
+            'value="' . $this->csrfMiddleware->generateToken() . '"/>';
     }
 }

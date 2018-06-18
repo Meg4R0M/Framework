@@ -34,15 +34,17 @@ class ValidationError
      * @var array
      */
     private $messages = [
-        'required' => 'Le champs %s est requis',
-        'empty' => 'Le champs %s ne peut être vide',
-        'slug' => 'Le champs %s n\'est pas un slug valide',
-        'minLength' => 'Le champs %s doit contenir plus de %d caractères',
-        'maxLength' => 'Le champs %s doit contenir moins de %d caractères',
+        'required'      => 'Le champs %s est requis',
+        'empty'         => 'Le champs %s ne peut être vide',
+        'slug'          => 'Le champs %s n\'est pas un slug valide',
+        'minLength'     => 'Le champs %s doit contenir plus de %d caractères',
+        'maxLength'     => 'Le champs %s doit contenir moins de %d caractères',
         'betweenLength' => 'Le champs %s doit contenir entre %d et %d caractères',
-        'datetime' => 'Le champs %s doit être une date valide (%s)',
-        'exists' => 'Le champs %s n\'existe pas dans la table %s',
-        'unique' => 'Le champs %s doit être unique %s'
+        'datetime'      => 'Le champs %s doit être une date valide (%s)',
+        'exists'        => 'Le champs %s n\'existe pas dans la table %s',
+        'unique'        => 'Le champs %s doit être unique',
+        'filetype'      => 'Le champs %s n\'est pas au format valide (%s)',
+        'uploaded'      => 'Vous devez uploader un fichier'
     ];
 
     /**

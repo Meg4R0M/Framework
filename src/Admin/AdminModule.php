@@ -12,7 +12,6 @@ use App\Framework\Module;
 use Framework\Renderer\RendererInterface;
 use Framework\Renderer\TwigRenderer;
 use Framework\Router;
-use Psr\Container\ContainerInterface;
 
 class AdminModule extends Module
 {

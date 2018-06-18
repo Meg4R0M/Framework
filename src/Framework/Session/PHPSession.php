@@ -34,6 +34,7 @@ class PHPSession implements SessionInterface, \ArrayAccess
         if (array_key_exists($key, $_SESSION)) {
             return $_SESSION[$key];
         }
+        return $default;
     }
 
     /**
@@ -104,9 +105,9 @@ class PHPSession implements SessionInterface, \ArrayAccess
      * @return void
      * @since 5.0.0
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet($offset, $value)
     {
-        $this->get($offset, $value);
+        return $this->set($offset, $value);
     }
 
     /**

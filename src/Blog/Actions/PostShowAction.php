@@ -8,13 +8,10 @@
 
 namespace App\Blog\Actions;
 
-use App\Blog\Table\CategoryTable;
 use App\Blog\Table\PostTable;
 use App\Framework\Actions\RouterAwareAction;
-use App\Framework\Database\NoRecordException;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
-use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -60,9 +57,9 @@ class PostShowAction
 
     /**
      * Affiche un article
+     *
      * @param Request $request
      * @return ResponseInterface|string
-     * @throws NoRecordException
      */
     public function __invoke(Request $request)
     {

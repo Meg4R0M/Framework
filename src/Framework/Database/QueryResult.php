@@ -9,6 +9,8 @@
 namespace App\Framework\Database;
 
 /**
+ * Représente les résultats d'une requête
+ *
  * Class QueryResult
  * @package App\Framework\Database
  */
@@ -16,22 +18,22 @@ class QueryResult implements \ArrayAccess, \Iterator
 {
 
     /**
-     * @var array
+     * @var array Les enregistrements
      */
     private $records;
 
     /**
-     * @var null|string
+     * @var null|string Entité à utiliser pour hydrater nos objets
      */
     private $entity;
 
     /**
-     * @var int
+     * @var int Index servant à l'itération
      */
     private $index = 0;
 
     /**
-     * @var array
+     * @var array Sauvegarde les enregistrements déjà hydratés
      */
     private $hydratedRecords = [];
 
@@ -47,6 +49,8 @@ class QueryResult implements \ArrayAccess, \Iterator
     }
 
     /**
+     * Récupère un éléments à l'index définit
+     *
      * @param int $index
      * @return mixed|null|string
      */

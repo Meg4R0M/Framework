@@ -48,22 +48,48 @@ class Post
     public $updatedAt;
 
     /**
-     * @param DateTime $datetime
+     * @var
      */
-    public function setCreatedAt(DateTime $datetime): void
+    public $image;
+
+    /**
+     * @param $datetime
+     */
+    public function setCreatedAt($datetime): void
     {
         if (\is_string($datetime)) {
-            $this->createdAt = new DateTime($this->createdAt);
+            $this->createdAt = new \DateTime($datetime);
+        } else {
+            $this->createdAt = $datetime;
         }
     }
 
     /**
-     * @param DateTime $datetime
+     * @param $datetime
      */
-    public function setUpdatedAt(DateTime $datetime): void
+    public function setUpdatedAt($datetime): void
     {
         if (\is_string($datetime)) {
-            $this->updatedAt = new DateTime($this->updatedAt);
+            $this->updatedAt = new \DateTime($datetime);
+        } else {
+            $this->updatedAt = $datetime;
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getThumb(): string
+    {
+        ['filename' => $filename, 'extension' => $extension] = pathinfo($this->image);
+        return '/uploads/posts/' . $filename . '_thumb.' . $extension;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageUrl(): string
+    {
+        return '/uploads/posts/' . $this->image;
     }
 }

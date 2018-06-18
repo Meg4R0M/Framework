@@ -84,11 +84,15 @@ class App implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $middleware = $this->getMiddleware();
-        if (is_null($middleware)) {
-            throw new \Exception('Aucun middleware n\'a intercepté cette requête');
-        } elseif (is_callable($middleware)) {
-            return call_user_func_array($middleware, [$request, [$this, 'handle']]);
-        } elseif ($middleware instanceof MiddlewareInterface) {
+        if (null === $middleware) {
+            throw new \RuntimeException('Aucun middleware n\'a intercepté cette requête');
+        }
+
+        if (\is_callable($middleware)) {
+            return $middleware($request, [$this, 'handle']);
+        }
+
+        if ($middleware instanceof MiddlewareInterface) {
             return $middleware->process($request, $this);
         }
     }
@@ -98,7 +102,10 @@ class App implements RequestHandlerInterface
         foreach ($this->modules as $module) {
             $this->getContainer()->get($module);
         }
-        return $this->handle($request);
+        try {
+            return $this->handle($request);
+        } catch (\Exception $e) {
+        }
     }
 
     /**

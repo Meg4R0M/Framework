@@ -37,31 +37,20 @@ class CsrfMiddleware implements MiddlewareInterface
      */
     private $session;
 
-    /**
-     * CsrfMiddleware constructor.
-     * @param array $session
-     * @param int $limit
-     * @param string $formKey
-     * @param string $sessionKey
-     */
-    public function __construct(&$session, int $limit = 50, string $formKey = '_csrf', string $sessionKey = 'csrf')
-    {
+    public function __construct(
+        &$session,
+        int $limit = 50,
+        string $formKey = '_csrf',
+        string $sessionKey = 'csrf'
+    ) {
         $this->validSession($session);
         $this->session = &$session;
-        $this->limit = $limit;
         $this->formKey = $formKey;
         $this->sessionKey = $sessionKey;
+        $this->limit = $limit;
     }
 
-    /**
-     * Process an incoming server request and return a response, optionally delegating
-     * response creation to a handler.
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return ResponseInterface
-     * @throws \Exception
-     */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $delegate): ResponseInterface
     {
         if (\in_array($request->getMethod(), ['POST', 'PUT', 'DELETE'])) {
             $params = $request->getParsedBody() ?: [];
@@ -71,22 +60,18 @@ class CsrfMiddleware implements MiddlewareInterface
                 $csrfList = $this->session[$this->sessionKey] ?? [];
                 if (\in_array($params[$this->formKey], $csrfList, true)) {
                     $this->useToken($params[$this->formKey]);
-                    return $handler->handle($request);
-                } else {
-                    $this->reject();
+                    return $delegate->handle($request);
                 }
+                $this->reject();
             }
         } else {
-            return $handler->handle($request);
+            return $delegate->handle($request);
         }
     }
 
     public function generateToken(): string
     {
-        try {
-            $token = bin2hex(random_bytes(16));
-        } catch (\Exception $e) {
-        }
+        $token = bin2hex(random_bytes(16));
         $csrfList = $this->session[$this->sessionKey] ?? [];
         $csrfList[] = $token;
         $this->session[$this->sessionKey] = $csrfList;
@@ -119,9 +104,9 @@ class CsrfMiddleware implements MiddlewareInterface
         $this->session[$this->sessionKey] = $tokens;
     }
 
-    private function validSession($session)
+    private function validSession($session): void
     {
-        if (!is_array($session) && !$session instanceof \ArrayAccess) {
+        if (!\is_array($session) && !$session instanceof \ArrayAccess) {
             throw new \TypeError('La session passé au middleware CSRF n\'est pas traitable comme un tableau');
         }
     }

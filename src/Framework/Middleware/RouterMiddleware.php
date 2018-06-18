@@ -9,13 +9,11 @@
 namespace App\Framework\Middleware;
 
 use Framework\Router;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 
-class RouterMiddleware implements MiddlewareInterface
+class RouterMiddleware
 {
+
     /**
      * @var Router
      */
@@ -38,19 +36,5 @@ class RouterMiddleware implements MiddlewareInterface
         }, $request);
         $request = $request->withAttribute(get_class($route), $route);
         return $next($request);
-    }
-
-    /**
-     * Process an incoming server request and return a response, optionally delegating
-     * to the next middleware component to create the response.
-     *
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $delegate
-     *
-     * @return ResponseInterface
-     */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $delegate): ResponseInterface
-    {
-        // TODO: Implement process() method.
     }
 }

@@ -17,9 +17,7 @@ use Twig_Loader_Filesystem;
  */
 class TwigRenderer implements RendererInterface
 {
-    /**
-     * @var Twig_Environment
-     */
+
     private $twig;
 
     /**

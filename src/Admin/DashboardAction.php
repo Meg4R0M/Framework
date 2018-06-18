@@ -41,9 +41,4 @@ class DashboardAction
         }, '');
         return $this->renderer->render('@admin/dashboard', compact('widgets'));
     }
-
-    public function process(ServerRequestInterface $request): string
-    {
-        return $this->__invoke($request);
-    }
 }

@@ -14,6 +14,10 @@ use Twig_SimpleFilter;
 
 class TimeExtension extends Twig_Extension
 {
+
+    /**
+     * @return Twig_SimpleFilter[]
+     */
     public function getFilters(): array
     {
         return [
@@ -23,7 +27,7 @@ class TimeExtension extends Twig_Extension
 
     public function ago(DateTime $date, string $format = 'd/m/Y H:i')
     {
-        return '<span class="timeago" datetime="' . $date->format(DateTime::ISO8601) . '">'.
+        return '<span class="timeago" datetime="' . $date->format(DateTime::ISO8601) . '">' .
             $date->format($format) .
             '</span>';
     }

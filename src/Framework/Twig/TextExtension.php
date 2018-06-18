@@ -12,7 +12,7 @@ use Twig_Extension;
 use Twig_SimpleFilter;
 
 /**
- * Serie d'extensions concernant les textes
+ * Série d'extensions concernant les textes
  *
  * Class TextExtension
  * @package App\Framework\Twig

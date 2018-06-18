@@ -8,8 +8,10 @@
 
 namespace App\Framework;
 
+use App\Framework\Database\Table;
 use App\Framework\Validator\ValidationError;
 use PDO;
+use Psr\Http\Message\UploadedFileInterface;
 
 /**
  * Class Validator
@@ -17,6 +19,12 @@ use PDO;
  */
 class Validator
 {
+
+    private const MIME_TYPES = [
+        'jpg' => 'image/jpeg',
+        'png' => 'image/png',
+        'pdf' => 'application/pdf'
+    ];
 
     /**
      * @var array
@@ -39,9 +47,9 @@ class Validator
     }
 
     /**
-     * Verifie que les champs sont préents dans le tableau
+     * Vérifie que les champs sont présents dans le tableau
      *
-     * @param string ...$keys
+     * @param string[] ...$keys
      * @return Validator
      */
     public function required(string ...$keys): self
@@ -58,7 +66,7 @@ class Validator
     /**
      * Vérifie que le champs n'est pas vide
      *
-     * @param string ...$keys
+     * @param string[] ...$keys
      * @return Validator
      */
     public function notEmpty(string ...$keys): self
@@ -87,11 +95,13 @@ class Validator
             ($length < $min || $length > $max)
         ) {
             $this->addError($key, 'betweenLength', [$min, $max]);
+            return $this;
         }
         if (!is_null($min) &&
             $length < $min
         ) {
             $this->addError($key, 'minLength', [$min]);
+            return $this;
         }
         if (!is_null($max) &&
             $length > $max
@@ -102,7 +112,7 @@ class Validator
     }
 
     /**
-     * Vérifie que l'element est un slug
+     * Vérifie que l'élément est un slug
      *
      * @param string $key
      * @return Validator
@@ -118,7 +128,10 @@ class Validator
     }
 
     /**
+     * Vérifie qu'une date correspond au format demandé
+     *
      * @param string $key
+     * @param string $format
      * @return Validator
      */
     public function dateTime(string $key, string $format = "Y-m-d H:i:s"): self
@@ -152,7 +165,7 @@ class Validator
     }
 
     /**
-     * Vérifie que la clef est unique
+     * Vérifie que la clef est unique dans la base de donnée
      *
      * @param string $key
      * @param string $table
@@ -166,7 +179,7 @@ class Validator
         $query = "SELECT id FROM $table WHERE $key = ?";
         $params = [$value];
         if ($exclude !== null) {
-            $query .= " AND id != ?";
+            $query .= ' AND id != ?';
             $params[] = $exclude;
         }
         $statement = $pdo->prepare($query);
@@ -174,6 +187,44 @@ class Validator
         if ($statement->fetchColumn() !== false) {
             $this->addError($key, 'unique', [$value]);
         }
+        return $this;
+    }
+
+    /**
+     * Vérifie si le fichier a bien été uploadé
+     *
+     * @param string $key
+     * @return Validator
+     */
+    public function uploaded(string $key): self
+    {
+        $file = $this->getValue($key);
+        if ($file === null || $file->getError() !== UPLOAD_ERR_OK) {
+            $this->addError($key, 'uploaded');
+        }
+        return $this;
+    }
+
+    /**
+     * Vérifie le format de fichier
+     *
+     * @param string $key
+     * @param array $extensions
+     * @return Validator
+     */
+    public function extension(string $key, array $extensions): self
+    {
+        /** @var UploadedFileInterface $file */
+        $file = $this->getValue($key);
+        if ($file !== null && $file->getError() === UPLOAD_ERR_OK) {
+            $type = $file->getClientMediaType();
+            $extension = mb_strtolower(pathinfo($file->getClientFilename(), PATHINFO_EXTENSION));
+            $expectedType = self::MIME_TYPES[$extension] ?? null;
+            if (!\in_array($extension, $extensions, true) || $expectedType !== $type) {
+                $this->addError($key, 'filetype', [implode(',', $extensions)]);
+            }
+        }
+
         return $this;
     }
 

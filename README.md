@@ -204,3 +204,14 @@
          * Hydratation simple
          * Hydratation en mode "Lazy"
     * Création d'une entité simple pour les tests (demo.php)
+    
+22. **Gestion des Images**:
+    
+    * Mise en place de l'upload d'image :
+         * Gestion de l'endroit ou seront téléchargés les images
+         * Gestion du format de fichiers pour accepter seulement les formats voulus
+         * Ajout d'une librairie afin de creer un format thumb et augmenter les performances
+         * Gestion du remplacement lors de l'edition
+    * Utilisation d'un nouvel outil :
+         * [intervention/image ](https://packagist.org/packages/intervention/image) gestion des images et de leurs redimensionnement
+    * ######Gros refactoring du code pour l'ajout des commentaires et ajout du typage

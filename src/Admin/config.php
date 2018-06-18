@@ -11,7 +11,6 @@ use App\Admin\AdminTwigExtension;
 use App\Admin\DashboardAction;
 use function DI\object;
 use function DI\get;
-use function DI\add;
 
 return [
     'admin.prefix' => '/admin',

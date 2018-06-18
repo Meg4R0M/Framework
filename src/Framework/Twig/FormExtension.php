@@ -34,17 +34,17 @@ class FormExtension extends Twig_Extension
     /**
      * Génére le code HTML d'un champs
      *
-     * @param array $context
-     * @param string $key
-     * @param $value
-     * @param string $label
+     * @param array $context Contexte de la vue Twig
+     * @param string $key Clef du champs
+     * @param mixed $value Valeur du champs
+     * @param string|null $label Label à utiliser
      * @param array $options
      * @return string
      */
     public function field(array $context, string $key, $value, ?string $label = null, array $options = []): string
     {
         $type = $options['type'] ?? 'text';
-        $error = $this->getErrorHTML($context, $key);
+        $error = $this->getErrorHtml($context, $key);
         $class = 'form-group';
         $value = $this->convertValue($value);
         $attributes = [
@@ -59,36 +59,48 @@ class FormExtension extends Twig_Extension
         }
         if ($type === 'textarea') {
             $input = $this->textarea($value, $attributes);
+        } elseif ($type === 'file') {
+            $input = $this->file($attributes);
+        } elseif ($type === 'checkbox') {
+            $input = $this->checkbox($value, $attributes);
         } elseif (array_key_exists('options', $options)) {
             $input = $this->select($value, $options['options'], $attributes);
         } else {
             $input = $this->input($value, $attributes);
         }
         return "<div class=\"" . $class . "\">
-                <label for=\"name\">{$label}</label>
-                {$input}
-                {$error}
+              <label for=\"name\">{$label}</label>
+              {$input}
+              {$error}
             </div>";
     }
 
+    private function convertValue($value): string
+    {
+        if ($value instanceof \DateTime) {
+            return $value->format('Y-m-d H:i:s');
+        }
+        return (string)$value;
+    }
+
     /**
-     * Génére l'HTML en fonction des erreurs du contexte
+     * Génère l'HTML en fonction des erreurs du contexte
      *
      * @param $context
      * @param $key
      * @return string
      */
-    private function getErrorHTML($context, $key)
+    private function getErrorHtml($context, $key)
     {
         $error = $context['errors'][$key] ?? false;
         if ($error) {
             return "<small class=\"form-text text-muted\">{$error}</small>";
         }
-        return "";
+        return '';
     }
 
     /**
-     * Génére un <input>
+     * Génère un <input>
      *
      * @param null|string $value
      * @param array $attributes
@@ -100,7 +112,27 @@ class FormExtension extends Twig_Extension
     }
 
     /**
-     * Génére un <textarea>
+     * Génère un <input type="checkbox">
+     * @param null|string $value
+     * @param array $attributes
+     * @return string
+     */
+    private function checkbox(?string $value, array $attributes): string
+    {
+        $html = '<input type="hidden" name="' . $attributes['name'] . '" value="0"/>';
+        if ($value) {
+            $attributes['checked'] = true;
+        }
+        return $html . "<input type=\"checkbox\" " . $this->getHtmlFromArray($attributes) . " value=\"1\">";
+    }
+
+    private function file($attributes)
+    {
+        return '<input type="file" ' . $this->getHtmlFromArray($attributes) . '>';
+    }
+
+    /**
+     * Génère un <textarea>
      *
      * @param null|string $value
      * @param array $attributes
@@ -112,7 +144,7 @@ class FormExtension extends Twig_Extension
     }
 
     /**
-     * Génére un <select>
+     * Génère un <select>
      *
      * @param null|string $value
      * @param array $options
@@ -145,17 +177,5 @@ class FormExtension extends Twig_Extension
             }
         }
         return implode(' ', $htmlParts);
-    }
-
-    /**
-     * @param $value
-     * @return string
-     */
-    private function convertValue($value): string
-    {
-        if ($value instanceof \DateTime) {
-            return $value->format('Y-m-d H:i:s');
-        }
-        return (string)$value;
     }
 }

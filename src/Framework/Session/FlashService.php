@@ -70,8 +70,8 @@ class FlashService
             $this->messages = $this->session->get($this->sessionKey, []);
             $this->session->delete($this->sessionKey);
         }
-        if (is_array($this->messages) && array_key_exists($type, $this->messages)) {
-                return $this->messages[$type];
+        if (array_key_exists($type, $this->messages)) {
+            return $this->messages[$type];
         }
         return null;
     }

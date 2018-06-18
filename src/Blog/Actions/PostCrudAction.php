@@ -8,6 +8,7 @@
 namespace App\Blog\Actions;
 
 use App\Blog\Entity\Post;
+use App\Blog\PostUpload;
 use App\Blog\Table\CategoryTable;
 use App\Blog\Table\PostTable;
 use App\Framework\Actions\CrudAction;
@@ -16,6 +17,7 @@ use App\Framework\Validator;
 use DateTime;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -39,6 +41,10 @@ class PostCrudAction extends CrudAction
      * @var CategoryTable
      */
     private $categoryTable;
+    /**
+     * @var PostUpload
+     */
+    private $postUpload;
 
     /**
      * PostCrudAction constructor.
@@ -47,16 +53,26 @@ class PostCrudAction extends CrudAction
      * @param PostTable $table
      * @param FlashService $flash
      * @param CategoryTable $categoryTable
+     * @param PostUpload $postUpload
      */
     public function __construct(
         RendererInterface $renderer,
         Router $router,
         PostTable $table,
         FlashService $flash,
-        CategoryTable $categoryTable
+        CategoryTable $categoryTable,
+        PostUpload $postUpload
     ) {
         parent::__construct($renderer, $router, $table, $flash);
         $this->categoryTable = $categoryTable;
+        $this->postUpload = $postUpload;
+    }
+
+    public function delete(ServerRequestInterface $request): ResponseInterface
+    {
+        $post = $this->table->find($request->getAttribute('id'));
+        $this->postUpload->delete($post->image);
+        return parent::delete($request);
     }
 
     /**
@@ -76,22 +92,29 @@ class PostCrudAction extends CrudAction
     protected function getNewEntity()
     {
         $post = new Post();
-        $post->created_at = new DateTime();
+        $post->createdAt = new DateTime();
         return $post;
     }
 
     /**
      * @param ServerRequestInterface $request
+     * @param Post $post
      * @return array
      */
-    protected function getParams(ServerRequestInterface $request): array
+    protected function getParams(ServerRequestInterface $request, $post): array
     {
-        $params = array_filter($request->getParsedBody(), function ($key) {
-            return \in_array($key, ['name', 'content', 'slug', 'created_at', 'category_id']);
+        $params = array_merge($request->getParsedBody(), $request->getUploadedFiles());
+        // Uploader le fichier
+        $image = $this->postUpload->upload($params['image'], $post->image);
+        if ($image) {
+            $params['image'] = $image;
+        } else {
+            unset($params['image']);
+        }
+        $params = array_filter($params, function ($key) {
+            return \in_array($key, ['name', 'slug', 'content', 'created_at', 'category_id', 'image', 'published']);
         }, ARRAY_FILTER_USE_KEY);
-        return array_merge($params, [
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
+        return array_merge($params, ['updated_at' => date('Y-m-d H:i:s')]);
     }
 
     /**
@@ -100,13 +123,18 @@ class PostCrudAction extends CrudAction
      */
     protected function getValidator(ServerRequestInterface $request): Validator
     {
-        return parent::getValidator($request)
+        $validator = parent::getValidator($request)
             ->required('content', 'name', 'slug', 'created_at', 'category_id')
             ->length('content', 10)
             ->length('name', 2, 250)
             ->length('slug', 2, 50)
             ->exists('category_id', $this->categoryTable->getTable(), $this->categoryTable->getPdo())
             ->dateTime('created_at')
+            ->extension('image', ['jpg', 'png'])
             ->slug('slug');
+        if (null === $request->getAttribute('id')) {
+            $validator->uploaded('image');
+        }
+        return $validator;
     }
 }
