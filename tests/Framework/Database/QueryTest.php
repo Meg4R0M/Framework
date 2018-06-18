@@ -11,16 +11,26 @@ namespace Tests\Framework\Database;
 use App\Framework\Database\Query;
 use Tests\DatabaseTestCase;
 
+/**
+ * Class QueryTest
+ * @package Tests\Framework\Database
+ */
 class QueryTest extends DatabaseTestCase
 {
 
-    public function testSimpleQuery()
+    /**
+     *
+     */
+    public function testSimpleQuery(): void
     {
         $query = (new Query())->from('posts')->select('name');
         $this->assertEquals('SELECT name FROM posts', (string)$query);
     }
 
-    public function testWithWhere()
+    /**
+     *
+     */
+    public function testWithWhere(): void
     {
         $query = (new Query())
             ->from('posts', 'p')
@@ -33,7 +43,10 @@ class QueryTest extends DatabaseTestCase
         $this->assertEquals('SELECT * FROM posts as p WHERE (a = :a OR b = :b) AND (c = :c)', (string)$query2);
     }
 
-    public function testFetchAll()
+    /**
+     *
+     */
+    public function testFetchAll(): void
     {
         $pdo = $this->getPDO();
         $this->migrateDatabase($pdo);
@@ -50,6 +63,38 @@ class QueryTest extends DatabaseTestCase
             ])
             ->count();
         $this->assertEquals(29, $posts);
+    }
+
+    /**
+     *
+     */
+    public function testHydrateEntity(): void
+    {
+        $pdo = $this->getPDO();
+        $this->migrateDatabase($pdo);
+        $this->seedDatabase($pdo);
+        $posts = (new Query($pdo))
+            ->from('posts', 'p')
+            ->into(Demo::class)
+            ->all();
+        $this->assertEquals('demo', substr($posts[0]->getSlug(), - 4));
+    }
+
+    /**
+     *
+     */
+    public function testLazyHydrate(): void
+    {
+        $pdo = $this->getPDO();
+        $this->migrateDatabase($pdo);
+        $this->seedDatabase($pdo);
+        $posts = (new Query($pdo))
+            ->from('posts', 'p')
+            ->into(Demo::class)
+            ->all();
+        $post = $posts[0];
+        $post2 = $posts[0];
+        $this->assertSame($post, $post2);
     }
 
 }

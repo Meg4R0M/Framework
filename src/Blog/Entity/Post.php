@@ -40,29 +40,30 @@ class Post
     /**
      * @var DateTime
      */
-    public $created_at;
+    public $createdAt;
 
     /**
      * @var DateTime
      */
-    public $updated_at;
+    public $updatedAt;
 
     /**
-     * @var
+     * @param DateTime $datetime
      */
-    public $category_name;
-
-    /**
-     * Post constructor.
-     */
-    public function __construct()
+    public function setCreatedAt(DateTime $datetime): void
     {
-        if ($this->created_at) {
-            $this->created_at = new DateTime($this->created_at);
+        if (\is_string($datetime)) {
+            $this->createdAt = new DateTime($this->createdAt);
         }
+    }
 
-        if ($this->updated_at) {
-            $this->updated_at = new DateTime($this->updated_at);
+    /**
+     * @param DateTime $datetime
+     */
+    public function setUpdatedAt(DateTime $datetime): void
+    {
+        if (\is_string($datetime)) {
+            $this->updatedAt = new DateTime($this->updatedAt);
         }
     }
 }

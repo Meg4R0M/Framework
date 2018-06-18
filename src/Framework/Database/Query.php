@@ -12,10 +12,6 @@ namespace App\Framework\Database;
  * Class Query
  * @package App\Framework\Database
  */
-/**
- * Class Query
- * @package App\Framework\Database
- */
 class Query
 {
 
@@ -33,6 +29,11 @@ class Query
      * @var
      */
     private $where = [];
+
+    /**
+     * @var
+     */
+    private $entity;
 
     /**
      * @var
@@ -120,6 +121,27 @@ class Query
     {
         $this->params = $params;
         return $this;
+    }
+
+    /**
+     * @param string $entity
+     * @return Query
+     */
+    public function into(string $entity): self
+    {
+        $this->entity = $entity;
+        return $this;
+    }
+
+    /**
+     * @return QueryResult
+     */
+    public function all(): QueryResult
+    {
+        return new QueryResult(
+            $this->execute()->fetchAll(\PDO::FETCH_ASSOC),
+            $this->entity
+        );
     }
 
     /**

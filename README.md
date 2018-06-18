@@ -186,7 +186,7 @@
          * Cache des injections de dependances grace à PHP-DI
          * Cache des routes grace à FastRouteRouter
     * Utilisation d'un nouvel outil :
-         * [doctrine/cache](https://packagist.org/packages/doctrine/cache) gestion du cache sur des requetes
+         * [doctrine/cache](https://packagist.org/packages/doctrine/cache) gestion du cache sur des requêtes
     * ######Création d'un fichier INSTALL.md pour installer proprement le framework
     
 20. **QueryBuilder**:
@@ -196,3 +196,11 @@
          * Requetes avec un WHERE
          * Requetes avec un COUNT
     * ######FiX PHPCS oublié dans le dernier commit + Couleur automatique dans PHPUnit
+
+21. **Hydrater les entités**:
+    
+    * Création d'une classe query et d'une classe QueryResult pour hydrater les entités.
+    * Création des tests afin de "driver" le dev :
+         * Hydratation simple
+         * Hydratation en mode "Lazy"
+    * Création d'une entité simple pour les tests (demo.php)
