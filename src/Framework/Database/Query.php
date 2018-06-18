@@ -8,14 +8,16 @@
 
 namespace App\Framework\Database;
 
+use IteratorAggregate;
 use Pagerfanta\Pagerfanta;
-use Traversable;
+use PDO;
+use PDOStatement;
 
 /**
  * Class Query
  * @package App\Framework\Database
  */
-class Query implements \IteratorAggregate
+class Query implements IteratorAggregate
 {
 
     /**
@@ -41,13 +43,16 @@ class Query implements \IteratorAggregate
     /**
      * @var
      */
-    private $order;
+    private $order = [];
 
     /**
      * @var
      */
     private $limit;
 
+    /**
+     * @var
+     */
     private $joins;
 
     /**
@@ -88,7 +93,8 @@ class Query implements \IteratorAggregate
 
     /**
      * Spécifie les champs à récupérer
-     * @param string[] ...$fields
+     *
+     * @param string ...$fields
      * @return Query
      */
     public function select(string ...$fields): self
@@ -99,6 +105,7 @@ class Query implements \IteratorAggregate
 
     /**
      * Spécifie la limite
+     *
      * @param int $length
      * @param int $offset
      * @return Query
@@ -111,6 +118,7 @@ class Query implements \IteratorAggregate
 
     /**
      * Spécifie l'ordre de récupération
+     *
      * @param string $order
      * @return Query
      */
@@ -127,7 +135,7 @@ class Query implements \IteratorAggregate
      * @param string $type
      * @return Query
      */
-    public function join(string $table, string $condition, string $type = "left"): self
+    public function join(string $table, string $condition, string $type = 'left'): self
     {
         $this->joins[$type][] = [$table, $condition];
         return $this;
@@ -135,7 +143,7 @@ class Query implements \IteratorAggregate
 
     /**
      * Définit la condition de récupération
-     * @param string[] ...$condition
+     * @param string ...$condition
      * @return Query
      */
     public function where(string ...$condition): self
@@ -182,7 +190,7 @@ class Query implements \IteratorAggregate
      */
     public function fetch()
     {
-        $record = $this->execute()->fetch(\PDO::FETCH_ASSOC);
+        $record = $this->execute()->fetch(PDO::FETCH_ASSOC);
         if ($record === false) {
             return false;
         }
@@ -213,13 +221,14 @@ class Query implements \IteratorAggregate
     public function fetchAll(): QueryResult
     {
         return new QueryResult(
-            $this->execute()->fetchAll(\PDO::FETCH_ASSOC),
+            $this->execute()->fetchAll(PDO::FETCH_ASSOC),
             $this->entity
         );
     }
 
     /**
      * Pagine les résultats
+     * *
      * @param int $perPage
      * @param int $currentPage
      * @return Pagerfanta
@@ -232,6 +241,7 @@ class Query implements \IteratorAggregate
 
     /**
      * Génère la requête SQL
+     *
      * @return string
      */
     public function __toString()
@@ -267,13 +277,14 @@ class Query implements \IteratorAggregate
 
     /**
      * Construit le FROM a as b ....
+     *
      * @return string
      */
     private function buildFrom(): string
     {
         $from = [];
         foreach ($this->from as $key => $value) {
-            if (is_string($key)) {
+            if (\is_string($key)) {
                 $from[] = "$key as $value";
             } else {
                 $from[] = $value;
@@ -284,9 +295,10 @@ class Query implements \IteratorAggregate
 
     /**
      * Exécute la requête
+     *
      * @return \PDOStatement
      */
-    private function execute()
+    private function execute(): PDOStatement
     {
         $query = $this->__toString();
         if (!empty($this->params)) {

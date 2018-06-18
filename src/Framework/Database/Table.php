@@ -10,6 +10,7 @@ namespace App\Framework\Database;
 
 use PDO;
 use stdClass;
+use Traversable;
 
 /**
  * Class Table
@@ -18,7 +19,7 @@ use stdClass;
 class Table
 {
     /**
-     * @var PDO
+     * @var null|PDO
      */
     protected $pdo;
 
@@ -36,7 +37,7 @@ class Table
      */
     protected $entity = stdClass::class;
 
-    public function __construct(\PDO $pdo)
+    public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }

@@ -215,3 +215,10 @@
     * Utilisation d'un nouvel outil :
          * [intervention/image ](https://packagist.org/packages/intervention/image) gestion des images et de leurs redimensionnement
     * ######Gros refactoring du code pour l'ajout des commentaires et ajout du typage
+    
+22. **Finitions du blog**:
+    
+    * Utilisation des query builder
+    * Utilisation de l'hydrator
+    * Refactorisation minime du code
+    * ######Corrections mineure sur le router et les middlewares

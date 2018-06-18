@@ -8,7 +8,6 @@
 
 namespace App\Framework;
 
-use App\Framework\Database\Table;
 use App\Framework\Validator\ValidationError;
 use PDO;
 use Psr\Http\Message\UploadedFileInterface;
@@ -56,7 +55,7 @@ class Validator
     {
         foreach ($keys as $key) {
             $value = $this->getValue($key);
-            if (is_null($value)) {
+            if (null === $value) {
                 $this->addError($key, 'required');
             }
         }
@@ -73,7 +72,7 @@ class Validator
     {
         foreach ($keys as $key) {
             $value = $this->getValue($key);
-            if (is_null($value) || empty($value)) {
+            if (null === $value || empty($value)) {
                 $this->addError($key, 'empty');
             }
         }
@@ -90,20 +89,20 @@ class Validator
     {
         $value = $this->getValue($key);
         $length = mb_strlen($value);
-        if (!is_null($min) &&
-            !is_null($max) &&
+        if (null !== $min &&
+            null !== $max &&
             ($length < $min || $length > $max)
         ) {
             $this->addError($key, 'betweenLength', [$min, $max]);
             return $this;
         }
-        if (!is_null($min) &&
+        if (null !== $min &&
             $length < $min
         ) {
             $this->addError($key, 'minLength', [$min]);
             return $this;
         }
-        if (!is_null($max) &&
+        if (null !== $max &&
             $length > $max
         ) {
             $this->addError($key, 'maxLength', [$max]);
@@ -121,7 +120,7 @@ class Validator
     {
         $value = $this->getValue($key);
         $pattern = '/^[a-z0-9]+(-[a-z0-9]+)*$/';
-        if (!is_null($value) && !preg_match($pattern, $value)) {
+        if (null !== $value && !preg_match($pattern, $value)) {
             $this->addError($key, 'slug');
         }
         return $this;

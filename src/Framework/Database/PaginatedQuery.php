@@ -49,7 +49,7 @@ class PaginatedQuery implements AdapterInterface
      * @param integer $offset The offset.
      * @param integer $length The length.
      *
-     * @return \Traversable The slice.
+     * @return QueryResult The slice.
      */
     public function getSlice($offset, $length): QueryResult
     {

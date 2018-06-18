@@ -25,7 +25,7 @@ class Hydrator
      */
     public static function hydrate(array $array, $object)
     {
-        if (is_string($object)) {
+        if (\is_string($object)) {
             $instance = new $object();
         } else {
             $instance = $object;

@@ -11,7 +11,6 @@ namespace Tests\Framework\Database;
 use App\Framework\Database\Table;
 use PDO;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 use stdClass;
 
 /**

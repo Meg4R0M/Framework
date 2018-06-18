@@ -83,6 +83,20 @@ class QueryTest extends DatabaseTestCase
     /**
      *
      */
+    public function testLimitOrder(): void
+    {
+        $query = (new Query())
+            ->from('posts', 'p')
+            ->select('name')
+            ->order('id DESC')
+            ->order('name ASC')
+            ->limit(10, 5);
+        $this->assertEquals('SELECT name FROM posts as p ORDER BY id DESC, name ASC LIMIT 5, 10', (string)$query);
+    }
+
+    /**
+     *
+     */
     public function testLazyHydrate(): void
     {
         $pdo = $this->getPDO();
@@ -95,6 +109,19 @@ class QueryTest extends DatabaseTestCase
         $post = $posts[0];
         $post2 = $posts[0];
         $this->assertSame($post, $post2);
+    }
+
+    /**
+     *
+     */
+    public function testJoinQuery(): void
+    {
+        $query = (new Query())
+            ->from('posts', 'p')
+            ->select('name')
+            ->join('categories as c', 'c.id = p.categoy_id')
+            ->join('categories as c2', 'c2.id = p.categoy_id', 'inner');
+        $this->assertEquals('SELECT name FROM posts as p LEFT JOIN categories as c ON c.id = p.categoy_id INNER JOIN categories as c2 ON c2.id = p.categoy_id', (string)$query);
     }
 
 }
