@@ -7,8 +7,7 @@
  */
 
 use App\Blog\BlogWidget;
-use function DI\add;
-use function DI\get;
+use function DI\{add, get};
 
 return [
     'blog.prefix' => '/blog',

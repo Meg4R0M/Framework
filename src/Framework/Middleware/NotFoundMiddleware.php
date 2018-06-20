@@ -6,6 +6,8 @@
  * Time: 14:30
  */
 
+namespace App\Framework\Middleware;
+
 use Psr\Http\Message\ServerRequestInterface;
 
 class NotFoundMiddleware
