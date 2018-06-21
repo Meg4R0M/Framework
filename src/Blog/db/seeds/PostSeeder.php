@@ -32,10 +32,10 @@ class PostSeeder extends AbstractSeed
             $data[] = [
                 'name' => $faker->catchPhrase,
                 'slug' => $faker->slug,
-                'category_id' => rand(1, 5),
+                'categoryId' => random_int(1, 5),
                 'content' => $faker->text(3000),
-                'created_at' => date('Y-m-d H:i:s', $date),
-                'updated_at' => date('Y-m-d H:i:s', $date),
+                'createdAt' => date('Y-m-d H:i:s', $date),
+                'updatedAt' => date('Y-m-d H:i:s', $date),
                 'published' => 1
             ];
         }

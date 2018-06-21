@@ -33,21 +33,21 @@ class PostTable extends Table
     {
         $category = new CategoryTable($this->pdo);
         return $this->makeQuery()
-            ->join($category->getTable() . ' as c', 'c.id = p.category_id')
+            ->join($category->getTable() . ' as c', 'c.id = p.categoryId')
             ->select('p.*, c.name as category_name, c.slug as category_slug')
-            ->order('p.created_at DESC');
+            ->order('p.createdAt DESC');
     }
 
     public function findPublic(): Query
     {
         return $this->findAll()
             ->where('p.published = 1')
-            ->where('p.created_at < NOW()');
+            ->where('p.createdAt < NOW()');
     }
 
     public function findPublicForCategory(int $id): Query
     {
-        return $this->findPublic()->where("p.category_id = $id");
+        return $this->findPublic()->where("p.categoryId = $id");
     }
 
     public function findWithCategory(int $postId): Post

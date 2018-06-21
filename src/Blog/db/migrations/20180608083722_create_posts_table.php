@@ -11,8 +11,8 @@ class CreatePostsTable extends AbstractMigration
             ->addColumn('name', 'string')
             ->addColumn('slug', 'string')
             ->addColumn('content', 'text', ['limit' => MysqlAdapter::TEXT_LONG])
-            ->addColumn('updated_at', 'datetime')
-            ->addColumn('created_at', 'datetime')
+            ->addColumn('updatedAt', 'datetime')
+            ->addColumn('createdAt', 'datetime')
             ->create();
     }
 }

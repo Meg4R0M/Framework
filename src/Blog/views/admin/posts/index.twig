@@ -11,13 +11,13 @@
     </p>
     
     <table class="table table-striped">
-        <thread>
+        <thead>
             <tr>
                 <td>Titre</td>
                 <td>Catégorie</td>
                 <td>Actions</td>
             </tr>
-        </thread>
+        </thead>
         <tbody>
         {% set token_input = csrf_input() %}
         {% for item in items %}

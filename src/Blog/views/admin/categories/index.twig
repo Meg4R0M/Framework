@@ -11,12 +11,12 @@
     </p>
     
     <table class="table table-striped">
-        <thread>
+        <thead>
             <tr>
                 <td>Titre</td>
                 <td>Actions</td>
             </tr>
-        </thread>
+        </thead>
         <tbody>
         {% set token_input = csrf_input() %}
         {% for item in items %}
@@ -24,7 +24,8 @@
                 <td>{{ item.name }}</td>
                 <td>
                     <a href="{{ path(routePrefix ~ '.edit', {id: item.id}) }}" class="btn btn-primary">Editer</a>
-                    <form style="display: inline;" action="{{ path(routePrefix ~ '.delete', {id: item.id}) }}" method="post" onsubmit="return confirm('êtes vous sûr ?')">
+                    <form style="display: inline;" action="{{ path(routePrefix ~ '.delete', {id: item.id}) }}"
+                          method="post" onsubmit="return confirm('êtes vous sûr ?')">
                         <input type="hidden" name="_method" value="DELETE">
                         <button class="btn btn-danger" type="submit">Supprimer</button>
                         {{ token_input | raw }}

@@ -101,7 +101,7 @@ class PostCrudAction extends CrudAction
      * @param Post $post
      * @return array
      */
-    protected function getParams(ServerRequestInterface $request, $post): array
+    protected function prePersist(ServerRequestInterface $request, $post): array
     {
         $params = array_merge($request->getParsedBody(), $request->getUploadedFiles());
         // Uploader le fichier
@@ -112,9 +112,9 @@ class PostCrudAction extends CrudAction
             unset($params['image']);
         }
         $params = array_filter($params, function ($key) {
-            return \in_array($key, ['name', 'slug', 'content', 'created_at', 'category_id', 'image', 'published']);
+            return \in_array($key, ['name', 'slug', 'content', 'createdAt', 'categoryId', 'image', 'published']);
         }, ARRAY_FILTER_USE_KEY);
-        return array_merge($params, ['updated_at' => date('Y-m-d H:i:s')]);
+        return array_merge($params, ['updatedAt' => date('Y-m-d H:i:s')]);
     }
 
     /**
@@ -124,12 +124,12 @@ class PostCrudAction extends CrudAction
     protected function getValidator(ServerRequestInterface $request): Validator
     {
         $validator = parent::getValidator($request)
-            ->required('content', 'name', 'slug', 'created_at', 'category_id')
+            ->required('content', 'name', 'slug', 'createdAt', 'categoryId')
             ->length('content', 10)
             ->length('name', 2, 250)
             ->length('slug', 2, 50)
-            ->exists('category_id', $this->categoryTable->getTable(), $this->categoryTable->getPdo())
-            ->dateTime('created_at')
+            ->exists('categoryId', $this->categoryTable->getTable(), $this->categoryTable->getPdo())
+            ->dateTime('createdAt')
             ->extension('image', ['jpg', 'png'])
             ->slug('slug');
         if (null === $request->getAttribute('id')) {

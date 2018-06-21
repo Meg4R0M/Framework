@@ -132,7 +132,8 @@ class CrudAction
         if ($request->getMethod() === 'POST') {
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
-                $this->table->update($item->id, $this->getParams($request, $item));
+                $this->table->update($item->id, $this->prePersist($request, $item));
+                $this->postPersist($request, $item);
                 $this->flash->success($this->messages['edit']);
                 return $this->redirect($this->routePrefix . '.index');
             }
@@ -158,7 +159,8 @@ class CrudAction
         if ($request->getMethod() === 'POST') {
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
-                $this->table->insert($this->getParams($request, $item));
+                $this->table->insert($this->prePersist($request, $item));
+                $this->postPersist($request, $item);
                 $this->flash->success($this->messages['create']);
                 return $this->redirect($this->routePrefix . '.index');
             }
@@ -190,11 +192,20 @@ class CrudAction
      * @param Request $request
      * @return array
      */
-    protected function getParams(Request $request, $item): array
+    protected function prePersist(Request $request, $item): array
     {
         return array_filter(array_merge($request->getParsedBody(), $request->getUploadedFiles()), function ($key) {
             return \in_array($key, [], true);
         }, ARRAY_FILTER_USE_KEY);
+    }
+
+    /**
+     * Permet d'effectuer un traitement après la persistence
+     * @param Request $request
+     * @param $item
+     */
+    protected function postPersist(Request $request, $item): void
+    {
     }
 
     /**
@@ -215,7 +226,8 @@ class CrudAction
      */
     protected function getNewEntity()
     {
-        return [];
+        $entity = $this->table->getEntity();
+        return new $entity();
     }
 
     /**
