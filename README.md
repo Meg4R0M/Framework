@@ -222,3 +222,11 @@
     * Utilisation de l'hydrator
     * Refactorisation minime du code
     * ######Corrections mineure sur le router et les middlewares
+    
+23. **Amelioration du code coverage**:
+    
+    * Redaction des test unitaire oubliés
+    * Amelioration mineure de certaines classes suite au tests
+    * Ajout du CombinedMiddleware
+    * Ajout du dossier tests au PHPCS.xml
+    * ######Passage à la version superieure de Bootstrap

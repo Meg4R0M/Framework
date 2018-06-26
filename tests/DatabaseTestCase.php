@@ -24,7 +24,8 @@ class DatabaseTestCase extends TestCase
     /**
      * @return PDO
      */
-    public function getPDO () {
+    public function getPDO()
+    {
         return new PDO('sqlite::memory:', null, null, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
@@ -35,7 +36,8 @@ class DatabaseTestCase extends TestCase
      * @param PDO $pdo
      * @return Manager
      */
-    public function getManager (PDO $pdo) {
+    public function getManager(PDO $pdo)
+    {
         $configArray = require('phinx.php');
         $configArray['environments']['test'] = [
             'adapter'    => 'sqlite',

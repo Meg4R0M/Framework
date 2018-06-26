@@ -8,7 +8,8 @@ use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class CsrfMiddlewareTest extends TestCase {
+class CsrfMiddlewareTest extends TestCase
+{
 
     /**
      * @var CsrfMiddleware
@@ -29,7 +30,7 @@ class CsrfMiddlewareTest extends TestCase {
     /**
      * @throws \Exception
      */
-    public function testLetGetRequestPass (): void
+    public function testLetGetRequestPass(): void
     {
         $handler = $this->getMockBuilder(RequestHandlerInterface::class)
             ->setMethods(['handle'])
@@ -46,7 +47,7 @@ class CsrfMiddlewareTest extends TestCase {
     /**
      * @throws \Exception
      */
-    public function testBlockPostRequestWithoutCsrf (): void
+    public function testBlockPostRequestWithoutCsrf(): void
     {
         $handler = $this->getMockBuilder(RequestHandlerInterface::class)
             ->setMethods(['handle'])
@@ -62,7 +63,7 @@ class CsrfMiddlewareTest extends TestCase {
     /**
      * @throws \Exception
      */
-    public function testBlockPostRequestWithInvalidCsrf (): void
+    public function testBlockPostRequestWithInvalidCsrf(): void
     {
         $handler = $this->getMockBuilder(RequestHandlerInterface::class)
             ->setMethods(['handle'])
@@ -80,7 +81,7 @@ class CsrfMiddlewareTest extends TestCase {
     /**
      * @throws \Exception
      */
-    public function testLetPostWithTokenPass (): void
+    public function testLetPostWithTokenPass(): void
     {
         $handler = $this->getMockBuilder(RequestHandlerInterface::class)
             ->setMethods(['handle'])
@@ -99,7 +100,7 @@ class CsrfMiddlewareTest extends TestCase {
     /**
      * @throws \Exception
      */
-    public function testLetPostWithTokenPassOnce (): void
+    public function testLetPostWithTokenPassOnce(): void
     {
         $handler = $this->getMockBuilder(RequestHandlerInterface::class)
             ->setMethods(['handle'])
@@ -117,9 +118,9 @@ class CsrfMiddlewareTest extends TestCase {
         $this->csrfMiddleware->process($request, $handler);
     }
 
-    public function testLimitTheTokenNumber (): void
+    public function testLimitTheTokenNumber(): void
     {
-        for($i =0; $i < 100; ++$i){
+        for ($i = 0; $i < 100; ++$i) {
             $token = $this->csrfMiddleware->generateToken();
         }
         $this->assertCount(50, $this->session['csrf']);

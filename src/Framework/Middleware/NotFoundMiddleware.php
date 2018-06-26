@@ -8,6 +8,7 @@
 
 namespace App\Framework\Middleware;
 
+use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
 
 class NotFoundMiddleware

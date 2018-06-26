@@ -35,5 +35,4 @@ class Demo
     {
         $this->slug = $slug . 'demo';
     }
-
 }

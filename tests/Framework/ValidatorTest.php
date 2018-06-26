@@ -9,6 +9,7 @@
 namespace Tests\Framework;
 
 use App\Framework\Validator;
+use GuzzleHttp\Psr7\UploadedFile;
 use Tests\DatabaseTestCase;
 
 /**
@@ -54,7 +55,7 @@ class ValidatorTest extends DatabaseTestCase
      */
     public function testRequiredIfSuccess()
     {
-        $errors = $this->makeValidator(['name' => 'joe', 'content' => 'content'])
+        $errors = $this->makeValidator(['name' => 'joe', 'content' => ''])
             ->required('name', 'content')
             ->getErrors();
         $this->assertCount(0, $errors);
@@ -126,7 +127,7 @@ class ValidatorTest extends DatabaseTestCase
      */
     public function testExists()
     {
-        $pdo = $this->getPDO();
+        $pdo = $this->getPdo();
         $pdo->exec('CREATE TABLE test (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name VARCHAR(255)
@@ -142,7 +143,7 @@ class ValidatorTest extends DatabaseTestCase
      */
     public function testUnique()
     {
-        $pdo = $this->getPDO();
+        $pdo = $this->getPdo();
         $pdo->exec('CREATE TABLE test (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name VARCHAR(255)
@@ -155,4 +156,46 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertFalse($this->makeValidator(['name' => 'a2'])->unique('name', 'test', $pdo, 1)->isValid());
     }
 
+    public function testUploadedFile()
+    {
+        $file = $this->getMockBuilder(UploadedFile::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getError'])
+            ->getMock();
+        $file->expects($this->once())->method('getError')->willReturn(UPLOAD_ERR_OK);
+        $file2 = $this->getMockBuilder(UploadedFile::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getError'])
+            ->getMock();
+        $file2->expects($this->once())->method('getError')->willReturn(UPLOAD_ERR_CANT_WRITE);
+        $this->assertTrue($this->makeValidator(['image' => $file])->uploaded('image')->isValid());
+        $this->assertFalse($this->makeValidator(['image' => $file2])->uploaded('image')->isValid());
+    }
+
+    public function testExtension()
+    {
+        $file = $this->getMockBuilder(UploadedFile::class)->disableOriginalConstructor()->getMock();
+        $file->expects($this->any())->method('getError')->willReturn(UPLOAD_ERR_OK);
+        $file->expects($this->any())->method('getClientFileName')->willReturn('demo.jpg');
+        $file->expects($this->any())
+            ->method('getClientMediaType')
+            ->will($this->onConsecutiveCalls('image/jpeg', 'fake/php'));
+        $this->assertTrue($this->makeValidator(['image' => $file])->extension('image', ['jpg'])->isValid());
+        $this->assertFalse($this->makeValidator(['image' => $file])->extension('image', ['jpg'])->isValid());
+    }
+
+    public function testEmail()
+    {
+        $this->assertTrue($this->makeValidator(['email' => 'demo@local.dev'])->email('email')->isValid());
+        $this->assertFalse($this->makeValidator(['email' => 'azeeaz'])->email('email')->isValid());
+    }
+
+    public function testConfirm()
+    {
+        $this->assertFalse($this->makeValidator(['slug' => 'aze'])->confirm('slug')->isValid());
+        $this->assertFalse(
+            $this->makeValidator(['slug' => 'aze', 'slug_confirm' => 'azeaze'])->confirm('slug')->isValid()
+        );
+        $this->assertTrue($this->makeValidator(['slug' => 'aze', 'slug_confirm' => 'aze'])->confirm('slug')->isValid());
+    }
 }

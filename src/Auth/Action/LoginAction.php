@@ -28,5 +28,4 @@ class LoginAction
     {
         return $this->renderer->render('@auth/login');
     }
-
 }

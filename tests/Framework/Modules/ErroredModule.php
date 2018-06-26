@@ -14,7 +14,8 @@ use stdClass;
  * Class ErroredModule
  * @package Tests\Framework\Modules
  */
-class ErroredModule {
+class ErroredModule
+{
 
     /**
      * ErroredModule constructor.

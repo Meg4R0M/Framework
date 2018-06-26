@@ -26,7 +26,7 @@ class PostShowActionTest extends TestCase
 {
 
     /**
-     * @var PostShowAction
+     * @var PostShowActionTest
      */
     private $action;
 
@@ -34,11 +34,6 @@ class PostShowActionTest extends TestCase
      * @var RendererInterface
      */
     private $renderer;
-
-    /**
-     * @var PDO
-     */
-    private $pdo;
 
     /**
      * @var Router
@@ -58,6 +53,7 @@ class PostShowActionTest extends TestCase
     {
         $this->renderer = $this->prophesize(RendererInterface::class);
         $this->postTable = $this->prophesize(PostTable::class);
+        // PDO
         $this->router = $this->prophesize(Router::class);
         $this->action = new PostShowAction(
             $this->renderer->reveal(),
@@ -84,17 +80,20 @@ class PostShowActionTest extends TestCase
      *
      * @throws NoRecordException
      */
-    public function testShowRedirect() {
+    public function testShowRedirect()
+    {
         $post = $this->makePost(9, "azeaze-azeaze");
         $request = (new ServerRequest('GET', '/'))
             ->withAttribute('id', $post->id)
             ->withAttribute('slug', 'demo');
 
         $this->router->generateUri(
-            'blog.show', [
+            'blog.show',
+            [
                 'id' => $post->id,
                 'slug' => $post->slug
-            ])
+            ]
+        )
             ->willReturn('/demo2');
         $this->postTable->findWithCategory($post->id)->willReturn($post);
 
@@ -107,7 +106,8 @@ class PostShowActionTest extends TestCase
      *
      * @throws NoRecordException
      */
-    public function testShowRender() {
+    public function testShowRender()
+    {
         $post = $this->makePost(9, "azeaze-azeaze");
         $request = (new ServerRequest('GET', '/'))
             ->withAttribute('id', $post->id)
@@ -118,5 +118,4 @@ class PostShowActionTest extends TestCase
         $response = call_user_func_array($this->action, [$request]);
         $this->assertEquals(true, true);
     }
-
 }

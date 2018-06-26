@@ -32,55 +32,34 @@ class FormExtensionTest extends TestCase
     }
 
     /**
-     *
+     * @param string $string
+     * @return string
      */
+    private function trim(string $string)
+    {
+        $lines = explode(PHP_EOL, $string);
+        $lines = array_map('trim', $lines);
+        return implode('', $lines);
+    }
+
+    /**
+     * @param string $expected
+     * @param string $actual
+     */
+    public function assertSimilar(string $expected, string $actual)
+    {
+        $this->assertEquals($this->trim($expected), $this->trim($actual));
+    }
+
     public function testField()
     {
         $html = $this->formExtension->field([], 'name', 'demo', 'Titre');
         $this->assertSimilar("
             <div class=\"form-group\">
-                <label for=\"name\">Titre</label>
-                <input type=\"text\" class=\"form-control\" name=\"name\" id=\"name\" value=\"demo\">
+              <label for=\"name\">Titre</label>
+              <input type=\"text\" class=\"form-control\" name=\"name\" id=\"name\" value=\"demo\">
             </div>
         ", $html);
-    }
-
-    /**
-     *
-     */
-    public function testFieldWithErrors()
-    {
-        $context = ['errors' => ['name' => 'erreur']];
-        $html = $this->formExtension->field($context, 'name', 'demo', 'Titre');
-        $this->assertSimilar("
-            <div class=\"form-group has-danger\">
-                <label for=\"name\">Titre</label>
-                <input type=\"text\" class=\"form-control form-control-danger\" name=\"name\" id=\"name\" value=\"demo\">
-                <small class=\"form-text text-muted\">erreur</small>
-            </div>
-        ", $html);
-    }
-
-    /**
-     *
-     */
-    public function testSelect()
-    {
-        $html = $this->formExtension->field(
-            [],
-            'name',
-            2,
-            'Titre',
-            ['options' => [1 => 'Demo', '2' => 'Demo2']]
-        );
-        $this->assertSimilar('
-            <div class="form-group">
-                <label for="name">Titre</label>
-                <select class="form-control" name="name" id="name">
-                    <option value="1">Demo</option>
-                    <option value="2" selected>Demo2</option>
-                </select>
-            </div>', $html);
     }
 
     /**
@@ -124,22 +103,40 @@ class FormExtensionTest extends TestCase
     }
 
     /**
-     * @param string $string
-     * @return string
+     *
      */
-    private function trim(string $string)
+    public function testFieldWithErrors()
     {
-        $lines = explode(PHP_EOL, $string);
-        $lines = array_map('trim', $lines);
-        return implode('', $lines);
+        $context = ['errors' => ['name' => 'erreur']];
+        $html = $this->formExtension->field($context, 'name', 'demo', 'Titre');
+        $this->assertSimilar("
+            <div class=\"form-group has-danger\">
+              <label for=\"name\">Titre</label>
+              <input type=\"text\" class=\"form-control form-control-danger\" name=\"name\" id=\"name\" value=\"demo\">
+              <small class=\"form-text text-muted\">erreur</small>
+            </div>
+        ", $html);
     }
 
     /**
-     * @param string $expected
-     * @param string $actual
+     *
      */
-    private function assertSimilar(string $expected, string $actual)
+    public function testSelect()
     {
-        $this->assertEquals($this->trim($expected), $this->trim($actual));
+        $html = $this->formExtension->field(
+            [],
+            'name',
+            2,
+            'Titre',
+            ['options' => [1 => 'Demo', '2' => 'Demo2']]
+        );
+        $this->assertSimilar('
+            <div class="form-group">
+                <label for="name">Titre</label>
+                <select class="form-control" name="name" id="name">
+                    <option value="1">Demo</option>
+                    <option value="2" selected>Demo2</option>
+                </select>
+            </div>', $html);
     }
 }

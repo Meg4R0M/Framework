@@ -67,5 +67,4 @@ class LoginAttemptAction
             return $this->redirect('auth.login');
         }
     }
-
 }

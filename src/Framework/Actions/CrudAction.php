@@ -56,22 +56,20 @@ class CrudAction
     protected $routePrefix;
 
     /**
-     * @var array
+     * @var string
      */
     protected $messages = [
         'create' => "L'élément a bien été créé",
         'edit'   => "L'élément a bien été modifié"
     ];
 
+    /**
+     * @var array
+     */
+    protected $acceptedParams = [];
+
     use RouterAwareAction;
 
-    /**
-     * BlogAction constructor.
-     * @param RendererInterface $renderer
-     * @param Router $router
-     * @param $table
-     * @param FlashService $flash
-     */
     public function __construct(
         RendererInterface $renderer,
         Router $router,
@@ -84,11 +82,6 @@ class CrudAction
         $this->flash = $flash;
     }
 
-    /**
-     * @param Request $request
-     * @return string
-     * @throws NoRecordException
-     */
     public function __invoke(Request $request)
     {
         $this->renderer->addGlobal('viewPath', $this->viewPath);
@@ -128,11 +121,13 @@ class CrudAction
      */
     public function edit(Request $request)
     {
-        $item = $this->table->find($request->getAttribute('id'));
+        $id = (int)$request->getAttribute('id');
+        $item = $this->table->find($id);
+
         if ($request->getMethod() === 'POST') {
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
-                $this->table->update($item->id, $this->prePersist($request, $item));
+                $this->table->update($id, $this->prePersist($request, $item));
                 $this->postPersist($request, $item);
                 $this->flash->success($this->messages['edit']);
                 return $this->redirect($this->routePrefix . '.index');
@@ -148,7 +143,7 @@ class CrudAction
     }
 
     /**
-     * Crée un nouvel éléments
+     * Crée un nouvel élément
      *
      * @param Request $request
      * @return ResponseInterface|string
@@ -180,7 +175,7 @@ class CrudAction
      * @param Request $request
      * @return ResponseInterface
      */
-    public function delete(Request $request): ResponseInterface
+    public function delete(Request $request)
     {
         $this->table->delete($request->getAttribute('id'));
         return $this->redirect($this->routePrefix . '.index');
@@ -195,12 +190,13 @@ class CrudAction
     protected function prePersist(Request $request, $item): array
     {
         return array_filter(array_merge($request->getParsedBody(), $request->getUploadedFiles()), function ($key) {
-            return \in_array($key, [], true);
+            return in_array($key, $this->acceptedParams);
         }, ARRAY_FILTER_USE_KEY);
     }
 
     /**
      * Permet d'effectuer un traitement après la persistence
+     *
      * @param Request $request
      * @param $item
      */
@@ -214,7 +210,7 @@ class CrudAction
      * @param Request $request
      * @return Validator
      */
-    protected function getValidator(Request $request): Validator
+    protected function getValidator(Request $request)
     {
         return new Validator(array_merge($request->getParsedBody(), $request->getUploadedFiles()));
     }
@@ -222,7 +218,7 @@ class CrudAction
     /**
      * Génère une nouvelle entité pour l'action de création
      *
-     * @return array
+     * @return mixed
      */
     protected function getNewEntity()
     {

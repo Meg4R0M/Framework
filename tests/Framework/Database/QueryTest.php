@@ -119,9 +119,11 @@ class QueryTest extends DatabaseTestCase
         $query = (new Query())
             ->from('posts', 'p')
             ->select('name')
-            ->join('categories as c', 'c.id = p.categoy_id')
-            ->join('categories as c2', 'c2.id = p.categoy_id', 'inner');
-        $this->assertEquals('SELECT name FROM posts as p LEFT JOIN categories as c ON c.id = p.categoy_id INNER JOIN categories as c2 ON c2.id = p.categoy_id', (string)$query);
+            ->join('categories as c', 'c.id = p.category_id')
+            ->join('categories as c2', 'c2.id = p.category_id', 'inner');
+        $this->assertEquals('SELECT name ' .
+            'FROM posts as p ' .
+            'LEFT JOIN categories as c ON c.id = p.category_id ' .
+            'INNER JOIN categories as c2 ON c2.id = p.category_id', (string)$query);
     }
-
 }

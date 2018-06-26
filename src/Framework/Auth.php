@@ -10,11 +10,14 @@ namespace App\Framework;
 
 use App\Framework\Auth\User;
 
+/**
+ * Interface Auth
+ * @package App\Framework
+ */
 interface Auth
 {
     /**
      * @return User|null
      */
     public function getUser(): ?User;
-
 }

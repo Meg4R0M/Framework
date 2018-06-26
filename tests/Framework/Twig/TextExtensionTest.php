@@ -33,5 +33,4 @@ class TextExtensionTest extends TestCase
         $this->assertEquals('Salut...', $this->textExtension->excerpt($text, 7));
         $this->assertEquals('Salut les...', $this->textExtension->excerpt($text, 12));
     }
-
 }

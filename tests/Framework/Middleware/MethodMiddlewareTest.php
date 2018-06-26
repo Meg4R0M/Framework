@@ -6,7 +6,8 @@ use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class MethodMiddlewareTest extends TestCase {
+class MethodMiddlewareTest extends TestCase
+{
 
     /**
      * @var MethodMiddleware
@@ -18,7 +19,7 @@ class MethodMiddlewareTest extends TestCase {
         $this->middleware = new MethodMiddleware();
     }
 
-    public function testAddMethod (): void
+    public function testAddMethod(): void
     {
         $handler = $this->getMockBuilder(RequestHandlerInterface::class)
             ->setMethods(['handle'])
@@ -34,5 +35,4 @@ class MethodMiddlewareTest extends TestCase {
             ->withParsedBody(['_method' => 'DELETE']);
         $this->middleware->process($request, $handler);
     }
-
 }

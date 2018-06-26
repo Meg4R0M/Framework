@@ -35,5 +35,4 @@ class AuthModule extends Module
         $router->post($container->get('auth.login'), LoginAttemptAction::class);
         $router->post('/logout', LogoutAction::class, 'auth.logout');
     }
-
 }

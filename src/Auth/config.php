@@ -10,7 +10,9 @@ use App\Auth\AuthTwigExtension;
 use App\Auth\DatabaseAuth;
 use App\Auth\ForbiddenMiddleware;
 use App\Framework\Auth;
-use function DI\{add, get, object};
+use function DI\add;
+use function DI\get;
+use function DI\object;
 
 return [
     'auth.login' => '/login',

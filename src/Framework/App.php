@@ -8,6 +8,7 @@
 
 namespace Framework;
 
+use App\Framework\Middleware\CombinedMiddleware;
 use App\Framework\Middleware\RoutePrefixedMiddleware;
 use DI\ContainerBuilder;
 use Doctrine\Common\Cache\ApcuCache;
@@ -27,9 +28,9 @@ class App implements RequestHandlerInterface
     private $modules = [];
 
     /**
-     * @var string
+     * @var array
      */
-    private $definition;
+    private $definitions;
 
     /**
      * @var ContainerInterface
@@ -39,17 +40,26 @@ class App implements RequestHandlerInterface
     /**
      * @var string[]
      */
-    private $middlewares;
+    private $middlewares = [];
 
     /**
      * @var int
      */
     private $index = 0;
 
-    public function __construct(string $definition)
+    /**
+     * App constructor.
+     * @param null|string|array $definitions
+     */
+    public function __construct($definitions = [])
     {
-
-        $this->definition = $definition;
+        if (is_string($definitions)) {
+            $definitions = [$definitions];
+        }
+        if (!$this->isSequential($definitions)) {
+            $definitions = [$definitions];
+        }
+        $this->definitions = $definitions;
     }
 
     /**
@@ -67,18 +77,17 @@ class App implements RequestHandlerInterface
     /**
      * Ajoute un middleware
      *
-     * @param string $routePrefix
-     * @param string|null $middleware
+     * @param string|callable|MiddlewareInterface $routePrefix
+     * @param null|string|callable|MiddlewareInterface $middleware
      * @return App
      */
-    public function pipe(string $routePrefix, ?string $middleware = null): self
+    public function pipe($routePrefix, $middleware = null): self
     {
         if ($middleware === null) {
             $this->middlewares[] = $routePrefix;
         } else {
             $this->middlewares[] = new RoutePrefixedMiddleware($this->getContainer(), $routePrefix, $middleware);
         }
-
         return $this;
     }
 
@@ -91,18 +100,12 @@ class App implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $middleware = $this->getMiddleware();
-        if (null === $middleware) {
-            throw new \RuntimeException('Aucun middleware n\'a intercepté cette requête');
+        $this->index++;
+        if ($this->index > 1) {
+            throw new \Exception();
         }
-
-        if (\is_callable($middleware)) {
-            return $middleware($request, [$this, 'handle']);
-        }
-
-        if ($middleware instanceof MiddlewareInterface) {
-            return $middleware->process($request, $this);
-        }
+        $middleware = new CombinedMiddleware($this->getContainer(), $this->middlewares);
+        return $middleware->process($request, $this);
     }
 
     public function run(ServerRequestInterface $request): ResponseInterface
@@ -125,40 +128,35 @@ class App implements RequestHandlerInterface
                 $builder->setDefinitionCache(new ApcuCache());
                 $builder->writeProxiesToFile(true, 'tmp/proxies');
             }
-            $builder->addDefinitions($this->definition);
+            foreach ($this->definitions as $definition) {
+                $builder->addDefinitions($definition);
+            }
             foreach ($this->modules as $module) {
                 if ($module::DEFINITIONS) {
                     $builder->addDefinitions($module::DEFINITIONS);
                 }
             }
+            $builder->addDefinitions([
+                App::class => $this
+            ]);
             $this->container = $builder->build();
         }
         return $this->container;
     }
 
     /**
-     * @return object
-     */
-    private function getMiddleware()
-    {
-        if (array_key_exists($this->index, $this->middlewares)) {
-            if (is_string($this->middlewares[$this->index])) {
-                $middleware = $this->container->get($this->middlewares[$this->index]);
-            } else {
-                $middleware = $this->middlewares[$this->index];
-            }
-
-            $this->index++;
-            return $middleware;
-        }
-        return null;
-    }
-
-    /**
      * @return array
      */
-    public function getModules()
+    public function getModules(): array
     {
         return $this->modules;
+    }
+
+    private function isSequential(array $array): bool
+    {
+        if (empty($array)) {
+            return true;
+        }
+        return array_keys($array) === range(0, count($array) - 1);
     }
 }

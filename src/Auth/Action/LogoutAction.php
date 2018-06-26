@@ -44,5 +44,4 @@ class LogoutAction
         $this->flashService->success('Vous êtes maintenant déconnecté');
         return new RedirectResponse('/');
     }
-
 }

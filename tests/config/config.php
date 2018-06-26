@@ -10,7 +10,9 @@ use App\Framework\Router\RouterTwigExtension;
 use Framework\Renderer\RendererInterface;
 use Framework\Renderer\TwigRendererFactory;
 use Framework\Router;
-use function DI\{get, object, factory};
+use function DI\get;
+use function DI\object;
+use function DI\factory;
 
 return [
     'views.path' => dirname(__DIR__) . '/views',
