@@ -238,3 +238,11 @@
     * Utilisation d'un nouvel outil :
         * [swiftmailer/swiftmailer](https://packagist.org/packages/swiftmailer/swiftmailer) gestion de l'envoi d'email avec templating
     * ######Correction mineure sur les templates
+    
+25. **Formulaire d'inscription**:
+    
+    * Mise en place du formulaire d'inscription
+    * Ajout de test sur l'inscription
+        * Validitée de l'email
+        * Correspondance des mots de passe saisis
+    * ######Correction mineure sur les templates
