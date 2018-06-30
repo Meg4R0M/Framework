@@ -213,7 +213,7 @@
          * Ajout d'une librairie afin de creer un format thumb et augmenter les performances
          * Gestion du remplacement lors de l'edition
     * Utilisation d'un nouvel outil :
-         * [intervention/image ](https://packagist.org/packages/intervention/image) gestion des images et de leurs redimensionnement
+         * [intervention/image](https://packagist.org/packages/intervention/image) gestion des images et de leurs redimensionnement
     * ######Gros refactoring du code pour l'ajout des commentaires et ajout du typage
     
 22. **Finitions du blog**:
@@ -230,3 +230,11 @@
     * Ajout du CombinedMiddleware
     * Ajout du dossier tests au PHPCS.xml
     * ######Passage à la version superieure de Bootstrap
+    
+24. **Formulaire de contact**:
+    
+    * Mise en place du formulaire de contact
+    * Ajout de test sur l'envoi de mail
+    * Utilisation d'un nouvel outil :
+        * [swiftmailer/swiftmailer](https://packagist.org/packages/swiftmailer/swiftmailer) gestion de l'envoi d'email avec templating
+    * ######Correction mineure sur les templates

@@ -4,6 +4,8 @@
     <title>{% block title "Mon site " %}</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css">
     <style>
         body {
             padding-top: 5rem;
@@ -13,16 +15,18 @@
 <body>
 
 <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Mon super site</a>
+    <a class="navbar-brand" href="/">Framework OSS</a>
     <ul class="navbar-nav mr-auto">
         <li class="nav-item {{ is_subpath('blog.index') ? 'active' }}">
             <a class="nav-link" href="{{ path('blog.index') }}">Blog</a>
         </li>
+        <li class="nav-item {{ is_subpath('contact') ? 'active' }}">
+            <a class="nav-link" href="{{ path('contact') }}">Contact</a>
+        </li>
     </ul>
-    <div class="navbar-nav mr-auto">
+    <div class="navbar-nav">
         {% if current_user() %}
-            <div class="navbar-test">Connecté en tant que {{ current_user().username }}</div>
-            <form class="nav-item active" method="post" action="{{ path('auth.logout') }}">
+            <form method="post" action="{{ path('auth.logout') }}">
                 {{ csrf_input() }}
                 <button class="btn btn-danger">Se déconnecter</button>
             </form>

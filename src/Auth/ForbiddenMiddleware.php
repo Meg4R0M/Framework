@@ -42,6 +42,7 @@ class ForbiddenMiddleware implements MiddlewareInterface
      * @param ServerRequestInterface $request
      * @param RequestHandlerInterface $handler
      * @return RedirectResponse|ResponseInterface
+     * @throws \TypeError
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
