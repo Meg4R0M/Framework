@@ -203,12 +203,12 @@ class CrudAction
      * @param  Request $request
      * @return array
      */
-    protected function prePersist(Request $request): array
+    protected function prePersist(Request $request, $item): array
     {
         return array_filter(
             array_merge($request->getParsedBody(), $request->getUploadedFiles()),
             function ($key) {
-                return in_array($key, $this->acceptedParams);
+                return \in_array($key, $this->acceptedParams, true);
             },
             ARRAY_FILTER_USE_KEY
         );

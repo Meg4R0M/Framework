@@ -216,14 +216,14 @@
          * [intervention/image](https://packagist.org/packages/intervention/image) gestion des images et de leurs redimensionnement
     * ######Gros refactoring du code pour l'ajout des commentaires et ajout du typage
     
-22. **Finitions du blog**:
+23. **Finitions du blog**:
     
     * Utilisation des query builder
     * Utilisation de l'hydrator
     * Refactorisation minime du code
     * ######Corrections mineure sur le router et les middlewares
     
-23. **Amelioration du code coverage**:
+24. **Amelioration du code coverage**:
     
     * Redaction des test unitaire oubliés
     * Amelioration mineure de certaines classes suite au tests
@@ -231,7 +231,7 @@
     * Ajout du dossier tests au PHPCS.xml
     * ######Passage à la version superieure de Bootstrap
     
-24. **Formulaire de contact**:
+25. **Formulaire de contact**:
     
     * Mise en place du formulaire de contact
     * Ajout de test sur l'envoi de mail
@@ -239,10 +239,20 @@
         * [swiftmailer/swiftmailer](https://packagist.org/packages/swiftmailer/swiftmailer) gestion de l'envoi d'email avec templating
     * ######Correction mineure sur les templates
     
-25. **Formulaire d'inscription**:
+26. **Formulaire d'inscription**:
     
     * Mise en place du formulaire d'inscription
     * Ajout de test sur l'inscription
         * Validitée de l'email
         * Correspondance des mots de passe saisis
     * ######Correction mineure sur les templates
+    
+27. **Profil Utilisateur**:
+    
+    * Mise en place de la page profil utilisateur
+        * Possibilitée de changer ses informations (Nom, Prenom)
+        * Possibilitée de changer son mot de passe
+    * Ajout de test sur le profil utilisateur
+        * Validité des informations
+        * Correspondance des mots de passe saisis
+    * ######Correction sur l'utilisation des middlewares
