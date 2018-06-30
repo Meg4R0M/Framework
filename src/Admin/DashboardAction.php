@@ -34,7 +34,7 @@ class DashboardAction
         $this->widgets = $widgets;
     }
 
-    public function __invoke(ServerRequestInterface $request)
+    public function __invoke()
     {
         $widgets = array_reduce($this->widgets, function (string $html, AdminWidgetInterface $widget) {
             return $html . $widget->render();

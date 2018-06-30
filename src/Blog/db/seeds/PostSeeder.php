@@ -16,7 +16,7 @@ class PostSeeder extends AbstractSeed
     {
         // Seeding des catégories
         $data = [];
-        $faker = \Faker\Factory::create('fr_FR');
+        $faker = Factory::create('fr_FR');
         for ($i = 0; $i < 5; ++$i) {
             $data[] = [
                 'name' => $faker->catchPhrase,

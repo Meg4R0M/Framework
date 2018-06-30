@@ -36,7 +36,7 @@ class LoginAttemptAction
     private $session;
 
     /**
-     * @var Router
+     * @var RouterInterface
      */
     private $router;
 
@@ -63,7 +63,7 @@ class LoginAttemptAction
             $this->session->delete('auth.redirect');
             return new RedirectResponse($path);
         } else {
-            (new FlashService($this->session))->error('Identifiant ou mot de passe invalide');
+            (new FlashService($this->session))->error('Identifiant ou mot de passe incorrect');
             return $this->redirect('auth.login');
         }
     }

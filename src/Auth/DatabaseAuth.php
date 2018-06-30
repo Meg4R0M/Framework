@@ -43,6 +43,7 @@ class DatabaseAuth implements Auth
             return null;
         }
 
+        /** @var \App\Auth\User $user */
         $user = $this->userTable->findBy('username', $username);
         if ($user && password_verify($password, $user->password)) {
             $this->session->set('auth.user', $user->id);
@@ -71,7 +72,7 @@ class DatabaseAuth implements Auth
             try {
                 $this->user = $this->userTable->find($userId);
                 return $this->user;
-            } catch (NoRecordException $e) {
+            } catch (NoRecordException $exception) {
                 $this->session->delete('auth.user');
                 return null;
             }
