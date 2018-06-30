@@ -8,6 +8,7 @@
 
 namespace App\Framework;
 
+use App\Framework\Database\Table;
 use App\Framework\Validator\ValidationError;
 use PDO;
 use Psr\Http\Message\UploadedFileInterface;
@@ -167,13 +168,17 @@ class Validator
      * Vérifie que la clef est unique dans la base de donnée
      *
      * @param string $key
-     * @param string $table
+     * @param string|Table $table
      * @param PDO $pdo
      * @param int|null $exclude
      * @return Validator
      */
-    public function unique(string $key, string $table, PDO $pdo, ?int $exclude = null): self
+    public function unique(string $key, $table, ?PDO $pdo = null, ?int $exclude = null): self
     {
+        if ($table instanceof Table) {
+            $pdo = $table->getPdo();
+            $table = $table->getTable();
+        }
         $value = $this->getValue($key);
         $query = "SELECT id FROM $table WHERE $key = ?";
         $params = [$value];

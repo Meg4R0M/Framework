@@ -27,7 +27,7 @@ class LoginAction
     }//end __construct()
 
 
-    public function __invoke(ServerRequestInterface $request)
+    public function __invoke()
     {
         return $this->renderer->render('@auth/login');
     }//end __invoke()

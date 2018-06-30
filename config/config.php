@@ -44,7 +44,12 @@ return [
     CsrfMiddleware::class => object()->constructor(get(SessionInterface::class)),
     Router::class => factory(RouterFactory::class),
     RendererInterface::class => factory(TwigRendererFactory::class),
-    PDO::class => function (ContainerInterface $container) {
+    PDO::class =>
+    /**
+     * @param ContainerInterface $container
+     * @return PDO
+     */
+        function (ContainerInterface $container) {
         return new PDO(
             'mysql:host=' . $container->get('database.host') . ';dbname=' . $container->get('database.name'),
             $container->get('database.username'),

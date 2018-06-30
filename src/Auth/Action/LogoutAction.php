@@ -44,7 +44,7 @@ class LogoutAction
     }//end __construct()
 
 
-    public function __invoke(ServerRequestInterface $request)
+    public function __invoke()
     {
         $this->auth->logout();
         $this->flashService->success('Vous êtes maintenant déconnecté');
