@@ -5,6 +5,8 @@ use Phinx\Migration\AbstractMigration;
 
 class CreateUsersTable extends AbstractMigration
 {
+
+
     /**
      * Change Method.
      *
@@ -34,5 +36,5 @@ class CreateUsersTable extends AbstractMigration
             ->addColumn('password', 'string')
             ->addIndex(['email', 'username'], ['unique' => true])
             ->create();
-    }
-}
+    }//end change()
+}//end class

@@ -17,37 +17,50 @@ use Symfony\Component\Console\Output\NullOutput;
 
 /**
  * Class DatabaseTestCase
+ *
  * @package Tests
  */
 class DatabaseTestCase extends TestCase
 {
+
+
     /**
+     *
      * @return PDO
      */
     public function getPDO()
     {
-        return new PDO('sqlite::memory:', null, null, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
-        ]);
-    }
+        return new PDO(
+            'sqlite::memory:',
+            null,
+            null,
+            [
+                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+            ]
+        );
+    }//end getPDO()
+
 
     /**
-     * @param PDO $pdo
+     *
+     * @param  PDO $pdo
      * @return Manager
      */
     public function getManager(PDO $pdo)
     {
-        $configArray = require('phinx.php');
+        $configArray = include 'phinx.php';
         $configArray['environments']['test'] = [
             'adapter'    => 'sqlite',
-            'connection' => $pdo
+            'connection' => $pdo,
         ];
         $config = new Config($configArray);
         return new Manager($config, new StringInput(' '), new NullOutput());
-    }
+    }//end getManager()
+
 
     /**
+     *
      * @param PDO $pdo
      */
     public function migrateDatabase(PDO $pdo)
@@ -55,9 +68,11 @@ class DatabaseTestCase extends TestCase
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_BOTH);
         $this->getManager($pdo)->migrate('test');
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-    }
+    }//end migrateDatabase()
+
 
     /**
+     *
      * @param PDO $pdo
      */
     public function seedDatabase(PDO $pdo)
@@ -66,5 +81,5 @@ class DatabaseTestCase extends TestCase
         $this->getManager($pdo)->migrate('test');
         $this->getManager($pdo)->seed('test');
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-    }
-}
+    }//end seedDatabase()
+}//end class

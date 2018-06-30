@@ -12,15 +12,18 @@ namespace App\Framework\Database;
  * Transforme un tableau en objet en utilisant les setters
  *
  * Class Hydrator
+ *
  * @package App\Framework\Database
  */
 class Hydrator
 {
 
+
     /**
      * Transforme un tableau en objet en utilisant les setters
-     * @param array $array
-     * @param $object
+     *
+     * @param  array  $array
+     * @param  $object
      * @return mixed
      */
     public static function hydrate(array $array, $object)
@@ -35,28 +38,32 @@ class Hydrator
             if (method_exists($instance, $method)) {
                 $instance->$method($value);
             } else {
-                $property = lcfirst(self::getProperty($key));
+                $property            = lcfirst(self::getProperty($key));
                 $instance->$property = $value;
             }
         }
         return $instance;
-    }
+    }//end hydrate()
+
 
     /**
-     * @param string $fieldName
+     *
+     * @param  string $fieldName
      * @return string
      */
     private static function getSetter(string $fieldName): string
     {
-          return 'set' . self::getProperty($fieldName);
-    }
+          return 'set'.self::getProperty($fieldName);
+    }//end getSetter()
+
 
     /**
-     * @param string $fieldName
+     *
+     * @param  string $fieldName
      * @return string
      */
     private static function getProperty(string $fieldName): string
     {
         return implode('', array_map('ucfirst', explode('_', $fieldName)));
-    }
-}
+    }//end getProperty()
+}//end class

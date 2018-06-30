@@ -17,25 +17,30 @@ class DatabaseAuth implements Auth
 {
 
     /**
+     *
      * @var UserTable
      */
     private $userTable;
 
     /**
+     *
      * @var SessionInterface
      */
     private $session;
 
     /**
+     *
      * @var User
      */
     private $user;
 
+
     public function __construct(UserTable $userTable, SessionInterface $session)
     {
         $this->userTable = $userTable;
-        $this->session = $session;
-    }
+        $this->session   = $session;
+    }//end __construct()
+
 
     public function login(string $username, string $password): ?User
     {
@@ -43,7 +48,9 @@ class DatabaseAuth implements Auth
             return null;
         }
 
-        /** @var \App\Auth\User $user */
+        /*
+            @var \App\Auth\User $user
+        */
         $user = $this->userTable->findBy('username', $username);
         if ($user && password_verify($password, $user->password)) {
             $this->session->set('auth.user', $user->id);
@@ -51,14 +58,17 @@ class DatabaseAuth implements Auth
         }
 
         return null;
-    }
+    }//end login()
+
 
     public function logout(): void
     {
         $this->session->delete('auth.user');
-    }
+    }//end logout()
+
 
     /**
+     *
      * @return User|null
      * @throws \App\Framework\Database\NoRecordException
      */
@@ -78,5 +88,5 @@ class DatabaseAuth implements Auth
             }
         }
         return null;
-    }
-}
+    }//end getUser()
+}//end class

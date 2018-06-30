@@ -13,4 +13,4 @@ use Exception;
 class NoRecordException extends Exception
 {
 
-}
+}//end class

@@ -11,4 +11,4 @@ namespace App\Framework\Exception;
 class CsrfInvalidException extends \Exception
 {
 
-}
+}//end class

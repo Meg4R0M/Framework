@@ -21,26 +21,31 @@ class ForbiddenMiddleware implements MiddlewareInterface
 {
 
     /**
+     *
      * @var string
      */
     private $loginPath;
 
     /**
+     *
      * @var SessionInterface
      */
     private $session;
 
+
     public function __construct(string $loginPath, SessionInterface $session)
     {
         $this->loginPath = $loginPath;
-        $this->session = $session;
-    }
+        $this->session   = $session;
+    }//end __construct()
+
 
     /**
      * Process an incoming server request and return a response, optionally delegating
      * response creation to a handler.
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
+     *
+     * @param  ServerRequestInterface  $request
+     * @param  RequestHandlerInterface $handler
      * @return RedirectResponse|ResponseInterface
      * @throws \TypeError
      */
@@ -56,12 +61,13 @@ class ForbiddenMiddleware implements MiddlewareInterface
             }
             throw $error;
         }
-    }
+    }//end process()
+
 
     public function redirectLogin(ServerRequestInterface $request): ResponseInterface
     {
         $this->session->set('auth.redirect', $request->getUri()->getPath());
         (new FlashService($this->session))->error('Vous devez posséder un compte pour accéder à cette page');
         return new RedirectResponse($this->loginPath);
-    }
-}
+    }//end redirectLogin()
+}//end class

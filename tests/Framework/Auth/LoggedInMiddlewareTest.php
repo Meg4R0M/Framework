@@ -12,20 +12,23 @@ use Psr\Http\Server\RequestHandlerInterface;
 class LoggedInMiddlewareTest extends TestCase
 {
 
+
     public function makeMiddleware($user)
     {
         $auth = $this->getMockBuilder(Auth::class)->getMock();
         $auth->method('getUser')->willReturn($user);
         return new LoggedInMiddleware($auth);
-    }
+    }//end makeMiddleware()
+
 
     public function makeHandle($calls)
     {
-        $handle = $this->getMockBuilder(RequestHandlerInterface::class)->getMock();
+        $handle   = $this->getMockBuilder(RequestHandlerInterface::class)->getMock();
         $response = $this->getMockBuilder(ResponseInterface::class)->getMock();
         $handle->expects($calls)->method('handle')->willReturn($response);
         return $handle;
-    }
+    }//end makeHandle()
+
 
     public function testThrowIfNoUser()
     {
@@ -35,15 +38,16 @@ class LoggedInMiddlewareTest extends TestCase
             $request,
             $this->makeHandle($this->never())
         );
-    }
+    }//end testThrowIfNoUser()
+
 
     public function testNextIfUser()
     {
-        $user = $this->getMockBuilder(Auth\User::class)->getMock();
+        $user    = $this->getMockBuilder(Auth\User::class)->getMock();
         $request = (new ServerRequest('GET', '/demo/'));
         $this->makeMiddleware($user)->process(
             $request,
             $this->makeHandle($this->once())
         );
-    }
-}
+    }//end testNextIfUser()
+}//end class

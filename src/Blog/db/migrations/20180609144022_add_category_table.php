@@ -6,6 +6,7 @@ use Phinx\Migration\AbstractMigration;
 class AddCategoryTable extends AbstractMigration
 {
 
+
     public function change()
     {
         $this->table('categories')
@@ -13,5 +14,5 @@ class AddCategoryTable extends AbstractMigration
             ->addColumn('slug', 'string')
             ->addIndex('slug', ['unique' => true])
             ->create();
-    }
-}
+    }//end change()
+}//end class

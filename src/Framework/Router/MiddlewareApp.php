@@ -17,30 +17,36 @@ class MiddlewareApp implements MiddlewareInterface
 {
 
     /**
+     *
      * @var callable
      */
     private $callback;
 
+
     public function __construct(callable $callback)
     {
         $this->callback = $callback;
-    }
+    }//end __construct()
+
 
     /**
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface|null $handler
+     *
+     * @param  ServerRequestInterface       $request
+     * @param  RequestHandlerInterface|null $handler
      * @return ResponseInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler = null): ResponseInterface
     {
         return $this->process($request, $handler);
-    }
+    }//end process()
+
 
     /**
+     *
      * @return callable
      */
     public function getCallback(): callable
     {
         return $this->callback;
-    }
-}
+    }//end getCallback()
+}//end class

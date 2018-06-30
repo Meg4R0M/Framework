@@ -15,17 +15,20 @@ class LoginAction
 {
 
     /**
+     *
      * @var RendererInterface
      */
     private $renderer;
 
+
     public function __construct(RendererInterface $renderer)
     {
         $this->renderer = $renderer;
-    }
+    }//end __construct()
+
 
     public function __invoke(ServerRequestInterface $request)
     {
         return $this->renderer->render('@auth/login');
-    }
-}
+    }//end __invoke()
+}//end class

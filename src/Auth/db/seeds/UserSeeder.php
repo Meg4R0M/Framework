@@ -5,6 +5,8 @@ use Phinx\Seed\AbstractSeed;
 
 class UserSeeder extends AbstractSeed
 {
+
+
     /**
      * Run Method.
      *
@@ -15,12 +17,12 @@ class UserSeeder extends AbstractSeed
      */
     public function run()
     {
-        $this->table('users')
-            ->insert([
+        $this->table('users')->insert(
+            [
                 'username' => 'admin',
                 'email'    => 'admin@admin.fr',
-                'password' => password_hash('admin', PASSWORD_DEFAULT)
-            ])
-        ->save();
-    }
-}
+                'password' => password_hash('admin', PASSWORD_DEFAULT),
+            ]
+        )->save();
+    }//end run()
+}//end class

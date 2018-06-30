@@ -16,42 +16,47 @@ use Twig_SimpleFunction;
 
 /**
  * Class PagerFantaExtension
+ *
  * @package App\Framework\Twig
  */
 class PagerFantaExtension extends Twig_Extension
 {
 
     /**
+     *
      * @var Router
      */
     private $router;
 
+
     /**
      * PagerFantaExtension constructor.
+     *
      * @param Router $router
      */
     public function __construct(Router $router)
     {
         $this->router = $router;
-    }
+    }//end __construct()
+
 
     /**
+     *
      * @return array|\Twig_Function[]
      */
     public function getFunctions()
     {
-        return [
-            new Twig_SimpleFunction('paginate', [$this, 'paginate'], ['is_safe' => ['html']])
-        ];
-    }
+        return [new Twig_SimpleFunction('paginate', [$this, 'paginate'], ['is_safe' => ['html']])];
+    }//end getFunctions()
+
 
     /**
      * Génère la pagination
      *
-     * @param Pagerfanta $paginatedResults
-     * @param string $route
-     * @param array $routerParams
-     * @param array $queryArgs
+     * @param  Pagerfanta $paginatedResults
+     * @param  string     $route
+     * @param  array      $routerParams
+     * @param  array      $queryArgs
      * @return string
      */
     public function paginate(
@@ -60,13 +65,15 @@ class PagerFantaExtension extends Twig_Extension
         array $routerParams = [],
         array $queryArgs = []
     ): string {
-    
         $view = new TwitterBootstrap4View();
-        return $view->render($paginatedResults, function (int $page) use ($route, $routerParams, $queryArgs) {
-            if ($page > 1) {
-                $queryArgs['p'] = $page;
+        return $view->render(
+            $paginatedResults,
+            function (int $page) use ($route, $routerParams, $queryArgs) {
+                if ($page > 1) {
+                    $queryArgs['p'] = $page;
+                }
+                return $this->router->generateUri($route, $routerParams, $queryArgs);
             }
-            return $this->router->generateUri($route, $routerParams, $queryArgs);
-        });
-    }
-}
+        );
+    }//end paginate()
+}//end class

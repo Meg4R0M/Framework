@@ -13,12 +13,14 @@ use PDO;
 
 /**
  * Class PaginatedQuery
+ *
  * @package App\Framework\Database
  */
 class PaginatedQuery implements AdapterInterface
 {
 
     /**
+     *
      * @var Query
      */
     private $query;
@@ -26,12 +28,14 @@ class PaginatedQuery implements AdapterInterface
 
     /**
      * PaginatedQuery constructor.
+     *
      * @param Query $query
      */
     public function __construct(Query $query)
     {
         $this->query = $query;
-    }
+    }//end __construct()
+
 
     /**
      * Returns the number of results.
@@ -41,7 +45,8 @@ class PaginatedQuery implements AdapterInterface
     public function getNbResults(): int
     {
         return $this->query->count();
-    }
+    }//end getNbResults()
+
 
     /**
      * Returns an slice of the results.
@@ -55,5 +60,5 @@ class PaginatedQuery implements AdapterInterface
     {
         $query = clone $this->query;
         return $query->limit($length, $offset)->fetchAll();
-    }
-}
+    }//end getSlice()
+}//end class

@@ -10,6 +10,7 @@ namespace App\Framework;
 
 /**
  * Class Module
+ *
  * @package App\Framework
  */
 class Module
@@ -28,4 +29,4 @@ class Module
      *
      */
     const SEEDS = null;
-}
+}//end class

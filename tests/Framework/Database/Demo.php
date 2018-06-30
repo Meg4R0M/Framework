@@ -10,29 +10,35 @@ namespace Tests\Framework\Database;
 
 /**
  * Class Demo
+ *
  * @package Tests\Framework\Database
  */
 class Demo
 {
 
     /**
+     *
      * @var
      */
     private $slug;
 
+
     /**
+     *
      * @return mixed
      */
     public function getSlug()
     {
         return $this->slug;
-    }
+    }//end getSlug()
+
 
     /**
+     *
      * @param $slug
      */
     public function setSlug($slug): void
     {
-        $this->slug = $slug . 'demo';
-    }
-}
+        $this->slug = $slug.'demo';
+    }//end setSlug()
+}//end class

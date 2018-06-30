@@ -14,54 +14,64 @@ use Twig_SimpleFunction;
 
 /**
  * Class RouterTwigExtension
+ *
  * @package App\Framework\Router
  */
 class RouterTwigExtension extends Twig_Extension
 {
 
     /**
+     *
      * @var Router
      */
     private $router;
 
+
     /**
      * RouterTwigExtension constructor.
+     *
      * @param Router $router
      */
     public function __construct(Router $router)
     {
         $this->router = $router;
-    }
+    }//end __construct()
+
 
     /**
+     *
      * @return array|\Twig_Function[]
      */
     public function getFunctions()
     {
         return [
             new Twig_SimpleFunction('path', [$this, 'pathFor']),
-            new Twig_SimpleFunction('is_subpath', [$this, 'isSubPath'])
+            new Twig_SimpleFunction('is_subpath', [$this, 'isSubPath']),
         ];
-    }
+    }//end getFunctions()
+
 
     /**
-     * @param string $path
-     * @param array $params
+     *
+     * @param  string $path
+     * @param  array  $params
      * @return string
      */
     public function pathFor(string $path, array $params = []): string
     {
         return $this->router->generateUri($path, $params);
-    }
+    }//end pathFor()
+
 
     /**
-     * @param string $path
-     * @return bool
+     *
+     * @param  string $path
+     * @return boolean
      */
     public function isSubpath(string $path): bool
     {
-        $uri = $_SERVER['REQUEST_URI'] ?? '/';
+        $uri         = $_SERVER['REQUEST_URI'] ?? '/';
         $expectedUri = $this->router->generateUri($path);
         return strpos($uri, $expectedUri) !== false;
-    }
-}
+    }//end isSubpath()
+}//end class

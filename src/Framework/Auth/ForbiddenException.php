@@ -13,4 +13,4 @@ use Exception;
 class ForbiddenException extends Exception
 {
 
-}
+}//end class

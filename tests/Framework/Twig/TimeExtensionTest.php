@@ -17,14 +17,16 @@ class TimeExtensionTest extends TestCase
 
     private $timeExtension;
 
+
     public function setUp()
     {
         $this->timeExtension = new TimeExtension();
-    }
+    }//end setUp()
+
 
     public function testDateFormat()
     {
-        $date = new DateTime();
+        $date   = new DateTime();
         $format = 'd/m/Y H:i';
         $result = '<span class="timeago" datetime="' .
             $date->format(DateTime::ISO8601) .
@@ -32,5 +34,5 @@ class TimeExtensionTest extends TestCase
             $date->format($format) .
             '</span>';
         $this->assertEquals($result, $this->timeExtension->ago($date));
-    }
-}
+    }//end testDateFormat()
+}//end class

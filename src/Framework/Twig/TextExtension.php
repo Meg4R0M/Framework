@@ -15,25 +15,28 @@ use Twig_SimpleFilter;
  * Série d'extensions concernant les textes
  *
  * Class TextExtension
+ *
  * @package App\Framework\Twig
  */
 class TextExtension extends Twig_Extension
 {
+
+
     /**
+     *
      * @return Twig_SimpleFilter[]
      */
     public function getFilters(): array
     {
-        return [
-            new Twig_SimpleFilter('excerpt', [$this, 'excerpt'])
-        ];
-    }
+        return [new Twig_SimpleFilter('excerpt', [$this, 'excerpt'])];
+    }//end getFilters()
+
 
     /**
      * Renvoie un extrait du contenu
      *
-     * @param string $content
-     * @param int $maxLength
+     * @param  string  $content
+     * @param  integer $maxLength
      * @return string
      */
     public function excerpt(?string $content, int $maxLength = 100): string
@@ -42,10 +45,10 @@ class TextExtension extends Twig_Extension
             return '';
         }
         if (mb_strlen($content) > $maxLength) {
-            $excerpt = mb_substr($content, 0, $maxLength);
+            $excerpt   = mb_substr($content, 0, $maxLength);
             $lastSpace = mb_strrpos($excerpt, ' ');
-            return mb_substr($excerpt, 0, $lastSpace) . '...';
+            return mb_substr($excerpt, 0, $lastSpace).'...';
         }
         return $content;
-    }
-}
+    }//end excerpt()
+}//end class

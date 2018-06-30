@@ -12,18 +12,26 @@ use Framework\Router;
 
 /**
  * Class StringModule
+ *
  * @package Tests\Framework\Modules
  */
 class StringModule
 {
+
+
     /**
      * StringModule constructor.
+     *
      * @param Router $router
      */
     public function __construct(Router $router)
     {
-        $router->get('/demo', function () {
-            return 'DEMO';
-        }, 'demo');
-    }
-}
+        $router->get(
+            '/demo',
+            function () {
+                return 'DEMO';
+            },
+            'demo'
+        );
+    }//end __construct()
+}//end class

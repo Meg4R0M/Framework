@@ -12,8 +12,10 @@ use GuzzleHttp\Psr7\Response;
 
 class RedirectResponse extends Response
 {
+
+
     public function __construct(string $url)
     {
         parent::__construct(301, ['location' => $url]);
-    }
-}
+    }//end __construct()
+}//end class

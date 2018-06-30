@@ -20,55 +20,65 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * Class CrudAction
+ *
  * @package App\Framework\Actions
  */
 class CrudAction
 {
 
     /**
+     *
      * @var RendererInterface
      */
     private $renderer;
 
     /**
+     *
      * @var Router
      */
     private $router;
 
     /**
+     *
      * @var Table
      */
     protected $table;
 
     /**
+     *
      * @var FlashService
      */
     private $flash;
 
     /**
+     *
      * @var string
      */
     protected $viewPath;
 
     /**
+     *
      * @var string
      */
     protected $routePrefix;
 
     /**
+     *
      * @var string
      */
     protected $messages = [
         'create' => "L'élément a bien été créé",
-        'edit'   => "L'élément a bien été modifié"
+        'edit'   => "L'élément a bien été modifié",
     ];
 
     /**
+     *
      * @var array
      */
     protected $acceptedParams = [];
 
     use RouterAwareAction;
+
 
     public function __construct(
         RendererInterface $renderer,
@@ -77,10 +87,11 @@ class CrudAction
         FlashService $flash
     ) {
         $this->renderer = $renderer;
-        $this->router = $router;
-        $this->table = $table;
-        $this->flash = $flash;
-    }
+        $this->router   = $router;
+        $this->table    = $table;
+        $this->flash    = $flash;
+    }//end __construct()
+
 
     public function __invoke(Request $request)
     {
@@ -89,39 +100,41 @@ class CrudAction
         if ($request->getMethod() === 'DELETE') {
             return $this->delete($request);
         }
-        if (substr((string)$request->getUri(), -3) === 'new') {
+        if (substr((string) $request->getUri(), -3) === 'new') {
             return $this->create($request);
         }
         if ($request->getAttribute('id')) {
             return $this->edit($request);
         }
         return $this->index($request);
-    }
+    }//end __invoke()
+
 
     /**
      * Affiche la liste des éléments
      *
-     * @param Request $request
+     * @param  Request $request
      * @return string
      */
     public function index(Request $request): string
     {
         $params = $request->getQueryParams();
-        $items = $this->table->findAll()->paginate(12, $params['p'] ?? 1);
+        $items  = $this->table->findAll()->paginate(12, ($params['p'] ?? 1));
 
-        return $this->renderer->render($this->viewPath . '/index', compact('items'));
-    }
+        return $this->renderer->render($this->viewPath.'/index', compact('items'));
+    }//end index()
+
 
     /**
      * Edite un élément
      *
-     * @param Request $request
+     * @param  Request $request
      * @return ResponseInterface|string
      * @throws NoRecordException
      */
     public function edit(Request $request)
     {
-        $id = (int)$request->getAttribute('id');
+        $id   = (int) $request->getAttribute('id');
         $item = $this->table->find($id);
 
         if ($request->getMethod() === 'POST') {
@@ -130,22 +143,23 @@ class CrudAction
                 $this->table->update($id, $this->prePersist($request, $item));
                 $this->postPersist($request, $item);
                 $this->flash->success($this->messages['edit']);
-                return $this->redirect($this->routePrefix . '.index');
+                return $this->redirect($this->routePrefix.'.index');
             }
             $errors = $validator->getErrors();
             Hydrator::hydrate($request->getParsedBody(), $item);
         }
 
         return $this->renderer->render(
-            $this->viewPath . '/edit',
+            $this->viewPath.'/edit',
             $this->formParams(compact('item', 'errors'))
         );
-    }
+    }//end edit()
+
 
     /**
      * Crée un nouvel élément
      *
-     * @param Request $request
+     * @param  Request $request
      * @return ResponseInterface|string
      */
     public function create(Request $request)
@@ -157,42 +171,49 @@ class CrudAction
                 $this->table->insert($this->prePersist($request, $item));
                 $this->postPersist($request, $item);
                 $this->flash->success($this->messages['create']);
-                return $this->redirect($this->routePrefix . '.index');
+                return $this->redirect($this->routePrefix.'.index');
             }
             Hydrator::hydrate($request->getParsedBody(), $item);
             $errors = $validator->getErrors();
         }
 
         return $this->renderer->render(
-            $this->viewPath . '/create',
+            $this->viewPath.'/create',
             $this->formParams(compact('item', 'errors'))
         );
-    }
+    }//end create()
+
 
     /**
      * Action de suppression
      *
-     * @param Request $request
+     * @param  Request $request
      * @return ResponseInterface
      */
     public function delete(Request $request)
     {
         $this->table->delete($request->getAttribute('id'));
-        return $this->redirect($this->routePrefix . '.index');
-    }
+        return $this->redirect($this->routePrefix.'.index');
+    }//end delete()
+
 
     /**
      * Filtre les paramètres reçu par la requête
      *
-     * @param Request $request
+     * @param  Request $request
      * @return array
      */
     protected function prePersist(Request $request, $item): array
     {
-        return array_filter(array_merge($request->getParsedBody(), $request->getUploadedFiles()), function ($key) {
-            return in_array($key, $this->acceptedParams);
-        }, ARRAY_FILTER_USE_KEY);
-    }
+        return array_filter(
+            array_merge($request->getParsedBody(), $request->getUploadedFiles()),
+            function ($key) {
+                return in_array($key, $this->acceptedParams);
+            },
+            ARRAY_FILTER_USE_KEY
+        );
+    }//end prePersist()
+
 
     /**
      * Permet d'effectuer un traitement après la persistence
@@ -202,18 +223,20 @@ class CrudAction
      */
     protected function postPersist(Request $request, $item): void
     {
-    }
+    }//end postPersist()
+
 
     /**
      * Génère le validateur pour valider les données
      *
-     * @param Request $request
+     * @param  Request $request
      * @return Validator
      */
     protected function getValidator(Request $request)
     {
         return new Validator(array_merge($request->getParsedBody(), $request->getUploadedFiles()));
-    }
+    }//end getValidator()
+
 
     /**
      * Génère une nouvelle entité pour l'action de création
@@ -224,16 +247,17 @@ class CrudAction
     {
         $entity = $this->table->getEntity();
         return new $entity();
-    }
+    }//end getNewEntity()
+
 
     /**
      * Permet de traiter les paramètres à envoyer à la vue
      *
-     * @param $params
+     * @param  $params
      * @return array
      */
     protected function formParams(array $params): array
     {
         return $params;
-    }
-}
+    }//end formParams()
+}//end class

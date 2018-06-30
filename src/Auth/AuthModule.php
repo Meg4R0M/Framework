@@ -22,17 +22,18 @@ class AuthModule extends Module
     /**
      *
      */
-    const DEFINITIONS = __DIR__ . '/config.php';
+    const DEFINITIONS = __DIR__.'/config.php';
 
-    const MIGRATIONS = __DIR__ . '/db/migrations';
+    const MIGRATIONS = __DIR__.'/db/migrations';
 
-    const SEEDS = __DIR__ . '/db/seeds';
+    const SEEDS = __DIR__.'/db/seeds';
+
 
     public function __construct(ContainerInterface $container, Router $router, RendererInterface $renderer)
     {
-        $renderer->addPath('auth', __DIR__ . '/views');
+        $renderer->addPath('auth', __DIR__.'/views');
         $router->get($container->get('auth.login'), LoginAction::class, 'auth.login');
         $router->post($container->get('auth.login'), LoginAttemptAction::class);
         $router->post('/logout', LogoutAction::class, 'auth.logout');
-    }
-}
+    }//end __construct()
+}//end class

@@ -1,7 +1,8 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * @author : meg4r0m
+ *
+ * @author Squiz Pty Ltd <products@squiz.net>
  * Date: 03/06/18
  * Time: 21:11
  */
@@ -23,32 +24,39 @@ class App implements RequestHandlerInterface
 
     /**
      * List of modules
+     *
      * @var array
      */
     private $modules = [];
 
     /**
+     *
      * @var array
      */
     private $definitions;
 
     /**
+     *
      * @var ContainerInterface
      */
     private $container;
 
     /**
+     *
      * @var string[]
      */
     private $middlewares = [];
 
     /**
-     * @var int
+     *
+     * @var integer
      */
     private $index = 0;
 
+
     /**
      * App constructor.
+     *
      * @param null|string|array $definitions
      */
     public function __construct($definitions = [])
@@ -60,25 +68,27 @@ class App implements RequestHandlerInterface
             $definitions = [$definitions];
         }
         $this->definitions = $definitions;
-    }
+    }//end __construct()
+
 
     /**
      * Rajoute un module à l'application
      *
-     * @param string $module
+     * @param  string $module
      * @return App
      */
     public function addModule(string $module): self
     {
         $this->modules[] = $module;
         return $this;
-    }
+    }//end addModule()
+
 
     /**
      * Ajoute un middleware
      *
-     * @param string|callable|MiddlewareInterface $routePrefix
-     * @param null|string|callable|MiddlewareInterface $middleware
+     * @param  string|callable|MiddlewareInterface      $routePrefix
+     * @param  null|string|callable|MiddlewareInterface $middleware
      * @return App
      */
     public function pipe($routePrefix, $middleware = null): self
@@ -89,12 +99,13 @@ class App implements RequestHandlerInterface
             $this->middlewares[] = new RoutePrefixedMiddleware($this->getContainer(), $routePrefix, $middleware);
         }
         return $this;
-    }
+    }//end pipe()
 
 
     /**
      * Handle the request and return a response.
-     * @param ServerRequestInterface $request
+     *
+     * @param  ServerRequestInterface $request
      * @return ResponseInterface
      * @throws \Exception
      */
@@ -106,7 +117,8 @@ class App implements RequestHandlerInterface
         }
         $middleware = new CombinedMiddleware($this->getContainer(), $this->middlewares);
         return $middleware->process($request, $this);
-    }
+    }//end handle()
+
 
     public function run(ServerRequestInterface $request): ResponseInterface
     {
@@ -114,16 +126,18 @@ class App implements RequestHandlerInterface
             $this->getContainer()->get($module);
         }
         return $this->handle($request);
-    }
+    }//end run()
+
 
     /**
+     *
      * @return ContainerInterface
      */
     public function getContainer(): ContainerInterface
     {
         if ($this->container === null) {
             $builder = new ContainerBuilder();
-            $env = getenv('ENVIRONMENT') ?: 'production';
+            $env     = getenv('ENVIRONMENT') ?: 'production';
             if ($env === 'production') {
                 $builder->setDefinitionCache(new ApcuCache());
                 $builder->writeProxiesToFile(true, 'tmp/proxies');
@@ -136,27 +150,30 @@ class App implements RequestHandlerInterface
                     $builder->addDefinitions($module::DEFINITIONS);
                 }
             }
-            $builder->addDefinitions([
-                App::class => $this
-            ]);
+            $builder->addDefinitions(
+                [self::class => $this]
+            );
             $this->container = $builder->build();
-        }
+        }//end if
         return $this->container;
-    }
+    }//end getContainer()
+
 
     /**
+     *
      * @return array
      */
     public function getModules(): array
     {
         return $this->modules;
-    }
+    }//end getModules()
+
 
     private function isSequential(array $array): bool
     {
         if (empty($array)) {
             return true;
         }
-        return array_keys($array) === range(0, count($array) - 1);
-    }
-}
+        return array_keys($array) === range(0, (count($array) - 1));
+    }//end isSequential()
+}//end class

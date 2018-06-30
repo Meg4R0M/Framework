@@ -25,37 +25,46 @@ class User implements UserInterface
 
     public $passwordResetAt;
 
+
     /**
+     *
      * @return string
      */
     public function getUsername(): string
     {
         return $this->username;
-    }
+    }//end getUsername()
+
 
     /**
+     *
      * @return string[]
      */
     public function getRoles(): array
     {
         return [];
-    }
+    }//end getRoles()
+
 
     /**
+     *
      * @return mixed
      */
     public function getPasswordReset()
     {
         return $this->passwordReset;
-    }
+    }//end getPasswordReset()
+
 
     /**
+     *
      * @param mixed $passwordReset
      */
     public function setPasswordReset($passwordReset)
     {
         $this->passwordReset = $passwordReset;
-    }
+    }//end setPasswordReset()
+
 
     public function setPasswordResetAt($date)
     {
@@ -64,61 +73,75 @@ class User implements UserInterface
         } else {
             $this->passwordResetAt = $date;
         }
-    }
+    }//end setPasswordResetAt()
+
 
     /**
+     *
      * @return mixed
      */
     public function getPasswordResetAt(): ?\DateTime
     {
         return $this->passwordResetAt;
-    }
+    }//end getPasswordResetAt()
+
 
     /**
+     *
      * @return mixed
      */
     public function getEmail()
     {
         return $this->email;
-    }
+    }//end getEmail()
+
 
     /**
+     *
      * @param mixed $email
      */
     public function setEmail($email)
     {
         $this->email = $email;
-    }
+    }//end setEmail()
+
 
     /**
+     *
      * @return mixed
      */
     public function getPassword()
     {
         return $this->password;
-    }
+    }//end getPassword()
+
 
     /**
+     *
      * @param mixed $password
      */
     public function setPassword($password)
     {
         $this->password = $password;
-    }
+    }//end setPassword()
+
 
     /**
+     *
      * @return mixed
      */
     public function getId(): ?int
     {
         return $this->id;
-    }
+    }//end getId()
+
 
     /**
+     *
      * @param mixed $id
      */
     public function setId($id)
     {
         $this->id = $id;
-    }
-}
+    }//end setId()
+}//end class

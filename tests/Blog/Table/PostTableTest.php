@@ -15,15 +15,18 @@ use Tests\DatabaseTestCase;
 
 /**
  * Class PostTableTest
+ *
  * @package Test\App\Blog\Table
  */
 class PostTableTest extends DatabaseTestCase
 {
 
     /**
+     *
      * @var PostTable
      */
     private $postTable;
+
 
     /**
      *
@@ -34,7 +37,8 @@ class PostTableTest extends DatabaseTestCase
         $pdo = $this->getPDO();
         $this->migrateDatabase($pdo);
         $this->postTable = new PostTable($pdo);
-    }
+    }//end setUp()
+
 
     /**
      *
@@ -44,7 +48,8 @@ class PostTableTest extends DatabaseTestCase
         $this->seedDatabase($this->postTable->getPdo());
         $post = $this->postTable->find(1);
         $this->assertInstanceOf(Post::class, $post);
-    }
+    }//end testFind()
+
 
     /**
      *
@@ -53,7 +58,8 @@ class PostTableTest extends DatabaseTestCase
     {
         $this->expectException(NoRecordException::class);
         $this->postTable->find(1);
-    }
+    }//end testFindNotFoundRecord()
+
 
     /**
      *
@@ -65,7 +71,8 @@ class PostTableTest extends DatabaseTestCase
         $post = $this->postTable->find(1);
         $this->assertEquals('Salut', $post->name);
         $this->assertEquals('demo', $post->slug);
-    }
+    }//end testUpdate()
+
 
     /**
      *
@@ -76,7 +83,8 @@ class PostTableTest extends DatabaseTestCase
         $post = $this->postTable->find(1);
         $this->assertEquals('Salut', $post->name);
         $this->assertEquals('demo', $post->slug);
-    }
+    }//end testInsert()
+
 
     /**
      *
@@ -89,6 +97,6 @@ class PostTableTest extends DatabaseTestCase
         $this->assertEquals(2, (int) $count);
         $this->postTable->delete($this->postTable->getPdo()->lastInsertId());
         $count = $this->postTable->getPdo()->query('SELECT COUNT(id) FROM posts')->fetchColumn();
-        $this->assertEquals(1, (int)$count);
-    }
-}
+        $this->assertEquals(1, (int) $count);
+    }//end testDelete()
+}//end class

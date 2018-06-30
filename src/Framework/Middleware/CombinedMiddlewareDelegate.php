@@ -12,29 +12,37 @@ class CombinedMiddlewareDelegate implements RequestHandlerInterface
 {
 
     /**
+     *
      * @var string[]
      */
     private $middlewares = [];
 
     /**
-     * @var int
+     *
+     * @var integer
      */
     private $index = 0;
+
     /**
+     *
      * @var ContainerInterface
      */
     private $container;
+
     /**
+     *
      * @var RequestHandlerInterface
      */
     private $delegate;
 
+
     public function __construct(ContainerInterface $container, array $middlewares, RequestHandlerInterface $delegate)
     {
         $this->middlewares = $middlewares;
-        $this->container = $container;
-        $this->delegate = $delegate;
-    }
+        $this->container   = $container;
+        $this->delegate    = $delegate;
+    }//end __construct()
+
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
@@ -50,9 +58,11 @@ class CombinedMiddlewareDelegate implements RequestHandlerInterface
         } elseif ($middleware instanceof MiddlewareInterface) {
             return $middleware->process($request, $this);
         }
-    }
+    }//end handle()
+
 
     /**
+     *
      * @return object
      */
     private function getMiddleware()
@@ -67,5 +77,5 @@ class CombinedMiddlewareDelegate implements RequestHandlerInterface
             return $middleware;
         }
         return null;
-    }
-}
+    }//end getMiddleware()
+}//end class

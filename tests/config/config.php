@@ -15,10 +15,8 @@ use function DI\object;
 use function DI\factory;
 
 return [
-    'views.path' => dirname(__DIR__) . '/views',
-    'twig.extensions' => [
-        get(RouterTwigExtension::class)
-    ],
-    Router::class => object(),
-    RendererInterface::class => factory(TwigRendererFactory::class)
+    'views.path'             => dirname(__DIR__).'/views',
+    'twig.extensions'        => [get(RouterTwigExtension::class)],
+    Router::class            => object(),
+    RendererInterface::class => factory(TwigRendererFactory::class),
 ];

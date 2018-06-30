@@ -20,7 +20,7 @@ chdir(dirname(__DIR__));
 
 require 'vendor/autoload.php';
 
-$app = (new App('config/config.php'))
+$app       = (new App('config/config.php'))
     ->addModule(AdminModule::class)
     ->addModule(ContactModule::class)
     ->addModule(BlogModule::class)
@@ -36,7 +36,7 @@ $app->pipe(Whoops::class)
     ->pipe(DispatcherMiddleware::class)
     ->pipe(NotFoundMiddleware::class);
 
-if (php_sapi_name() !== "cli") {
+if (php_sapi_name() !== 'cli') {
     $response = $app->run(ServerRequest::fromGlobals());
     \Http\Response\send($response);
 }

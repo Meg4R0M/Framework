@@ -12,13 +12,15 @@ use App\Framework\Database\Table;
 
 /**
  * Class CategoryTable
+ *
  * @package App\Blog\Table
  */
 class CategoryTable extends Table
 {
 
     /**
+     *
      * @var string
      */
     protected $table = 'categories';
-}
+}//end class

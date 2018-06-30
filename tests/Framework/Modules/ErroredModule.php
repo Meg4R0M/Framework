@@ -12,19 +12,26 @@ use stdClass;
 
 /**
  * Class ErroredModule
+ *
  * @package Tests\Framework\Modules
  */
 class ErroredModule
 {
 
+
     /**
      * ErroredModule constructor.
+     *
      * @param Router $router
      */
     public function __construct(Router $router)
     {
-        $router->get('/demo', function () {
-            return new stdClass();
-        }, 'demo');
-    }
-}
+        $router->get(
+            '/demo',
+            function () {
+                return new stdClass();
+            },
+            'demo'
+        );
+    }//end __construct()
+}//end class

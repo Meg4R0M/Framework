@@ -16,13 +16,15 @@ use function DI\get;
 use function DI\object;
 
 return [
-    'auth.login' => '/login',
-    'twig.extensions' => add([
-        get(AuthTwigExtension::class)
-    ]),
-    Auth\User::class => factory(function (Auth $auth) {
-        return $auth->getUser();
-    })->parameter('auth', get(Auth::class)),
-    Auth::class => get(DatabaseAuth::class),
-    ForbiddenMiddleware::class => object()->constructorParameter('loginPath', get('auth.login'))
+    'auth.login'               => '/login',
+    'twig.extensions'          => add(
+        [get(AuthTwigExtension::class)]
+    ),
+    Auth\User::class           => factory(
+        function (Auth $auth) {
+            return $auth->getUser();
+        }
+    )->parameter('auth', get(Auth::class)),
+    Auth::class                => get(DatabaseAuth::class),
+    ForbiddenMiddleware::class => object()->constructorParameter('loginPath', get('auth.login')),
 ];

@@ -18,20 +18,24 @@ class LoggedinMiddleware implements MiddlewareInterface
 {
 
     /**
+     *
      * @var Auth
      */
     private $auth;
 
+
     public function __construct(Auth $auth)
     {
         $this->auth = $auth;
-    }
+    }//end __construct()
+
 
     /**
      * Process an incoming server request and return a response, optionally delegating
      * response creation to a handler.
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
+     *
+     * @param  ServerRequestInterface  $request
+     * @param  RequestHandlerInterface $handler
      * @return ResponseInterface
      * @throws ForbiddenException
      */
@@ -42,5 +46,5 @@ class LoggedinMiddleware implements MiddlewareInterface
             throw new ForbiddenException();
         }
         return $handler->handle($request->withAttribute('user', $user));
-    }
-}
+    }//end process()
+}//end class

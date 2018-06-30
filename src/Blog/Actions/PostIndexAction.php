@@ -16,54 +16,62 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * Class BlogAction
+ *
  * @package App\Blog\Actions
  */
 class PostIndexAction
 {
 
     /**
+     *
      * @var RendererInterface
      */
     private $renderer;
 
     /**
+     *
      * @var PostTable
      */
     private $postTable;
 
     /**
+     *
      * @var CategoryTable
      */
     private $categoryTable;
 
     use RouterAwareAction;
 
+
     /**
      * BlogAction constructor.
+     *
      * @param RendererInterface $renderer
-     * @param PostTable $postTable
-     * @param CategoryTable $categoryTable
+     * @param PostTable         $postTable
+     * @param CategoryTable     $categoryTable
      */
     public function __construct(
         RendererInterface $renderer,
         PostTable $postTable,
         CategoryTable $categoryTable
     ) {
-        $this->renderer = $renderer;
-        $this->postTable = $postTable;
+        $this->renderer      = $renderer;
+        $this->postTable     = $postTable;
         $this->categoryTable = $categoryTable;
-    }
+    }//end __construct()
+
 
     /**
-     * @param Request $request
+     *
+     * @param  Request $request
      * @return string
      */
     public function __invoke(Request $request)
     {
-        $params = $request->getQueryParams();
-        $posts = $this->postTable->findPublic()->paginate(12, $params['p'] ?? 1);
+        $params     = $request->getQueryParams();
+        $posts      = $this->postTable->findPublic()->paginate(12, ($params['p'] ?? 1));
         $categories = $this->categoryTable->findAll();
 
         return $this->renderer->render('@blog/index', compact('posts', 'categories'));
-    }
-}
+    }//end __invoke()
+}//end class

@@ -16,30 +16,34 @@ class BlogWidget implements AdminWidgetInterface
 {
 
     /**
+     *
      * @var RendererInterface
      */
     private $renderer;
 
     /**
+     *
      * @var PostTable
      */
     private $postTable;
 
+
     public function __construct(RendererInterface $renderer, PostTable $postTable)
     {
-
-        $this->renderer = $renderer;
+        $this->renderer  = $renderer;
         $this->postTable = $postTable;
-    }
+    }//end __construct()
+
 
     public function render(): string
     {
         $count = $this->postTable->count();
         return $this->renderer->render('@blog/admin/widget', compact('count'));
-    }
+    }//end render()
+
 
     public function renderMenu(): string
     {
         return $this->renderer->render('@blog/admin/menu');
-    }
-}
+    }//end renderMenu()
+}//end class

@@ -12,29 +12,31 @@ use Psr\Http\Server\RequestHandlerInterface;
 class DispatcherMiddlewareTest extends TestCase
 {
 
+
     public function testDispatchTheCallback()
     {
-        $callback = function () {
+        $callback   = function () {
             return 'Hello';
         };
-        $route = new Route('demo', $callback, []);
-        $request = (new ServerRequest('GET', '/demo'))->withAttribute(Route::class, $route);
-        $container = $this->getMockBuilder(ContainerInterface::class)->getMock();
+        $route      = new Route('demo', $callback, []);
+        $request    = (new ServerRequest('GET', '/demo'))->withAttribute(Route::class, $route);
+        $container  = $this->getMockBuilder(ContainerInterface::class)->getMock();
         $dispatcher = new DispatcherMiddleware($container);
-        $response = $dispatcher->process($request, $this->getMockBuilder(RequestHandlerInterface::class)->getMock());
-        $this->assertEquals('Hello', (string)$response->getBody());
-    }
+        $response   = $dispatcher->process($request, $this->getMockBuilder(RequestHandlerInterface::class)->getMock());
+        $this->assertEquals('Hello', (string) $response->getBody());
+    }//end testDispatchTheCallback()
+
 
     public function testCallNextIfNotRoutes()
     {
-        $response = $this->getMockBuilder(ResponseInterface::class)->getMock();
-        $delegate = $this->getMockBuilder(RequestHandlerInterface::class)->getMock();
+        $response  = $this->getMockBuilder(ResponseInterface::class)->getMock();
+        $delegate  = $this->getMockBuilder(RequestHandlerInterface::class)->getMock();
         $container = $this->getMockBuilder(ContainerInterface::class)->getMock();
 
         $delegate->expects($this->once())->method('handle')->willReturn($response);
 
-        $request = (new ServerRequest('GET', '/demo'));
+        $request    = (new ServerRequest('GET', '/demo'));
         $dispatcher = new DispatcherMiddleware($container);
         $this->assertEquals($response, $dispatcher->process($request, $delegate));
-    }
-}
+    }//end testCallNextIfNotRoutes()
+}//end class

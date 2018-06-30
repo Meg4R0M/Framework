@@ -10,21 +10,24 @@ namespace App\Framework\Session;
 
 /**
  * Class ArraySession
+ *
  * @package App\Framework\Session
  */
 class ArraySession implements SessionInterface
 {
 
     /**
+     *
      * @var
      */
     private $session = [];
 
+
     /**
      * Récupère une information en session
      *
-     * @param string $key
-     * @param mixed $default
+     * @param  string $key
+     * @param  mixed  $default
      * @return mixed
      */
     public function get(string $key, $default = null)
@@ -33,19 +36,21 @@ class ArraySession implements SessionInterface
             return $this->session[$key];
         }
         return $default;
-    }
+    }//end get()
+
 
     /**
      * Ajoute une information en session
      *
-     * @param string $key
-     * @param $value
+     * @param  string $key
+     * @param  $value
      * @return mixed
      */
     public function set(string $key, $value): void
     {
         $this->session[$key] = $value;
-    }
+    }//end set()
+
 
     /**
      * Supprime une clef en session
@@ -55,5 +60,5 @@ class ArraySession implements SessionInterface
     public function delete(string $key): void
     {
         unset($this->session[$key]);
-    }
-}
+    }//end delete()
+}//end class

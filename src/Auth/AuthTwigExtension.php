@@ -14,19 +14,20 @@ class AuthTwigExtension extends \Twig_Extension
 {
 
     /**
+     *
      * @var Auth
      */
     private $auth;
 
+
     public function __construct(Auth $auth)
     {
         $this->auth = $auth;
-    }
+    }//end __construct()
+
 
     public function getFunctions()
     {
-        return [
-            new \Twig_SimpleFunction('current_user', [$this->auth, 'getUser'])
-        ];
-    }
-}
+        return [new \Twig_SimpleFunction('current_user', [$this->auth, 'getUser'])];
+    }//end getFunctions()
+}//end class

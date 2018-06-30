@@ -13,9 +13,9 @@ use function DI\object;
 use function DI\get;
 
 return [
-    'admin.prefix' => '/admin',
-    'admin.widgets' => [],
+    'admin.prefix'            => '/admin',
+    'admin.widgets'           => [],
     AdminTwigExtension::class => object()->constructor(get('admin.widgets')),
-    AdminModule::class => object()->constructorParameter('prefix', get('admin.prefix')),
-    DashboardAction::class =>object()->constructorParameter('widgets', get('admin.widgets'))
+    AdminModule::class        => object()->constructorParameter('prefix', get('admin.prefix')),
+    DashboardAction::class    => object()->constructorParameter('widgets', get('admin.widgets')),
 ];

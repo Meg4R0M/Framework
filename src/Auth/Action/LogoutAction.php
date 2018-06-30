@@ -18,30 +18,36 @@ class LogoutAction
 {
 
     /**
+     *
      * @var RendererInterface
      */
     private $renderer;
 
     /**
+     *
      * @var DatabaseAuth
      */
     private $auth;
+
     /**
+     *
      * @var FlashService
      */
     private $flashService;
 
+
     public function __construct(RendererInterface $renderer, DatabaseAuth $auth, FlashService $flashService)
     {
-        $this->renderer = $renderer;
-        $this->auth = $auth;
+        $this->renderer     = $renderer;
+        $this->auth         = $auth;
         $this->flashService = $flashService;
-    }
+    }//end __construct()
+
 
     public function __invoke(ServerRequestInterface $request)
     {
         $this->auth->logout();
         $this->flashService->success('Vous êtes maintenant déconnecté');
         return new RedirectResponse('/');
-    }
-}
+    }//end __invoke()
+}//end class

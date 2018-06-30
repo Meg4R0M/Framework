@@ -20,14 +20,17 @@ class DispatcherMiddleware implements MiddlewareInterface
 {
 
     /**
+     *
      * @var ContainerInterface
      */
     private $container;
 
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-    }
+    }//end __construct()
+
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $delegate): ResponseInterface
     {
@@ -40,5 +43,5 @@ class DispatcherMiddleware implements MiddlewareInterface
             $callback = [$callback];
         }
         return (new CombinedMiddleware($this->container, $callback))->process($request, $delegate);
-    }
-}
+    }//end process()
+}//end class
