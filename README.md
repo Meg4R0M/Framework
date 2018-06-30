@@ -243,16 +243,24 @@
     
     * Mise en place du formulaire d'inscription
     * Ajout de test sur l'inscription
-        * Validitée de l'email
+        * Validité de l'email
         * Correspondance des mots de passe saisis
     * ######Correction mineure sur les templates
     
 27. **Profil Utilisateur**:
     
     * Mise en place de la page profil utilisateur
-        * Possibilitée de changer ses informations (Nom, Prenom)
-        * Possibilitée de changer son mot de passe
+        * Possibilité de changer ses informations (Nom, Prenom)
+        * Possibilité de changer son mot de passe
     * Ajout de test sur le profil utilisateur
         * Validité des informations
         * Correspondance des mots de passe saisis
     * ######Correction sur l'utilisation des middlewares
+
+28. **Ajout des roles**:
+    
+    * Mise en place des roles par utilisateurs
+        * Possibilité de limiter les pages à certains roles
+    * Ajout de test sur l'acces par roles
+        * Le role admin a le droit d'edition et donc d'acces au panel admin
+        * Un utilisateur ne pourra acceder qu'a la partie publique

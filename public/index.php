@@ -6,7 +6,9 @@ use App\Auth\AuthModule;
 use App\Auth\ForbiddenMiddleware;
 use App\Blog\BlogModule;
 use App\Contact\ContactModule;
+use App\Framework\Auth;
 use App\Framework\Auth\LoggedinMiddleware;
+use App\Framework\Auth\RoleMiddleware;
 use App\Framework\Middleware\CsrfMiddleware;
 use App\Framework\Middleware\DispatcherMiddleware;
 use App\Framework\Middleware\MethodMiddleware;
@@ -14,6 +16,7 @@ use App\Framework\Middleware\RouterMiddleware;
 use App\Framework\Middleware\TrailingSlashMiddleware;
 use App\Framework\Middleware\NotFoundMiddleware;
 use Framework\App;
+use Framework\Auth\RoleMiddlewareFactory;
 use GuzzleHttp\Psr7\ServerRequest;
 use Middlewares\Whoops;
 
@@ -31,7 +34,10 @@ $container = $app->getContainer();
 $app->pipe(Whoops::class)
     ->pipe(TrailingSlashMiddleware::class)
     ->pipe(ForbiddenMiddleware::class)
-    ->pipe($container->get('admin.prefix'), LoggedinMiddleware::class)
+    ->pipe(
+        $container->get('admin.prefix'),
+        $container->get(RoleMiddlewareFactory::class)->makeForRole('admin')
+    )
     ->pipe(MethodMiddleware::class)
     ->pipe(CsrfMiddleware::class)
     ->pipe(RouterMiddleware::class)

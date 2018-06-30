@@ -22,6 +22,16 @@ class User extends \App\Auth\User
     private $lastname;
 
     /**
+     * @var string
+     */
+    private $role;
+
+    public function getRoles(): array
+    {
+        return [$this->role];
+    }
+
+    /**
      * @return string
      */
     public function getFirstname(): string
@@ -51,5 +61,21 @@ class User extends \App\Auth\User
     public function setLastname(string $lastname): void
     {
         $this->lastname = $lastname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRole(): string
+    {
+        return $this->role;
+    }
+
+    /**
+     * @param string $role
+     */
+    public function setRole(string $role): void
+    {
+        $this->role = $role;
     }
 }
