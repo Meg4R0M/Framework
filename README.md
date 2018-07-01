@@ -264,3 +264,12 @@
     * Ajout de test sur l'acces par roles
         * Le role admin a le droit d'edition et donc d'acces au panel admin
         * Un utilisateur ne pourra acceder qu'a la partie publique
+        
+28. **Mot de passe oublié**:
+    
+    * Mise en place de la recuperation de mots de passe
+        * Creation d'un token limité dans le temps
+        * Envoi d'email avec template text ou twig
+    * Utilisation d'un nouvel outil :
+        * [ramsey/uuid](https://packagist.org/packages/ramsey/uuid) Gestion des identifiants unique et universel
+        

@@ -85,5 +85,4 @@ class CombinedMiddleware implements RequestHandlerInterface, MiddlewareInterface
         }
         return null;
     }//end getMiddleware()
-
 }//end class

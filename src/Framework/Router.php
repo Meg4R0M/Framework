@@ -78,6 +78,19 @@ class Router
     }
 
     /**
+     * @param string $path
+     * @param $callable
+     * @param null|string $name
+     */
+    public function any(string $path, $callable, ?string $name = null): void
+    {
+        if (\is_callable($callable)) {
+            $callable = new MiddlewareApp($callable);
+        }
+        $this->router->addRoute(new ZendRoute($path, $callable, ['DELETE', 'POST', 'GET', 'PUT'], $name));
+    }
+
+    /**
      * Génère les route du CRUD
      *
      * @param string $prefixPath

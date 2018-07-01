@@ -11,6 +11,8 @@ namespace App\Auth;
 use App\Auth\Action\LoginAction;
 use App\Auth\Action\LoginAttemptAction;
 use App\Auth\Action\LogoutAction;
+use App\Auth\Action\PasswordForgetAction;
+use App\Auth\Action\PasswordResetAction;
 use App\Framework\Middleware\CombinedMiddleware;
 use App\Framework\Module;
 use Framework\Renderer\RendererInterface;
@@ -46,6 +48,16 @@ class AuthModule extends Module
             '/logout',
             new CombinedMiddleware($container, [LogoutAction::class]),
             'auth.logout'
+        );
+        $router->any(
+            '/password',
+            new CombinedMiddleware($container, [PasswordForgetAction::class]),
+            'auth.password'
+        );
+        $router->any(
+            '/password/reset/{id:\d+}/{token}',
+            new CombinedMiddleware($container, [PasswordResetAction::class]),
+            'auth.reset'
         );
     }//end __construct()
 }//end class

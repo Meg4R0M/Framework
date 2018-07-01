@@ -18,10 +18,10 @@
     <div class="row">
         <div class="col-md-9">
 
-            {% for row in posts | batch(2) %}
+            {% for row in posts | batch(1) %}
                 <div class="row mb-2">
                     {% for post in row %}
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="card flex-md-row mb-4 box-shadow h-md-250">
                                 <div class="card-body d-flex flex-column align-items-start">
                                     {% if post.categoryName %}
@@ -42,11 +42,16 @@
                                     </a>
                                 </div>
                                 {% if post.image %}
-                                    <img class="card-img-right flex-auto d-none d-lg-block" src="{{ post.thumb }}"
-                                         alt="{{ post.name }}">
+                                    {% if post.thumb %}
+                                        <img class="card-img-right flex-auto d-none d-lg-block" src="{{ post.thumb }}"
+                                             alt="{{ post.name }}" style="min-width: 180px; max-width: 180px;">
+                                    {% else %}
+                                        {{ dump(post) }}
+                                    {% endif %}
                                 {% else %}
                                     <img class="card-img-right flex-auto d-none d-lg-block"
-                                         src="https://via.placeholder.com/200x250" alt="default image name">
+                                         src="https://via.placeholder.com/200x250" alt="default image name"
+                                         style="min-width: 180px; max-width: 180px;">
                                 {% endif %}
                             </div>
                         </div>

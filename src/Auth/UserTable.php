@@ -10,6 +10,7 @@ namespace App\Auth;
 
 use App\Framework\Database\Table;
 use PDO;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Class UserTable
@@ -32,5 +33,24 @@ class UserTable extends Table
     {
         $this->entity = $entity;
         parent::__construct($pdo);
+    }
+
+    public function resetPassword(int $id): string
+    {
+        $token = Uuid::uuid4()->toString();
+        $this->update($id, [
+            'password_reset' => $token,
+            'password_reset_at' => date('Y-m-d H:i:s')
+        ]);
+        return $token;
+    }
+
+    public function updatePassword(int $id, string $password): void
+    {
+        $this->update($id, [
+            'password' => password_hash($password, PASSWORD_DEFAULT),
+            'password_reset' => null,
+            'password_reset_at' => null
+        ]);
     }
 }//end class
