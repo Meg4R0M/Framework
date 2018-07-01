@@ -8,6 +8,7 @@
 
 namespace Framework;
 
+use App\Framework\Router\MiddlewareApp;
 use Framework\Router\Route;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Expressive\Router\FastRouteRouter;
@@ -44,6 +45,9 @@ class Router
      */
     public function get(string $path, $callable, ?string $name = null): void
     {
+        if (\is_callable($callable)){
+            $callable = new MiddlewareApp($callable);
+        }
         $this->router->addRoute(new ZendRoute($path, $callable, ['GET'], $name));
     }
 
@@ -54,6 +58,9 @@ class Router
      */
     public function post(string $path, $callable, ?string $name = null): void
     {
+        if (\is_callable($callable)){
+            $callable = new MiddlewareApp($callable);
+        }
         $this->router->addRoute(new ZendRoute($path, $callable, ['POST'], $name));
     }
 
@@ -64,6 +71,9 @@ class Router
      */
     public function delete(string $path, $callable, ?string $name = null): void
     {
+        if (\is_callable($callable)){
+            $callable = new MiddlewareApp($callable);
+        }
         $this->router->addRoute(new ZendRoute($path, $callable, ['DELETE'], $name));
     }
 
@@ -94,7 +104,7 @@ class Router
         if ($result->isSuccess()) {
             return new Route(
                 $result->getMatchedRouteName(),
-                $result->getMatchedMiddleware(),
+                $result->getMatchedRoute()->getMiddleware(),
                 $result->getMatchedParams()
             );
         }
@@ -104,6 +114,7 @@ class Router
     /**
      * @param string $name
      * @param array $params
+     * @param array $queryParams
      * @return null|string
      */
     public function generateUri(string $name, array $params = [], array $queryParams = []): ?string

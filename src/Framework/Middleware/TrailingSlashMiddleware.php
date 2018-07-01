@@ -9,7 +9,9 @@
 namespace App\Framework\Middleware;
 
 use GuzzleHttp\Psr7\Response;
+use Middlewares\Utils\RequestHandler;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class TrailingSlashMiddleware
 {
@@ -22,6 +24,7 @@ class TrailingSlashMiddleware
                 ->withStatus(301)
                 ->withHeader('Location', substr($uri, 0, -1));
         }
-        return $next($request);
+        $handler = new RequestHandler($this);
+        return $next($request, $handler);
     }
 }

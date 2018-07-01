@@ -4,6 +4,8 @@ namespace Tests\Framework;
 use Exception;
 use Framework\App;
 use GuzzleHttp\Psr7\ServerRequest;
+use Middlewares\Utils\RequestHandler;
+use phpDocumentor\Reflection\Types\Callable_;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,9 +19,16 @@ class AppTest extends TestCase
      */
     private $app;
 
+    private $handler;
+
+    private $fakeCallable;
+
     public function setUp()
     {
         $this->app = new App();
+        $this->fakeCallable = function($CallablesParams) {
+            // Completely mock out fakeCallable.
+        };
     }
 
     public function testApp()
@@ -51,9 +60,10 @@ class AppTest extends TestCase
         $response = $this->getMockBuilder(ResponseInterface::class)->getMock();
         $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
         $middleware->expects($this->once())->method('process')->willReturn($response);
+        $this->handler = new RequestHandler($this->fakeCallable);
         $this->app
             ->pipe(function ($request, $next) {
-                return $next($request);
+                return $next($request, $this->handler);
             })
             ->pipe($middleware);
         $this->assertEquals($response, $this->app->run($request));

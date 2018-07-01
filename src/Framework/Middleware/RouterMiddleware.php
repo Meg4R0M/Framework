@@ -9,6 +9,7 @@
 namespace App\Framework\Middleware;
 
 use Framework\Router;
+use Middlewares\Utils\RequestHandler;
 use Psr\Http\Message\ServerRequestInterface;
 
 class RouterMiddleware
@@ -42,6 +43,7 @@ class RouterMiddleware
             $request
         );
         $request = $request->withAttribute(get_class($route), $route);
-        return $next($request);
+        $handler = new RequestHandler($this);
+        return $next($request, $handler);
     }//end __invoke()
 }//end class

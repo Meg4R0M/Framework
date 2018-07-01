@@ -32,16 +32,19 @@ class DispatcherMiddleware implements MiddlewareInterface
     }//end __construct()
 
 
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $delegate): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $route = $request->getAttribute(Router\Route::class);
         if (is_null($route)) {
-            return $delegate->handle($request);
+            return $handler->handle($request);
         }
         $callback = $route->getCallback();
-        if (!is_array($callback)) {
+        if ($callback instanceof CombinedMiddleware) {
+            return $callback->process($request, $handler);
+        }
+        if (!\is_array($callback)) {
             $callback = [$callback];
         }
-        return (new CombinedMiddleware($this->container, $callback))->process($request, $delegate);
+        return (new CombinedMiddleware($this->container, $callback))->process($request, $handler);
     }//end process()
 }//end class
