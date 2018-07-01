@@ -11,6 +11,7 @@ namespace App\Auth;
 use App\Auth\Action\LoginAction;
 use App\Auth\Action\LoginAttemptAction;
 use App\Auth\Action\LogoutAction;
+use App\Framework\Middleware\CombinedMiddleware;
 use App\Framework\Module;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
@@ -32,8 +33,19 @@ class AuthModule extends Module
     public function __construct(ContainerInterface $container, Router $router, RendererInterface $renderer)
     {
         $renderer->addPath('auth', __DIR__.'/views');
-        $router->get($container->get('auth.login'), LoginAction::class, 'auth.login');
-        $router->post($container->get('auth.login'), LoginAttemptAction::class);
-        $router->post('/logout', LogoutAction::class, 'auth.logout');
+        $router->get(
+            $container->get('auth.login'),
+            new CombinedMiddleware($container, [LoginAction::class]),
+            'auth.login'
+        );
+        $router->post(
+            $container->get('auth.login'),
+            new CombinedMiddleware($container, [LoginAttemptAction::class])
+        );
+        $router->post(
+            '/logout',
+            new CombinedMiddleware($container, [LogoutAction::class]),
+            'auth.logout'
+        );
     }//end __construct()
 }//end class
