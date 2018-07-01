@@ -39,14 +39,17 @@ class RouterTest extends TestCase
     public function setUp()
     {
         $this->router = new Router();
+<<<<<<< HEAD
         $this->fakeCallable = function () {
+=======
+        $this->fakeCallable = function() {
+>>>>>>> 67ae0bdc096fbb1f80abed52ab5ae79ad5d181aa
             return 'hello';
         };
     }
 
     /**
      * Teste si la fonction get sur l'url /blog fonctionne
-     * @throws Exception
      */
     public function testGetMethod(): void
     {
