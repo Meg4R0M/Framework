@@ -1,13 +1,14 @@
 {% extends '@admin/layout.twig' %}
 
-{% block title "Ajouter une catégorie" %}
+{% block title "Ajouter un article" %}
 
 {% block body %}
 
     <div class="col-md-12">
         <div class="card">
             <div class="card-header bg-light">
-                <h1>Ajouter un catégorie</h1>
+                <h1>Ajouter un utilisateur</h1>
+                <h4 style="color: red;">Cet utilisateur devra utiliser le formulaire de récupération de mot de passe afin d'en créer un !</h4>
             </div>
 
             <form action="{{ path(routePrefix ~ '.create') }}" method="post" enctype="multipart/form-data">

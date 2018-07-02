@@ -4,6 +4,7 @@ namespace App\Account;
 use App\Account\Action\AccountAction;
 use App\Account\Action\AccountEditAction;
 use App\Account\Action\SignupAction;
+use App\Account\Action\AccountCrudAction;
 use App\Framework\Auth\LoggedinMiddleware;
 use App\Framework\Middleware\CombinedMiddleware;
 use App\Framework\Module;
@@ -39,5 +40,14 @@ class AccountModule extends Module
             '/mon-profil',
             new CombinedMiddleware($container, [LoggedinMiddleware::class, AccountEditAction::class])
         );
+
+        if ($container->has('admin.prefix')) {
+            $prefix = $container->get('admin.prefix');
+            $router->crud(
+                $prefix.'/account',
+                new CombinedMiddleware($container, [AccountCrudAction::class]),
+                'account.admin'
+            );
+        }
     }
 }

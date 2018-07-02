@@ -4,11 +4,23 @@
 
 {% block body %}
 
-    <h1>Editer l'article {{ item.name }}</h1>
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header bg-light">
+            <h1>Editer l'article {{ item.name }}</h1>
+        </div>
 
-    <form action="{{ path(routePrefix ~ '.edit', {id: item.id}) }}" method="post" enctype="multipart/form-data">
-        {% include viewPath ~ '/form.twig' %}
-        <button class="btn btn-primary" type="submit">Editer</button>
-    </form>
+        <form action="{{ path(routePrefix ~ '.edit', {id: item.id}) }}" method="post" enctype="multipart/form-data">
+            {% include viewPath ~ '/form.twig' %}
+            <div class="card-body">
+                <div class="mb-12 text-right">
+                    <button class="btn btn-primary" type="submit">Editer</button>
+                    <button class="btn btn-danger" onclick="window.location='{{ path(routePrefix ~ '.index') }}';return false;">Annuler</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
 
 {% endblock %}

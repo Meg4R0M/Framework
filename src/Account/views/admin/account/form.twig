@@ -1,0 +1,33 @@
+{{ csrf_input() }}
+<div class="card-body">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ field('firstname', item.firstname, "Prenom") }}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ field('lastname', item.lastname, "Nom") }}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ field('username', item.username, "Nom d'utilisateur") }}
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ field('email', item.email, "Adresse mail") }}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ field('role', item.role, "Rôle") }}
+            </div>
+        </div>
+    </div>
+</div>

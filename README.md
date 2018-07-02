@@ -265,7 +265,7 @@
         * Le role admin a le droit d'edition et donc d'acces au panel admin
         * Un utilisateur ne pourra acceder qu'a la partie publique
         
-28. **Mot de passe oublié**:
+29. **Mot de passe oublié**:
     
     * Mise en place de la recuperation de mots de passe
         * Creation d'un token limité dans le temps
@@ -273,3 +273,9 @@
     * Utilisation d'un nouvel outil :
         * [ramsey/uuid](https://packagist.org/packages/ramsey/uuid) Gestion des identifiants unique et universel
         
+30. **Amelioration du dashboard admin**:
+    
+    * Changement sur les vues pour une meilleure visibilité
+        * Templates retravaillés
+        * Ajout d'un widget Utilisateurs
+    * Ajout de la gestion des utilisateurs

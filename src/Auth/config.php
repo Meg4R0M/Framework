@@ -12,6 +12,7 @@ use App\Auth\ForbiddenMiddleware;
 use App\Auth\Mailer\PasswordResetMailer;
 use App\Auth\User;
 use App\Auth\UserTable;
+use App\Blog\AccountWidget;
 use App\Framework\Auth;
 use function DI\add;
 use function DI\factory;
@@ -23,6 +24,9 @@ return [
     'auth.entity'              => User::class,
     'twig.extensions'          => add(
         [get(AuthTwigExtension::class)]
+    ),
+    'admin.widgets' => add(
+        [get(AccountWidget::class)]
     ),
     User::class                => factory(
         function (Auth $auth) {

@@ -1,27 +1,56 @@
 {{ csrf_input() }}
-<div class="row">
-    <div class="col-md-4">
-        {{ field('name', item.name, "Titre de l'article") }}
+<div class="card-body">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ field('name', item.name, "Titre de l'article") }}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ field('categoryId', item.categoryId, "Catégorie", {options: categories}) }}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ field('published', item.published, "En ligne ?", {type: 'checkbox'}) }}
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        {{ field('categoryId', item.categoryId, "Catégorie", {options: categories}) }}
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="form-group">
+                {% if item.image %}
+                    <img src="{{ item.thumb }}" alt="" style="width:100%;">
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ field('image', item.slug, "Image", {type: 'file'}) }}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ field('slug', item.slug, "Lien") }}
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        {{ field('published', item.published, "En ligne ?", {type: 'checkbox'}) }}
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="form-group">
+                {{ field('content', item.content, "Contenu", {type: 'textarea'}) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="form-group">
+                {{ field('createdAt', item.createdAt, "Date de création", {class: 'datepicker'}) }}
+            </div>
+        </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-4">
-        {% if item.image %}
-            <img src="{{ item.thumb }}" alt="" style="width:100%;">
-        {% endif %}
-    </div>
-    <div class="col-md-4">
-        {{ field('image', item.slug, "Image", {type: 'file'}) }}
-    </div>
-    <div class="col-md-4">
-        {{ field('slug', item.slug, "Lien") }}
-    </div>
-</div>
-{{ field('content', item.content, "Contenu", {type: 'textarea'}) }}
-{{ field('createdAt', item.createdAt, "Date de création", {class: 'datepicker'}) }}
