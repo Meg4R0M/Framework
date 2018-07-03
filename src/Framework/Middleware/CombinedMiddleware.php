@@ -8,6 +8,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Class CombinedMiddleware
+ * @package App\Framework\Middleware
+ */
 class CombinedMiddleware implements RequestHandlerInterface, MiddlewareInterface
 {
 
@@ -28,15 +32,27 @@ class CombinedMiddleware implements RequestHandlerInterface, MiddlewareInterface
      */
     private $handler;
 
+    /**
+     * @var int
+     */
     private $index = 0;
 
+    /**
+     * CombinedMiddleware constructor.
+     * @param ContainerInterface $container
+     * @param array $middlewares
+     */
     public function __construct(ContainerInterface $container, array $middlewares)
     {
         $this->container   = $container;
         $this->middlewares = $middlewares;
     }//end __construct()
 
-
+    /**
+     * @param ServerRequestInterface $request
+     * @param RequestHandlerInterface $handler
+     * @return ResponseInterface
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $this->handler = $handler;

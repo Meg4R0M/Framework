@@ -12,13 +12,29 @@ use Framework\Renderer\RendererInterface;
 use Framework\Router;
 use Psr\Container\ContainerInterface;
 
+/**
+ * Class AccountModule
+ * @package App\Account
+ */
 class AccountModule extends Module
 {
 
+    /**
+     *
+     */
     const MIGRATIONS = __DIR__ . '/migrations';
 
+    /**
+     *
+     */
     const DEFINITIONS = __DIR__ . '/definitions.php';
 
+    /**
+     * AccountModule constructor.
+     * @param Router $router
+     * @param RendererInterface $renderer
+     * @param ContainerInterface $container
+     */
     public function __construct(Router $router, RendererInterface $renderer, ContainerInterface $container)
     {
         $renderer->addPath('account', __DIR__ . '/views');

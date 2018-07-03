@@ -309,6 +309,9 @@ class Query implements IteratorAggregate
         return $this->pdo->query($query);
     }
 
+    /**
+     * @return QueryResult|\Traversable
+     */
     public function getIterator()
     {
         return $this->fetchAll();

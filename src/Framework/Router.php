@@ -29,6 +29,7 @@ class Router
 
     /**
      * Router constructor.
+     * @param null|string $cache
      */
     public function __construct(?string $cache = null)
     {

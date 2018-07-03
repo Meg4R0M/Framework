@@ -19,8 +19,10 @@ use Twig_Loader_Filesystem;
 class TwigRenderer implements RendererInterface
 {
 
+    /**
+     * @var Twig_Environment
+     */
     private $twig;
-
 
     /**
      * TwigRenderer constructor.
@@ -31,7 +33,6 @@ class TwigRenderer implements RendererInterface
     {
         $this->twig = $twig;
     }//end __construct()
-
 
     /**
      * Permet de rajouter un chamin pour charger les vues
@@ -44,7 +45,6 @@ class TwigRenderer implements RendererInterface
     {
         $this->twig->getLoader()->addPath($path, $namespace);
     }//end addPath()
-
 
     /**
      * Permet de rendre une vue
@@ -64,7 +64,6 @@ class TwigRenderer implements RendererInterface
         return $this->twig->render($view.'.twig', $params);
     }//end render()
 
-
     /**
      * Permet de rajouter des variables globales à toutes les vues
      *
@@ -75,7 +74,6 @@ class TwigRenderer implements RendererInterface
     {
         $this->twig->addGlobal($key, $value);
     }//end addGlobal()
-
 
     /**
      *

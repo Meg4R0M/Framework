@@ -10,21 +10,42 @@ namespace App\Auth;
 
 use App\Framework\Auth\User as UserInterface;
 
+/**
+ * Class User
+ * @package App\Auth
+ */
 class User implements UserInterface
 {
 
+    /**
+     * @var
+     */
     public $id;
 
+    /**
+     * @var
+     */
     public $username;
 
+    /**
+     * @var
+     */
     public $email;
 
+    /**
+     * @var
+     */
     public $password;
 
+    /**
+     * @var
+     */
     public $passwordReset;
 
+    /**
+     * @var
+     */
     public $passwordResetAt;
-
 
     /**
      *
@@ -35,7 +56,6 @@ class User implements UserInterface
         return $this->username;
     }//end getUsername()
 
-
     /**
      *
      * @return string[]
@@ -44,7 +64,6 @@ class User implements UserInterface
     {
         return [];
     }//end getRoles()
-
 
     /**
      *
@@ -55,7 +74,6 @@ class User implements UserInterface
         return $this->passwordReset;
     }//end getPasswordReset()
 
-
     /**
      *
      * @param mixed $passwordReset
@@ -65,7 +83,9 @@ class User implements UserInterface
         $this->passwordReset = $passwordReset;
     }//end setPasswordReset()
 
-
+    /**
+     * @param $date
+     */
     public function setPasswordResetAt($date)
     {
         if (is_string($date)) {
@@ -74,7 +94,6 @@ class User implements UserInterface
             $this->passwordResetAt = $date;
         }
     }//end setPasswordResetAt()
-
 
     /**
      *
@@ -85,7 +104,6 @@ class User implements UserInterface
         return $this->passwordResetAt;
     }//end getPasswordResetAt()
 
-
     /**
      *
      * @return mixed
@@ -94,7 +112,6 @@ class User implements UserInterface
     {
         return $this->email;
     }//end getEmail()
-
 
     /**
      *
@@ -105,7 +122,6 @@ class User implements UserInterface
         $this->email = $email;
     }//end setEmail()
 
-
     /**
      *
      * @return mixed
@@ -114,7 +130,6 @@ class User implements UserInterface
     {
         return $this->password;
     }//end getPassword()
-
 
     /**
      *
@@ -125,7 +140,6 @@ class User implements UserInterface
         $this->password = $password;
     }//end setPassword()
 
-
     /**
      *
      * @return mixed
@@ -134,7 +148,6 @@ class User implements UserInterface
     {
         return $this->id;
     }//end getId()
-
 
     /**
      *

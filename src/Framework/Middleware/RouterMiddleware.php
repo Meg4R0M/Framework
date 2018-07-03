@@ -12,6 +12,10 @@ use Framework\Router;
 use Middlewares\Utils\RequestHandler;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * Class RouterMiddleware
+ * @package App\Framework\Middleware
+ */
 class RouterMiddleware
 {
 
@@ -21,13 +25,20 @@ class RouterMiddleware
      */
     private $router;
 
-
+    /**
+     * RouterMiddleware constructor.
+     * @param Router $router
+     */
     public function __construct(Router $router)
     {
         $this->router = $router;
     }//end __construct()
 
-
+    /**
+     * @param ServerRequestInterface $request
+     * @param callable $next
+     * @return mixed
+     */
     public function __invoke(ServerRequestInterface $request, callable $next)
     {
         $route = $this->router->match($request);

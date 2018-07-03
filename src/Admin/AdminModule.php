@@ -15,6 +15,10 @@ use Framework\Renderer\TwigRenderer;
 use Framework\Router;
 use Psr\Container\ContainerInterface;
 
+/**
+ * Class AdminModule
+ * @package App\Admin
+ */
 class AdminModule extends Module
 {
 
@@ -23,6 +27,14 @@ class AdminModule extends Module
      */
     const DEFINITIONS = __DIR__.'/config.php';
 
+    /**
+     * AdminModule constructor.
+     * @param RendererInterface $renderer
+     * @param Router $router
+     * @param string $prefix
+     * @param AdminTwigExtension $adminTwigExtension
+     * @param ContainerInterface $container
+     */
     public function __construct(
         RendererInterface $renderer,
         Router $router,

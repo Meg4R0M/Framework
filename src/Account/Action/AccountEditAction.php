@@ -9,6 +9,10 @@ use App\Framework\Session\FlashService;
 use App\Framework\Validator;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * Class AccountEditAction
+ * @package App\Account\Action
+ */
 class AccountEditAction
 {
 
@@ -16,19 +20,29 @@ class AccountEditAction
      * @var RendererInterface
      */
     private $renderer;
+
     /**
      * @var Auth
      */
     private $auth;
+
     /**
      * @var FlashService
      */
     private $flashService;
+
     /**
      * @var UserTable
      */
     private $userTable;
 
+    /**
+     * AccountEditAction constructor.
+     * @param RendererInterface $renderer
+     * @param Auth $auth
+     * @param FlashService $flashService
+     * @param UserTable $userTable
+     */
     public function __construct(
         RendererInterface $renderer,
         Auth $auth,
@@ -42,6 +56,10 @@ class AccountEditAction
         $this->userTable = $userTable;
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @return RedirectResponse|string
+     */
     public function __invoke(ServerRequestInterface $request)
     {
         $user = $this->auth->getUser();

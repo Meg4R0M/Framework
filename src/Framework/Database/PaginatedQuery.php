@@ -25,7 +25,6 @@ class PaginatedQuery implements AdapterInterface
      */
     private $query;
 
-
     /**
      * PaginatedQuery constructor.
      *
@@ -36,7 +35,6 @@ class PaginatedQuery implements AdapterInterface
         $this->query = $query;
     }//end __construct()
 
-
     /**
      * Returns the number of results.
      *
@@ -46,7 +44,6 @@ class PaginatedQuery implements AdapterInterface
     {
         return $this->query->count();
     }//end getNbResults()
-
 
     /**
      * Returns an slice of the results.

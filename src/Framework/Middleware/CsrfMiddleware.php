@@ -14,6 +14,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Class CsrfMiddleware
+ * @package App\Framework\Middleware
+ */
 class CsrfMiddleware implements MiddlewareInterface
 {
 
@@ -41,7 +45,13 @@ class CsrfMiddleware implements MiddlewareInterface
      */
     private $session;
 
-
+    /**
+     * CsrfMiddleware constructor.
+     * @param $session
+     * @param int $limit
+     * @param string $formKey
+     * @param string $sessionKey
+     */
     public function __construct(
         &$session,
         int $limit = 50,
@@ -55,7 +65,12 @@ class CsrfMiddleware implements MiddlewareInterface
         $this->limit      = $limit;
     }//end __construct()
 
-
+    /**
+     * @param ServerRequestInterface $request
+     * @param RequestHandlerInterface $delegate
+     * @return ResponseInterface
+     * @throws CsrfInvalidException
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $delegate): ResponseInterface
     {
         if (\in_array($request->getMethod(), ['POST', 'PUT', 'DELETE'])) {
@@ -75,7 +90,9 @@ class CsrfMiddleware implements MiddlewareInterface
         }
     }//end process()
 
-
+    /**
+     * @return string
+     */
     public function generateToken(): string
     {
         $token      = bin2hex(random_bytes(16));
@@ -86,7 +103,6 @@ class CsrfMiddleware implements MiddlewareInterface
         return $token;
     }//end generateToken()
 
-
     /**
      *
      * @throws CsrfInvalidException
@@ -96,7 +112,9 @@ class CsrfMiddleware implements MiddlewareInterface
         throw new CsrfInvalidException();
     }//end reject()
 
-
+    /**
+     * @param $token
+     */
     private function useToken($token): void
     {
         $tokens = array_filter(
@@ -108,7 +126,9 @@ class CsrfMiddleware implements MiddlewareInterface
         $this->session[$this->sessionKey] = $tokens;
     }//end useToken()
 
-
+    /**
+     *
+     */
     private function limitTokens(): void
     {
         $tokens = ($this->session[$this->sessionKey] ?? []);
@@ -118,14 +138,15 @@ class CsrfMiddleware implements MiddlewareInterface
         $this->session[$this->sessionKey] = $tokens;
     }//end limitTokens()
 
-
+    /**
+     * @param $session
+     */
     private function validSession($session): void
     {
         if (!\is_array($session) && !$session instanceof \ArrayAccess) {
             throw new \TypeError('La session passé au middleware CSRF n\'est pas traitable comme un tableau');
         }
     }//end validSession()
-
 
     /**
      *

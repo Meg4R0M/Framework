@@ -29,6 +29,9 @@ class PostTable extends Table
      */
     protected $table = 'posts';
 
+    /**
+     * @return Query
+     */
     public function findAll(): Query
     {
         $category = new CategoryTable($this->pdo);
@@ -38,6 +41,9 @@ class PostTable extends Table
             ->order('p.createdAt DESC');
     }
 
+    /**
+     * @return Query
+     */
     public function findPublic(): Query
     {
         return $this->findAll()
@@ -45,11 +51,19 @@ class PostTable extends Table
             ->where('p.createdAt < NOW()');
     }
 
+    /**
+     * @param int $id
+     * @return Query
+     */
     public function findPublicForCategory(int $id): Query
     {
         return $this->findPublic()->where("p.categoryId = $id");
     }
 
+    /**
+     * @param int $postId
+     * @return Post
+     */
     public function findWithCategory(int $postId): Post
     {
         return $this->findPublic()->where("p.id = $postId")->fetch();

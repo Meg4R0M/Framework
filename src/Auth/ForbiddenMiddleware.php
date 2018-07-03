@@ -17,6 +17,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Class ForbiddenMiddleware
+ * @package App\Auth
+ */
 class ForbiddenMiddleware implements MiddlewareInterface
 {
 
@@ -32,13 +36,16 @@ class ForbiddenMiddleware implements MiddlewareInterface
      */
     private $session;
 
-
+    /**
+     * ForbiddenMiddleware constructor.
+     * @param string $loginPath
+     * @param SessionInterface $session
+     */
     public function __construct(string $loginPath, SessionInterface $session)
     {
         $this->loginPath = $loginPath;
         $this->session   = $session;
     }//end __construct()
-
 
     /**
      * Process an incoming server request and return a response, optionally delegating
@@ -63,7 +70,10 @@ class ForbiddenMiddleware implements MiddlewareInterface
         }
     }//end process()
 
-
+    /**
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
     public function redirectLogin(ServerRequestInterface $request): ResponseInterface
     {
         $this->session->set('auth.redirect', $request->getUri()->getPath());

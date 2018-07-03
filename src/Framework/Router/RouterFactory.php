@@ -11,10 +11,17 @@ namespace App\Framework\Router;
 use Framework\Router;
 use Psr\Container\ContainerInterface;
 
+/**
+ * Class RouterFactory
+ * @package App\Framework\Router
+ */
 class RouterFactory
 {
 
-
+    /**
+     * @param ContainerInterface $container
+     * @return Router
+     */
     public function __invoke(ContainerInterface $container)
     {
         $cache = null;

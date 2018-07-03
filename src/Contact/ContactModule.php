@@ -14,12 +14,24 @@ use Framework\Renderer\RendererInterface;
 use Framework\Router;
 use Psr\Container\ContainerInterface;
 
+/**
+ * Class ContactModule
+ * @package App\Contact
+ */
 class ContactModule extends Module
 {
 
+    /**
+     *
+     */
     const DEFINITIONS = __DIR__.'/definitions.php';
 
-
+    /**
+     * ContactModule constructor.
+     * @param Router $router
+     * @param RendererInterface $renderer
+     * @param ContainerInterface $container
+     */
     public function __construct(Router $router, RendererInterface $renderer, ContainerInterface $container)
     {
         $renderer->addPath('contact', __DIR__);

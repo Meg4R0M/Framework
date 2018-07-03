@@ -8,6 +8,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Class CombinedMiddlewareDelegate
+ * @package App\Framework\Middleware
+ */
 class CombinedMiddlewareDelegate implements RequestHandlerInterface
 {
 
@@ -35,7 +39,12 @@ class CombinedMiddlewareDelegate implements RequestHandlerInterface
      */
     private $delegate;
 
-
+    /**
+     * CombinedMiddlewareDelegate constructor.
+     * @param ContainerInterface $container
+     * @param array $middlewares
+     * @param RequestHandlerInterface $delegate
+     */
     public function __construct(ContainerInterface $container, array $middlewares, RequestHandlerInterface $delegate)
     {
         $this->middlewares = $middlewares;
@@ -43,7 +52,10 @@ class CombinedMiddlewareDelegate implements RequestHandlerInterface
         $this->delegate    = $delegate;
     }//end __construct()
 
-
+    /**
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $middleware = $this->getMiddleware();
@@ -63,7 +75,6 @@ class CombinedMiddlewareDelegate implements RequestHandlerInterface
             return $middleware->process($request, $this);
         }
     }//end handle()
-
 
     /**
      *

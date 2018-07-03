@@ -35,6 +35,10 @@ class UserTable extends Table
         parent::__construct($pdo);
     }
 
+    /**
+     * @param int $id
+     * @return string
+     */
     public function resetPassword(int $id): string
     {
         $token = Uuid::uuid4()->toString();
@@ -45,6 +49,10 @@ class UserTable extends Table
         return $token;
     }
 
+    /**
+     * @param int $id
+     * @param string $password
+     */
     public function updatePassword(int $id, string $password): void
     {
         $this->update($id, [

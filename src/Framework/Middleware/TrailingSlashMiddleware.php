@@ -13,9 +13,18 @@ use Middlewares\Utils\RequestHandler;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Class TrailingSlashMiddleware
+ * @package App\Framework\Middleware
+ */
 class TrailingSlashMiddleware
 {
 
+    /**
+     * @param ServerRequestInterface $request
+     * @param callable $next
+     * @return \GuzzleHttp\Psr7\MessageTrait|static
+     */
     public function __invoke(ServerRequestInterface $request, callable $next)
     {
         $uri = $request->getUri()->getPath();

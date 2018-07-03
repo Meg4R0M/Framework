@@ -21,7 +21,6 @@ use Twig_SimpleFilter;
 class TextExtension extends Twig_Extension
 {
 
-
     /**
      *
      * @return Twig_SimpleFilter[]
@@ -30,7 +29,6 @@ class TextExtension extends Twig_Extension
     {
         return [new Twig_SimpleFilter('excerpt', [$this, 'excerpt'])];
     }//end getFilters()
-
 
     /**
      * Renvoie un extrait du contenu

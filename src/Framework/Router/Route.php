@@ -14,11 +14,6 @@ namespace Framework\Router;
  *
  * @package Framework\Router
  */
-/**
- * Class Route
- *
- * @package Framework\Router
- */
 class Route
 {
 

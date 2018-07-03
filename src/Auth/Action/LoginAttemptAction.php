@@ -16,7 +16,12 @@ use App\Framework\Session\SessionInterface;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
 use Psr\Http\Message\ServerRequestInterface;
+use Zend\Expressive\Router\RouterInterface;
 
+/**
+ * Class LoginAttemptAction
+ * @package App\Auth\Action
+ */
 class LoginAttemptAction
 {
 
@@ -46,7 +51,13 @@ class LoginAttemptAction
 
     use RouterAwareAction;
 
-
+    /**
+     * LoginAttemptAction constructor.
+     * @param RendererInterface $renderer
+     * @param DatabaseAuth $auth
+     * @param Router $router
+     * @param SessionInterface $session
+     */
     public function __construct(
         RendererInterface $renderer,
         DatabaseAuth $auth,
@@ -59,7 +70,10 @@ class LoginAttemptAction
         $this->router   = $router;
     }//end __construct()
 
-
+    /**
+     * @param ServerRequestInterface $request
+     * @return RedirectResponse|\Psr\Http\Message\ResponseInterface
+     */
     public function __invoke(ServerRequestInterface $request)
     {
         $params = $request->getParsedBody();

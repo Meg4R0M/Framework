@@ -22,7 +22,6 @@ class ArraySession implements SessionInterface
      */
     private $session = [];
 
-
     /**
      * Récupère une information en session
      *
@@ -38,7 +37,6 @@ class ArraySession implements SessionInterface
         return $default;
     }//end get()
 
-
     /**
      * Ajoute une information en session
      *
@@ -50,7 +48,6 @@ class ArraySession implements SessionInterface
     {
         $this->session[$key] = $value;
     }//end set()
-
 
     /**
      * Supprime une clef en session

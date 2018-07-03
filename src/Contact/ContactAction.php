@@ -14,6 +14,10 @@ use App\Framework\Validator;
 use Framework\Renderer\RendererInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * Class ContactAction
+ * @package App\Contact
+ */
 class ContactAction
 {
 
@@ -21,6 +25,7 @@ class ContactAction
      * @var RendererInterface
      */
     private $renderer;
+
     /**
      * @var string
      */
@@ -36,6 +41,13 @@ class ContactAction
      */
     private $mailer;
 
+    /**
+     * ContactAction constructor.
+     * @param string $to
+     * @param RendererInterface $renderer
+     * @param FlashService $flashService
+     * @param \Swift_Mailer $mailer
+     */
     public function __construct(
         string $to,
         RendererInterface $renderer,

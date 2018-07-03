@@ -3,10 +3,17 @@ namespace Framework;
 
 use Psr\Container\ContainerInterface;
 
+/**
+ * Class SwiftMailerFactory
+ * @package Framework
+ */
 class SwiftMailerFactory
 {
 
-
+    /**
+     * @param ContainerInterface $container
+     * @return \Swift_Mailer
+     */
     public function __invoke(ContainerInterface $container): \Swift_Mailer
     {
         if ($container->get('env') === 'production') {

@@ -14,6 +14,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Class LoggedinMiddleware
+ * @package App\Framework\Auth
+ */
 class LoggedinMiddleware implements MiddlewareInterface
 {
 
@@ -23,12 +27,14 @@ class LoggedinMiddleware implements MiddlewareInterface
      */
     private $auth;
 
-
+    /**
+     * LoggedinMiddleware constructor.
+     * @param Auth $auth
+     */
     public function __construct(Auth $auth)
     {
         $this->auth = $auth;
     }//end __construct()
-
 
     /**
      * Process an incoming server request and return a response, optionally delegating

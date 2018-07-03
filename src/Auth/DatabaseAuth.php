@@ -13,6 +13,10 @@ use App\Framework\Auth\User;
 use App\Framework\Database\NoRecordException;
 use App\Framework\Session\SessionInterface;
 
+/**
+ * Class DatabaseAuth
+ * @package App\Auth
+ */
 class DatabaseAuth implements Auth
 {
 
@@ -35,6 +39,11 @@ class DatabaseAuth implements Auth
     private $user;
 
 
+    /**
+     * DatabaseAuth constructor.
+     * @param UserTable $userTable
+     * @param SessionInterface $session
+     */
     public function __construct(UserTable $userTable, SessionInterface $session)
     {
         $this->userTable = $userTable;
@@ -42,6 +51,12 @@ class DatabaseAuth implements Auth
     }//end __construct()
 
 
+    /**
+     * @param string $username
+     * @param string $password
+     * @return User|null
+     * @throws NoRecordException
+     */
     public function login(string $username, string $password): ?User
     {
         if (empty($username) || empty($password)) {
@@ -60,12 +75,13 @@ class DatabaseAuth implements Auth
         return null;
     }//end login()
 
-
+    /**
+     *
+     */
     public function logout(): void
     {
         $this->session->delete('auth.user');
     }//end logout()
-
 
     /**
      *
@@ -90,6 +106,9 @@ class DatabaseAuth implements Auth
         return null;
     }//end getUser()
 
+    /**
+     * @param User $user
+     */
     public function setUser(User $user): void
     {
         $this->session->set('auth.user', $user->id);

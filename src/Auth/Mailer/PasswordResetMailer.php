@@ -3,6 +3,10 @@ namespace App\Auth\Mailer;
 
 use Framework\Renderer\RendererInterface;
 
+/**
+ * Class PasswordResetMailer
+ * @package App\Auth\Mailer
+ */
 class PasswordResetMailer
 {
 
@@ -10,15 +14,23 @@ class PasswordResetMailer
      * @var \Swift_Mailer
      */
     private $mailer;
+
     /**
      * @var RendererInterface
      */
     private $renderer;
+
     /**
      * @var string
      */
     private $from;
 
+    /**
+     * PasswordResetMailer constructor.
+     * @param \Swift_Mailer $mailer
+     * @param RendererInterface $renderer
+     * @param string $from
+     */
     public function __construct(\Swift_Mailer $mailer, RendererInterface $renderer, string $from)
     {
         $this->mailer = $mailer;
@@ -26,6 +38,10 @@ class PasswordResetMailer
         $this->from = $from;
     }
 
+    /**
+     * @param string $to
+     * @param array $params
+     */
     public function send(string $to, array $params): void
     {
         $message = new \Swift_Message(

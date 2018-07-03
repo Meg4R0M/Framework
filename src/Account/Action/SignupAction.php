@@ -13,6 +13,10 @@ use App\Framework\Session\FlashService;
 use App\Framework\Validator;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * Class SignupAction
+ * @package App\Account\Action
+ */
 class SignupAction
 {
 
@@ -20,23 +24,35 @@ class SignupAction
      * @var RendererInterface
      */
     private $renderer;
+
     /**
      * @var UserTable
      */
     private $userTable;
+
     /**
      * @var Router
      */
     private $router;
+
     /**
      * @var DatabaseAuth
      */
     private $auth;
+
     /**
      * @var FlashService
      */
     private $flashService;
 
+    /**
+     * SignupAction constructor.
+     * @param RendererInterface $renderer
+     * @param UserTable $userTable
+     * @param Router $router
+     * @param DatabaseAuth $auth
+     * @param FlashService $flashService
+     */
     public function __construct(
         RendererInterface $renderer,
         UserTable $userTable,
@@ -51,6 +67,10 @@ class SignupAction
         $this->flashService = $flashService;
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @return RedirectResponse|string
+     */
     public function __invoke(ServerRequestInterface $request)
     {
         if ($request->getMethod() === 'GET') {

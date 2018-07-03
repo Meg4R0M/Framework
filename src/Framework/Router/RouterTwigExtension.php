@@ -26,7 +26,6 @@ class RouterTwigExtension extends Twig_Extension
      */
     private $router;
 
-
     /**
      * RouterTwigExtension constructor.
      *
@@ -36,7 +35,6 @@ class RouterTwigExtension extends Twig_Extension
     {
         $this->router = $router;
     }//end __construct()
-
 
     /**
      *
@@ -50,7 +48,6 @@ class RouterTwigExtension extends Twig_Extension
         ];
     }//end getFunctions()
 
-
     /**
      *
      * @param  string $path
@@ -61,7 +58,6 @@ class RouterTwigExtension extends Twig_Extension
     {
         return $this->router->generateUri($path, $params);
     }//end pathFor()
-
 
     /**
      *

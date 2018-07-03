@@ -14,6 +14,10 @@ use App\Framework\Actions\RouterAwareAction;
 use Framework\Renderer\RendererInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+/**
+ * Class CategoryShowAction
+ * @package App\Blog\Actions
+ */
 class CategoryShowAction
 {
 
@@ -37,7 +41,6 @@ class CategoryShowAction
 
     use RouterAwareAction;
 
-
     /**
      * BlogAction constructor.
      *
@@ -55,7 +58,11 @@ class CategoryShowAction
         $this->categoryTable = $categoryTable;
     }//end __construct()
 
-
+    /**
+     * @param Request $request
+     * @return string
+     * @throws \App\Framework\Database\NoRecordException
+     */
     public function __invoke(Request $request)
     {
         $params     = $request->getQueryParams();

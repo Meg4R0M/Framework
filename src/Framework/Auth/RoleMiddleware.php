@@ -14,6 +14,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Class RoleMiddleware
+ * @package App\Framework\Auth
+ */
 class RoleMiddleware implements MiddlewareInterface
 {
 
@@ -27,6 +31,11 @@ class RoleMiddleware implements MiddlewareInterface
      */
     private $role;
 
+    /**
+     * RoleMiddleware constructor.
+     * @param Auth $auth
+     * @param string $role
+     */
     public function __construct(Auth $auth, string $role)
     {
         $this->auth = $auth;

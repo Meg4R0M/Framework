@@ -8,6 +8,10 @@
 
 namespace App\Account;
 
+/**
+ * Class User
+ * @package App\Account
+ */
 class User extends \App\Auth\User
 {
 
@@ -26,6 +30,9 @@ class User extends \App\Auth\User
      */
     private $role;
 
+    /**
+     * @return array
+     */
     public function getRoles(): array
     {
         return [$this->role];

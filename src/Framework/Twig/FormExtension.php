@@ -76,6 +76,10 @@ class FormExtension extends Twig_Extension
             </div>";
     }
 
+    /**
+     * @param $value
+     * @return string
+     */
     private function convertValue($value): string
     {
         if ($value instanceof \DateTime) {
@@ -127,6 +131,10 @@ class FormExtension extends Twig_Extension
         return $html . "<input type=\"checkbox\" " . $this->getHtmlFromArray($attributes) . " value=\"1\">";
     }
 
+    /**
+     * @param $attributes
+     * @return string
+     */
     private function file($attributes)
     {
         return '<input type="file" ' . $this->getHtmlFromArray($attributes) . '>';

@@ -20,6 +20,9 @@ use Psr\Http\Message\UploadedFileInterface;
 class Validator
 {
 
+    /**
+     *
+     */
     private const MIME_TYPES = [
         'jpg' => 'image/jpeg',
         'png' => 'image/png',
@@ -223,6 +226,10 @@ class Validator
         return $this;
     }
 
+    /**
+     * @param string $key
+     * @return Validator
+     */
     public function confirm(string $key): self
     {
         $value = $this->getValue($key);

@@ -11,13 +11,27 @@ namespace App\Framework;
 use Intervention\Image\ImageManager;
 use Psr\Http\Message\UploadedFileInterface;
 
+/**
+ * Class Upload
+ * @package App\Framework
+ */
 class Upload
 {
 
+    /**
+     * @var null|string
+     */
     protected $path;
 
+    /**
+     * @var array
+     */
     protected $formats = [];
 
+    /**
+     * Upload constructor.
+     * @param null|string $path
+     */
     public function __construct(?string $path = null)
     {
         if ($path) {
@@ -48,6 +62,10 @@ class Upload
         return null;
     }
 
+    /**
+     * @param string $targetPath
+     * @return string
+     */
     private function addCopySuffix(string $targetPath): string
     {
         if (file_exists($targetPath)) {
@@ -56,6 +74,9 @@ class Upload
         return $targetPath;
     }
 
+    /**
+     * @param null|string $oldFile
+     */
     public function delete(?string $oldFile): void
     {
         if ($oldFile) {
@@ -72,6 +93,11 @@ class Upload
         }
     }
 
+    /**
+     * @param string $path
+     * @param string $suffix
+     * @return string
+     */
     private function getPathWithSuffix(string $path, string $suffix): string
     {
         $info = pathinfo($path);
@@ -79,6 +105,9 @@ class Upload
             $info['filename'] . '_' . $suffix .'.' . $info['extension'];
     }
 
+    /**
+     * @param $targetPath
+     */
     private function generateFormats($targetPath): void
     {
         foreach ($this->formats as $format => $size) {

@@ -13,10 +13,18 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Class MethodMiddleware
+ * @package App\Framework\Middleware
+ */
 class MethodMiddleware implements MiddlewareInterface
 {
 
-
+    /**
+     * @param ServerRequestInterface $request
+     * @param RequestHandlerInterface $next
+     * @return ResponseInterface
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface
     {
         $parsedBody = $request->getParsedBody();

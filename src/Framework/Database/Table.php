@@ -37,6 +37,10 @@ class Table
      */
     protected $entity = stdClass::class;
 
+    /**
+     * Table constructor.
+     * @param PDO $pdo
+     */
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
@@ -155,6 +159,10 @@ class Table
         return $query->execute([$id]);
     }
 
+    /**
+     * @param array $params
+     * @return string
+     */
     private function buildFieldQuery(array $params)
     {
         return implode(', ', array_map(function ($field) {

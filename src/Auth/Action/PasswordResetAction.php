@@ -10,6 +10,10 @@ use App\Framework\Session\FlashService;
 use App\Framework\Validator;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * Class PasswordResetAction
+ * @package App\Auth\Action
+ */
 class PasswordResetAction
 {
 
@@ -17,19 +21,29 @@ class PasswordResetAction
      * @var RendererInterface
      */
     private $renderer;
+
     /**
      * @var UserTable
      */
     private $userTable;
+
     /**
      * @var Router
      */
     private $router;
+
     /**
      * @var FlashService
      */
     private $flashService;
 
+    /**
+     * PasswordResetAction constructor.
+     * @param RendererInterface $renderer
+     * @param UserTable $userTable
+     * @param FlashService $flashService
+     * @param Router $router
+     */
     public function __construct(
         RendererInterface $renderer,
         UserTable $userTable,
@@ -43,6 +57,11 @@ class PasswordResetAction
         $this->flashService = $flashService;
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @return RedirectResponse|string
+     * @throws \App\Framework\Database\NoRecordException
+     */
     public function __invoke(ServerRequestInterface $request)
     {
         /** @var User $user */

@@ -26,7 +26,6 @@ class DashboardAction
      */
     private $widgets;
 
-
     /**
      * DashboardAction constructor.
      *
@@ -38,7 +37,6 @@ class DashboardAction
         $this->renderer = $renderer;
         $this->widgets  = $widgets;
     }//end __construct()
-
 
     public function __invoke()
     {

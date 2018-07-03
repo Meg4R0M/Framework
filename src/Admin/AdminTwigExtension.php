@@ -11,6 +11,10 @@ namespace App\Admin;
 use Twig_Extension;
 use Twig_SimpleFunction;
 
+/**
+ * Class AdminTwigExtension
+ * @package App\Admin
+ */
 class AdminTwigExtension extends Twig_Extension
 {
 
@@ -20,19 +24,26 @@ class AdminTwigExtension extends Twig_Extension
      */
     private $widgets;
 
-
+    /**
+     * AdminTwigExtension constructor.
+     * @param array $widgets
+     */
     public function __construct(array $widgets)
     {
         $this->widgets = $widgets;
     }//end __construct()
 
-
+    /**
+     * @return array
+     */
     public function getFunctions(): array
     {
         return [new Twig_SimpleFunction('admin_menu', [$this, 'renderMenu'], ['is_safe' => ['html']])];
     }//end getFunctions()
 
-
+    /**
+     * @return string
+     */
     public function renderMenu(): string
     {
         return array_reduce(

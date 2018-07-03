@@ -11,7 +11,6 @@ namespace App\Framework\Session;
 class PHPSession implements SessionInterface, \ArrayAccess
 {
 
-
     /**
      * Assure que la session est démarrée
      */
@@ -21,7 +20,6 @@ class PHPSession implements SessionInterface, \ArrayAccess
             session_start();
         }
     }//end ensureStarted()
-
 
     /**
      * Récupère une information en session
@@ -39,7 +37,6 @@ class PHPSession implements SessionInterface, \ArrayAccess
         return $default;
     }//end get()
 
-
     /**
      * Ajoute une information en session
      *
@@ -53,7 +50,6 @@ class PHPSession implements SessionInterface, \ArrayAccess
         $_SESSION[$key] = $value;
     }//end set()
 
-
     /**
      * Supprime une clef en session
      *
@@ -64,7 +60,6 @@ class PHPSession implements SessionInterface, \ArrayAccess
         $this->ensureStarted();
         unset($_SESSION[$key]);
     }//end delete()
-
 
     /**
      * Whether a offset exists
@@ -85,7 +80,6 @@ class PHPSession implements SessionInterface, \ArrayAccess
         return array_key_exists($offset, $_SESSION);
     }//end offsetExists()
 
-
     /**
      * Offset to retrieve
      *
@@ -101,7 +95,6 @@ class PHPSession implements SessionInterface, \ArrayAccess
         return $this->get($offset);
     }//end offsetGet()
 
-
     /**
      * Offset to set
      *
@@ -109,17 +102,16 @@ class PHPSession implements SessionInterface, \ArrayAccess
      * @param  mixed $offset <p>
      * The offset to assign the value to.
      * </p>
-     * @param  mixed $value  <p>
+     * @param  mixed $value <p>
      *  The value to set.
      *  </p>
-     * @return void
      * @since  5.0.0
+     * @return mixed|void
      */
     public function offsetSet($offset, $value)
     {
         return $this->set($offset, $value);
     }//end offsetSet()
-
 
     /**
      * Offset to unset

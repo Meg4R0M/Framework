@@ -10,6 +10,10 @@ use App\Framework\Session\FlashService;
 use App\Framework\Validator;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * Class PasswordForgetAction
+ * @package App\Auth\Action
+ */
 class PasswordForgetAction
 {
 
@@ -17,19 +21,29 @@ class PasswordForgetAction
      * @var RendererInterface
      */
     private $renderer;
+
     /**
      * @var UserTable
      */
     private $userTable;
+
     /**
      * @var PasswordResetMailer
      */
     private $mailer;
+
     /**
      * @var FlashService
      */
     private $flashService;
 
+    /**
+     * PasswordForgetAction constructor.
+     * @param RendererInterface $renderer
+     * @param UserTable $userTable
+     * @param PasswordResetMailer $mailer
+     * @param FlashService $flashService
+     */
     public function __construct(
         RendererInterface $renderer,
         UserTable $userTable,
@@ -43,6 +57,10 @@ class PasswordForgetAction
         $this->flashService = $flashService;
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @return RedirectResponse|string
+     */
     public function __invoke(ServerRequestInterface $request)
     {
         if ($request->getMethod() === 'GET') {

@@ -60,7 +60,6 @@ class Post
      */
     public $image;
 
-
     /**
      *
      * @param $datetime
@@ -73,7 +72,6 @@ class Post
             $this->createdAt = $datetime;
         }
     }//end setCreatedAt()
-
 
     /**
      *
@@ -88,7 +86,6 @@ class Post
         }
     }//end setUpdatedAt()
 
-
     /**
      *
      * @return string
@@ -101,7 +98,6 @@ class Post
         ] = pathinfo($this->image);
         return '/uploads/posts/'.$filename.'_thumb.'.$extension;
     }//end getThumb()
-
 
     /**
      *

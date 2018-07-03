@@ -33,6 +33,9 @@ class CategoryCrudAction extends CrudAction
      */
     protected $routePrefix = 'blog.category.admin';
 
+    /**
+     * @var array
+     */
     protected $acceptedParams = ['name', 'slug'];
 
     /**

@@ -79,7 +79,13 @@ class CrudAction
 
     use RouterAwareAction;
 
-
+    /**
+     * CrudAction constructor.
+     * @param RendererInterface $renderer
+     * @param Router $router
+     * @param Table $table
+     * @param FlashService $flash
+     */
     public function __construct(
         RendererInterface $renderer,
         Router $router,
@@ -92,7 +98,11 @@ class CrudAction
         $this->flash    = $flash;
     }//end __construct()
 
-
+    /**
+     * @param Request $request
+     * @return ResponseInterface|string
+     * @throws NoRecordException
+     */
     public function __invoke(Request $request)
     {
         $this->renderer->addGlobal('viewPath', $this->viewPath);
@@ -109,7 +119,6 @@ class CrudAction
         return $this->index($request);
     }//end __invoke()
 
-
     /**
      * Affiche la liste des éléments
      *
@@ -123,7 +132,6 @@ class CrudAction
 
         return $this->renderer->render($this->viewPath.'/index', compact('items'));
     }//end index()
-
 
     /**
      * Edite un élément
@@ -155,7 +163,6 @@ class CrudAction
         );
     }//end edit()
 
-
     /**
      * Crée un nouvel élément
      *
@@ -183,7 +190,6 @@ class CrudAction
         );
     }//end create()
 
-
     /**
      * Action de suppression
      *
@@ -195,7 +201,6 @@ class CrudAction
         $this->table->delete($request->getAttribute('id'));
         return $this->redirect($this->routePrefix.'.index');
     }//end delete()
-
 
     /**
      * Filtre les paramètres reçu par la requête
@@ -214,7 +219,6 @@ class CrudAction
         );
     }//end prePersist()
 
-
     /**
      * Permet d'effectuer un traitement après la persistence
      *
@@ -224,7 +228,6 @@ class CrudAction
     protected function postPersist(Request $request, $item): void
     {
     }//end postPersist()
-
 
     /**
      * Génère le validateur pour valider les données
@@ -237,7 +240,6 @@ class CrudAction
         return new Validator(array_merge($request->getParsedBody(), $request->getUploadedFiles()));
     }//end getValidator()
 
-
     /**
      * Génère une nouvelle entité pour l'action de création
      *
@@ -248,7 +250,6 @@ class CrudAction
         $entity = $this->table->getEntity();
         return new $entity();
     }//end getNewEntity()
-
 
     /**
      * Permet de traiter les paramètres à envoyer à la vue

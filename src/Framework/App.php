@@ -19,6 +19,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Class App
+ * @package Framework
+ */
 class App implements RequestHandlerInterface
 {
 
@@ -53,7 +57,6 @@ class App implements RequestHandlerInterface
      */
     private $index = 0;
 
-
     /**
      * App constructor.
      *
@@ -70,7 +73,6 @@ class App implements RequestHandlerInterface
         $this->definitions = $definitions;
     }//end __construct()
 
-
     /**
      * Rajoute un module à l'application
      *
@@ -82,7 +84,6 @@ class App implements RequestHandlerInterface
         $this->modules[] = $module;
         return $this;
     }//end addModule()
-
 
     /**
      * Ajoute un middleware
@@ -101,7 +102,6 @@ class App implements RequestHandlerInterface
         return $this;
     }//end pipe()
 
-
     /**
      * Handle the request and return a response.
      *
@@ -119,7 +119,11 @@ class App implements RequestHandlerInterface
         return $middleware->process($request, $this);
     }//end handle()
 
-
+    /**
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws \Exception
+     */
     public function run(ServerRequestInterface $request): ResponseInterface
     {
         foreach ($this->modules as $module) {
@@ -127,7 +131,6 @@ class App implements RequestHandlerInterface
         }
         return $this->handle($request);
     }//end run()
-
 
     /**
      *
@@ -158,7 +161,6 @@ class App implements RequestHandlerInterface
         return $this->container;
     }//end getContainer()
 
-
     /**
      *
      * @return array
@@ -168,7 +170,10 @@ class App implements RequestHandlerInterface
         return $this->modules;
     }//end getModules()
 
-
+    /**
+     * @param array $array
+     * @return bool
+     */
     private function isSequential(array $array): bool
     {
         if (empty($array)) {

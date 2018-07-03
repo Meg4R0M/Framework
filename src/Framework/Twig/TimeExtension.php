@@ -12,6 +12,10 @@ use DateTime;
 use Twig_Extension;
 use Twig_SimpleFilter;
 
+/**
+ * Class TimeExtension
+ * @package App\Framework\Twig
+ */
 class TimeExtension extends Twig_Extension
 {
 
@@ -25,6 +29,11 @@ class TimeExtension extends Twig_Extension
         ];
     }
 
+    /**
+     * @param DateTime $date
+     * @param string $format
+     * @return string
+     */
     public function ago(DateTime $date, string $format = 'd/m/Y H:i')
     {
         return '<span class="timeago" datetime="' . $date->format(DateTime::ISO8601) . '">' .

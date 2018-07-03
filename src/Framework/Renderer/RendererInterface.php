@@ -12,6 +12,10 @@ namespace Framework\Renderer;
  * Interface RendererInterface
  * @package Framework\Renderer
  */
+/**
+ * Interface RendererInterface
+ * @package Framework\Renderer
+ */
 interface RendererInterface
 {
 

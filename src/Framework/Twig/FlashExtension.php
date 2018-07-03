@@ -26,7 +26,6 @@ class FlashExtension extends Twig_Extension
      */
     private $flashService;
 
-
     /**
      * FlashExtension constructor.
      *
@@ -37,7 +36,6 @@ class FlashExtension extends Twig_Extension
         $this->flashService = $flashService;
     }//end __construct()
 
-
     /**
      *
      * @return array|\Twig_Function[]
@@ -46,7 +44,6 @@ class FlashExtension extends Twig_Extension
     {
         return [new Twig_SimpleFunction('flash', [$this, 'getFlash'])];
     }//end getFunctions()
-
 
     /**
      *

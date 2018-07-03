@@ -34,7 +34,6 @@ class FlashService
      */
     private $sessionKey = 'flash';
 
-
     /**
      * FlashService constructor.
      *
@@ -44,7 +43,6 @@ class FlashService
     {
         $this->session = $session;
     }//end __construct()
-
 
     /**
      *
@@ -57,7 +55,6 @@ class FlashService
         $this->session->set($this->sessionKey, $flash);
     }//end success()
 
-
     /**
      *
      * @param string $message
@@ -68,7 +65,6 @@ class FlashService
         $flash['error'] = $message;
         $this->session->set($this->sessionKey, $flash);
     }//end error()
-
 
     /**
      *

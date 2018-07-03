@@ -12,6 +12,10 @@ use App\Framework\Auth;
 use Framework\Renderer\RendererInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * Class AccountAction
+ * @package App\Account\Action
+ */
 class AccountAction
 {
 
@@ -25,6 +29,11 @@ class AccountAction
      */
     private $auth;
 
+    /**
+     * AccountAction constructor.
+     * @param RendererInterface $renderer
+     * @param Auth $auth
+     */
     public function __construct(
         RendererInterface $renderer,
         Auth $auth
@@ -33,6 +42,10 @@ class AccountAction
         $this->auth = $auth;
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @return string
+     */
     public function __invoke(ServerRequestInterface $request)
     {
         $user = $this->auth->getUser();

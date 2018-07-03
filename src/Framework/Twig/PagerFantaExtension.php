@@ -28,7 +28,6 @@ class PagerFantaExtension extends Twig_Extension
      */
     private $router;
 
-
     /**
      * PagerFantaExtension constructor.
      *
@@ -39,7 +38,6 @@ class PagerFantaExtension extends Twig_Extension
         $this->router = $router;
     }//end __construct()
 
-
     /**
      *
      * @return array|\Twig_Function[]
@@ -48,7 +46,6 @@ class PagerFantaExtension extends Twig_Extension
     {
         return [new Twig_SimpleFunction('paginate', [$this, 'paginate'], ['is_safe' => ['html']])];
     }//end getFunctions()
-
 
     /**
      * Génère la pagination

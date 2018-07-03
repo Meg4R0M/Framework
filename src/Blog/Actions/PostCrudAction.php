@@ -68,6 +68,11 @@ class PostCrudAction extends CrudAction
         $this->postUpload = $postUpload;
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws \App\Framework\Database\NoRecordException
+     */
     public function delete(ServerRequestInterface $request): ResponseInterface
     {
         $post = $this->table->find($request->getAttribute('id'));

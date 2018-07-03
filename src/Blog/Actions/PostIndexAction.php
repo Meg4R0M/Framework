@@ -42,7 +42,6 @@ class PostIndexAction
 
     use RouterAwareAction;
 
-
     /**
      * BlogAction constructor.
      *
@@ -59,7 +58,6 @@ class PostIndexAction
         $this->postTable     = $postTable;
         $this->categoryTable = $categoryTable;
     }//end __construct()
-
 
     /**
      *

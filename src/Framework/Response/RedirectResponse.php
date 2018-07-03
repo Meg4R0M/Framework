@@ -10,10 +10,17 @@ namespace App\Framework\Response;
 
 use GuzzleHttp\Psr7\Response;
 
+/**
+ * Class RedirectResponse
+ * @package App\Framework\Response
+ */
 class RedirectResponse extends Response
 {
 
-
+    /**
+     * RedirectResponse constructor.
+     * @param string $url
+     */
     public function __construct(string $url)
     {
         parent::__construct(301, ['location' => $url]);

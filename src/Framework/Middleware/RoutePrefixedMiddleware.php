@@ -14,6 +14,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Class RoutePrefixedMiddleware
+ * @package App\Framework\Middleware
+ */
 class RoutePrefixedMiddleware implements MiddlewareInterface
 {
 
@@ -35,14 +39,18 @@ class RoutePrefixedMiddleware implements MiddlewareInterface
      */
     private $middleware;
 
-
+    /**
+     * RoutePrefixedMiddleware constructor.
+     * @param ContainerInterface $container
+     * @param string $prefix
+     * @param $middleware
+     */
     public function __construct(ContainerInterface $container, string $prefix, $middleware)
     {
         $this->container  = $container;
         $this->prefix     = $prefix;
         $this->middleware = $middleware;
     }//end __construct()
-
 
     /**
      * Process an incoming server request and return a response, optionally delegating

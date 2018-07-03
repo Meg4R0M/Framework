@@ -18,7 +18,6 @@ namespace App\Framework\Database;
 class Hydrator
 {
 
-
     /**
      * Transforme un tableau en objet en utilisant les setters
      *
@@ -45,7 +44,6 @@ class Hydrator
         return $instance;
     }//end hydrate()
 
-
     /**
      *
      * @param  string $fieldName
@@ -55,7 +53,6 @@ class Hydrator
     {
           return 'set'.self::getProperty($fieldName);
     }//end getSetter()
-
 
     /**
      *

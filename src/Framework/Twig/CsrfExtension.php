@@ -10,6 +10,10 @@ namespace App\Framework\Twig;
 
 use App\Framework\Middleware\CsrfMiddleware;
 
+/**
+ * Class CsrfExtension
+ * @package App\Framework\Twig
+ */
 class CsrfExtension extends \Twig_Extension
 {
 
@@ -18,7 +22,6 @@ class CsrfExtension extends \Twig_Extension
      * @var CsrfMiddleware
      */
     private $csrfMiddleware;
-
 
     /**
      * CsrfExtension constructor.
@@ -30,13 +33,17 @@ class CsrfExtension extends \Twig_Extension
         $this->csrfMiddleware = $csrfMiddleware;
     }//end __construct()
 
-
+    /**
+     * @return array
+     */
     public function getFunctions(): array
     {
         return [new \Twig_SimpleFunction('csrf_input', [$this, 'csrfInput'], ['is_safe' => ['html']])];
     }//end getFunctions()
 
-
+    /**
+     * @return string
+     */
     public function csrfInput(): string
     {
         return '<input type="hidden" '.

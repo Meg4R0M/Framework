@@ -16,6 +16,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Class DispatcherMiddleware
+ * @package App\Framework\Middleware
+ */
 class DispatcherMiddleware implements MiddlewareInterface
 {
 
@@ -25,13 +29,20 @@ class DispatcherMiddleware implements MiddlewareInterface
      */
     private $container;
 
-
+    /**
+     * DispatcherMiddleware constructor.
+     * @param ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }//end __construct()
 
-
+    /**
+     * @param ServerRequestInterface $request
+     * @param RequestHandlerInterface $handler
+     * @return ResponseInterface
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $route = $request->getAttribute(Router\Route::class);

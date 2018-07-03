@@ -55,7 +55,6 @@ class QueryResult implements \ArrayAccess, \Iterator
         $this->entity  = $entity;
     }//end __construct()
 
-
     /**
      * Récupère un éléments à l'index définit
      *
@@ -73,7 +72,6 @@ class QueryResult implements \ArrayAccess, \Iterator
         return $this->entity;
     }//end get()
 
-
     /**
      * Return the current element
      *
@@ -85,7 +83,6 @@ class QueryResult implements \ArrayAccess, \Iterator
     {
         return $this->get($this->index);
     }//end current()
-
 
     /**
      * Move forward to next element
@@ -99,7 +96,6 @@ class QueryResult implements \ArrayAccess, \Iterator
         $this->index++;
     }//end next()
 
-
     /**
      * Return the key of the current element
      *
@@ -111,7 +107,6 @@ class QueryResult implements \ArrayAccess, \Iterator
     {
         return $this->index;
     }//end key()
-
 
     /**
      * Checks if current position is valid
@@ -126,7 +121,6 @@ class QueryResult implements \ArrayAccess, \Iterator
         return isset($this->records[$this->index]);
     }//end valid()
 
-
     /**
      * Rewind the Iterator to the first element
      *
@@ -138,7 +132,6 @@ class QueryResult implements \ArrayAccess, \Iterator
     {
         $this->index = 0;
     }//end rewind()
-
 
     /**
      * Whether a offset exists
@@ -158,7 +151,6 @@ class QueryResult implements \ArrayAccess, \Iterator
         return isset($this->records[$offset]);
     }//end offsetExists()
 
-
     /**
      * Offset to retrieve
      *
@@ -173,7 +165,6 @@ class QueryResult implements \ArrayAccess, \Iterator
     {
         return $this->get($offset);
     }//end offsetGet()
-
 
     /**
      * Offset to set
@@ -193,7 +184,6 @@ class QueryResult implements \ArrayAccess, \Iterator
     {
         throw new \Exception("Can't alter records");
     }//end offsetSet()
-
 
     /**
      * Offset to unset

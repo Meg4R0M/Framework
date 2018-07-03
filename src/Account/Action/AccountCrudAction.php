@@ -18,6 +18,10 @@ use Framework\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * Class AccountCrudAction
+ * @package App\Account\Action
+ */
 class AccountCrudAction extends CrudAction
 {
 
@@ -31,6 +35,9 @@ class AccountCrudAction extends CrudAction
      */
     protected $routePrefix = 'account.admin';
 
+    /**
+     * @var UserTable
+     */
     protected $table;
 
     /**
@@ -50,6 +57,10 @@ class AccountCrudAction extends CrudAction
         $this->table = $table;
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
     public function delete(ServerRequestInterface $request): ResponseInterface
     {
         return parent::delete($request);

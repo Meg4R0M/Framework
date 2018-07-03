@@ -20,7 +20,6 @@ use Twig_Loader_Filesystem;
 class TwigRendererFactory
 {
 
-
     /**
      *
      * @param  ContainerInterface $container

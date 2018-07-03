@@ -3,9 +3,8 @@
 namespace Framework\Renderer;
 
 /**
- * Class Renderer
- *
- * @package Framework
+ * Class PHPRenderer
+ * @package Framework\Renderer
  */
 class PHPRenderer implements RendererInterface
 {
@@ -28,14 +27,16 @@ class PHPRenderer implements RendererInterface
      */
     private $globals = [];
 
-
+    /**
+     * PHPRenderer constructor.
+     * @param null|string $defaultPath
+     */
     public function __construct(?string $defaultPath = null)
     {
         if (!is_null($defaultPath)) {
             $this->addPath($defaultPath);
         }
     }//end __construct()
-
 
     /**
      * Permet de rajouter un chamin pour charger les vues
@@ -51,7 +52,6 @@ class PHPRenderer implements RendererInterface
             $this->paths[$namespace] = $path;
         }
     }//end addPath()
-
 
     /**
      * Permet de rendre une vue
@@ -78,7 +78,6 @@ class PHPRenderer implements RendererInterface
         return ob_get_clean();
     }//end render()
 
-
     /**
      * Permet de rajouter des variables globales à toutes les vues
      *
@@ -90,7 +89,6 @@ class PHPRenderer implements RendererInterface
         $this->globals[$key] = $value;
     }//end addGlobal()
 
-
     /**
      *
      * @param  string $view
@@ -101,7 +99,6 @@ class PHPRenderer implements RendererInterface
         return $view[0] === '@';
     }//end hasNamespace()
 
-
     /**
      *
      * @param  string $view
@@ -111,7 +108,6 @@ class PHPRenderer implements RendererInterface
     {
         return substr($view, 1, (strpos($view, '/') - 1));
     }//end getNamespace()
-
 
     /**
      *

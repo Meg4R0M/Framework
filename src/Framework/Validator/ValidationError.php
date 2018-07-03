@@ -63,6 +63,9 @@ class ValidationError
         $this->attributes = $attributes;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         if (!array_key_exists($this->rule, $this->messages)) {

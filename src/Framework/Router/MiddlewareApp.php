@@ -13,6 +13,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Class MiddlewareApp
+ * @package App\Framework\Router
+ */
 class MiddlewareApp implements MiddlewareInterface
 {
 
@@ -22,12 +26,14 @@ class MiddlewareApp implements MiddlewareInterface
      */
     private $callback;
 
-
+    /**
+     * MiddlewareApp constructor.
+     * @param callable $callback
+     */
     public function __construct(callable $callback)
     {
         $this->callback = $callback;
     }//end __construct()
-
 
     /**
      *
@@ -39,7 +45,6 @@ class MiddlewareApp implements MiddlewareInterface
     {
         return $this->process($request, $handler);
     }//end process()
-
 
     /**
      *
